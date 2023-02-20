@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "pfeApp",
-    "slug": "pfeApp",
+    "name": "Servimi",
+    "slug": "Servimi",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "image" : "./assets/images/splash-01.png",
+      "backgroundColor" : "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,16 +18,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": "./assets/images/icon.png"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage" : "./assets/images/icon.png",
         "backgroundColor": "#FFFFFF"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
