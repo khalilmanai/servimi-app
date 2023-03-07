@@ -1,30 +1,29 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import Animated from 'react-native-reanimated'
 import UserPanel from '../Components/UserPanel'
 
-const HomePage = ({animationStyle , navigation }) => {
+
+const HomePage = ({navigation }) => {
   return (
-<Animated.View style={[styles.Anicontainer, animationStyle && [...animationStyle]]}>
+    <View style={styles.container}>
         <UserPanel />
-      <View style={styles.container}>
-      <Text>Home Page</Text>
-      </View>
-    </Animated.View>
+    <View style={styles.box}>
+      <Text style={{fontFamily:'Cairo' , fontSize:20 , marginLeft:5,}}>Offres Du Jour</Text>
+   
+    </View>
+    </View>
   )
 }
 
 export default HomePage
 
 const styles = StyleSheet.create({
+    container : {
+        flex:1,
+    },
+    box:{
+      flex:6,
+      margin:10
 
-  Anicontainer:{
-flex:1
-  },
-  container : {
-    flex:7, 
-    justifyContent:'center',
-    alignItems:'center'
-
-  }
+    }
 })

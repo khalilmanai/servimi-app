@@ -21,7 +21,7 @@ const gotoReset =()=>{
   navigation.navigate('ResetPassword')
 }
 const gotoHome =()=>{
-  navigation.navigate("CustomDrawer")
+  navigation.navigate('TabScreens', { screen: 'Home' });
 }
   return (
     <View style={styles.container}>

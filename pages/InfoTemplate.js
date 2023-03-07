@@ -3,14 +3,7 @@ import { View, StyleSheet, Image, Text } from "react-native";
 import logo from "../assets/images/logo.png";
 import { useFonts } from "expo-font";
 const InfoTemplate = (props) => {
-  const [fontsLoaded] = useFonts({
-    Cairo: require("../assets/fonts/Cairo-Regular.ttf"),
-    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
-  });
 
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
 
     <View style={styles.container}>

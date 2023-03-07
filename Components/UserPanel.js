@@ -1,19 +1,17 @@
 import React from "react";
-import user from "../assets/images/user.jpg";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Octicons } from "@expo/vector-icons";
-import User from '../temp/User'
-
-import { useNavigation } from "@react-navigation/native";
+import User from "../utils/User";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 const UserPanel = () => {
-  const navigation = useNavigation();
-
+ const navigation =  useNavigation()
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.userContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            >
             <Image style={styles.userImg} source={User.img} />
           </TouchableOpacity>
           <View style={styles.textContainer}>
@@ -22,9 +20,10 @@ const UserPanel = () => {
           </View>
         </View>
         <TouchableOpacity
-          onPress={() => {
-            navigation.openDrawer();
-          }}
+  // onPress for opening Drawer : ERROR
+    onPress={()=>{
+      navigation.dispatch(DrawerActions.toggleDrawer())
+    }}
         >
           <Octicons name="three-bars" size={24} color="black" />
         </TouchableOpacity>
@@ -35,11 +34,10 @@ const UserPanel = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1 , 
-    flexDirection:'column',
-    marginTop:20,
-    height:10,
-    
+    flex: 1,
+    flexDirection: "column",
+    marginTop: 20,
+    height: 10,
   },
   topContainer: {
     flexDirection: "row",

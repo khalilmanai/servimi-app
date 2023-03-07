@@ -6,8 +6,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+import User from "../utils/User";
 import React, { useState } from "react";
-import User from "../assets/images/user.jpg";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useFonts } from "expo-font";
@@ -17,15 +17,15 @@ const MENUs = [
     label: "Acceuil",
   },
   {
-    name: "Profile",
-    label: "Profile",
+    name: "Account",
+    label: "Compte",
   },
   {
-    name: "Consulter Commandes",
+    name: 'ListeCommandes',
     label: "Consulter Commandes",
   },
   {
-    name: "Consulter Menu",
+    name: "ConsulterMenu",
     label: "Consulter Menu",
   },
   {
@@ -33,7 +33,7 @@ const MENUs = [
     label: "Notifications",
   },
   {
-    name: "Paramétres",
+    name: "Settings",
     label: "Paramétres",
   },
 ];
@@ -53,11 +53,11 @@ const CustomDrawerContent = ({ navigation}) => {
       <View style={styles.box}>
         <View style={styles.headerBox}>
           <View style={styles.ImgContainer}>
-            <Image style={styles.userImg} source={User} resizeMode="contain" />
+            <Image style={styles.userImg} source={User.img} resizeMode="contain" />
           </View>
           <View style={styles.txtContainer}>
-            <Text style={styles.txt}>User 1</Text>
-            <Text style={styles.txt}>Tunis , Tunisia</Text>
+            <Text style={styles.txt}>{User.name}</Text>
+            <Text style={styles.txt}>{User.Country}</Text>
           </View>
         </View>
       </View>
@@ -67,7 +67,7 @@ const CustomDrawerContent = ({ navigation}) => {
         contentContainerStyle={{}}
         style={{ marginLeft: -18 }}
       >
-        {MENUs?.map((menu, index) => {
+        {MENUs.map((menu, index) => {
           return (
             <DrawerItem
               onPress={() => {

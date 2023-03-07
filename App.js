@@ -1,17 +1,24 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 import React from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer } from "@react-navigation/native";
-import NavStack from "./Navigation/NavStack";
 
+import { useFonts } from "expo-font";
+import { AppNavigation } from "./Navigation/AppContainer";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Cairo: require("./assets/fonts/Cairo-Regular.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <SafeAreaProvider>
-    <NavigationContainer>
-      <NavStack />
+
+      <NavigationContainer >
+        <AppNavigation />
       </NavigationContainer>
-  </SafeAreaProvider>
-  
+
   );
 }
