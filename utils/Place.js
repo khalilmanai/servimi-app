@@ -10,6 +10,7 @@ export default place = [
     rating: "4.4",
     nbtable:'100',
     img: require("../assets/images/food/food2.jpg"),
+    liked: 'true'
   },
   {
     id: "1",
@@ -22,6 +23,7 @@ export default place = [
     rating: "4.4",
     nbtable:'100',
     img: require("../assets/images/food/food2.jpg"),
+    liked: 'true',
   },
   {  
       id: "2",
@@ -34,6 +36,7 @@ export default place = [
   rating: "4.4",
   nbtable:'100',
   img: require("../assets/images/food/food2.jpg"),
+  liked: 'true',
   },
   {    id: "3",
   name: "LE KD Restaurant",
@@ -45,6 +48,7 @@ export default place = [
   rating: "4.4",
   nbtable:'100',
   img: require("../assets/images/food/food2.jpg"),
+  liked: 'false',
   },
 
   {    id: "4",
@@ -57,6 +61,7 @@ export default place = [
   rating: "4.4",
   nbtable:'100',
   img: require("../assets/images/food/food2.jpg"),
+  liked: 'true',
   },
   {
     id: "5",
@@ -69,5 +74,6 @@ export default place = [
     rating: "4.4",
     nbtable:'100',
     img: require("../assets/images/food/food2.jpg"),
+    liked: 'false',
   },
 ];

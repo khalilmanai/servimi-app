@@ -12,8 +12,11 @@ import Favorites from '../pages/Favorites';
 import HomePage from '../pages/HomePage';
 import ListeCommandes from '../pages/ListeCommandes';
 import Rewards from '../pages/Rewards';
+import QRScanner from '../utils/qrcode';
+import { useNavigation } from '@react-navigation/native';
 
 export const TabBar = () => {
+  const navigation = useNavigation()
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
 
@@ -31,7 +34,6 @@ export const TabBar = () => {
         icon= 'reorder-four';
         break;
     }
-
     return (
       <Ionicons
         name={icon}
@@ -67,16 +69,18 @@ export const TabBar = () => {
           borderTopLeftRight
           screenOptions={{
             headerShown:false,
+            
           }}
-          renderCircle={({ selectedTab, navigate }) => (
+          renderCircle={({ selectedTab }) => (
             <Animated.View style={styles.btnCircle}>
               <TouchableOpacity
+              onPress={()=> navigation.navigate('qrCode')}
                 style={{
                   flex: 1,
                   justifyContent: 'center',
                 }}
-                onPress={()=> {navigate(selectedTab)}}>
-                <Ionicons name={'search-outline'} color="white" size={32} />
+                >
+                <Ionicons name={'qr-code-outline'} color="white" size={32} />
               </TouchableOpacity>
             </Animated.View>
           )}

@@ -26,6 +26,10 @@
         "foregroundImage" : "./assets/images/icon.png",
         "backgroundColor": "#FFFFFF"
       }
+    },
+    "expo-barcode-scanner":
+    {
+      "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
     }
   }
 }

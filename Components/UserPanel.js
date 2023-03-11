@@ -5,13 +5,17 @@ import User from "../utils/User";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 const UserPanel = () => {
- const navigation =  useNavigation()
+  
+  const navigation = useNavigation();
+ function goto(){
+  
+   navigation.dispatch(DrawerActions.toggleDrawer())
+  }
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.userContainer}>
-          <TouchableOpacity
-            >
+          <TouchableOpacity>
             <Image style={styles.userImg} source={User.img} />
           </TouchableOpacity>
           <View style={styles.textContainer}>
@@ -20,10 +24,10 @@ const UserPanel = () => {
           </View>
         </View>
         <TouchableOpacity
-  // onPress for opening Drawer : ERROR
-    onPress={()=>{
-      navigation.dispatch(DrawerActions.toggleDrawer())
-    }}
+          // onPress for opening Drawer : ERROR
+          onPress={() => {
+           goto()
+          }}
         >
           <Octicons name="three-bars" size={24} color="black" />
         </TouchableOpacity>
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     marginTop: 20,
-    height: 10,
+    height: 100,
   },
   topContainer: {
     flexDirection: "row",

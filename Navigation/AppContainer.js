@@ -12,6 +12,8 @@ import Account from "../pages/Account";
 import { TabBar } from "./bottomnav";
 import CustomDrawerContent from "../pages/CustomDrawerContent";
 import Favorites from "../pages/Favorites";
+import UserPanel from "../Components/UserPanel";
+import QRScanner from "../utils/qrcode";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -26,44 +28,23 @@ function StackScreens() {
       <Stack.Screen name="SecondScreen" component={SecondScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignUpScreen" component={InputsScreen} />
+      <Stack.Screen name="UserPanel" component={UserPanel} />
+      <Stack.Screen name="TabScreens" component={TabScreens} />
+      <Stack.Screen name="Acceuil" component={HomePage} />
+      <Stack.Screen name="Account" component={Account} />
+      <Stack.Screen name="Favorites" component={Favorites} />
+      <Stack.Screen name='qrCode' component={QRScanner} />
+      <Stack.Screen name="ListeCommandes" component={ListeCommandes} />
+      <Stack.Screen name="ConsulterMenu" component={ConsulterMenu} />
+      <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name="Settings" component={Settings} />
     </Stack.Navigator>
   );
 }
 
-
-
 // define the screens for the Bottom Tab Navigator
-export function TabScreens() {
+function TabScreens() {
   return <TabBar />;
 }
 
-// nest the Drawer and Bottom Tab Navigators inside the Stack Navigator
-export function AppNavigation() {
-  return (
-    <Drawer.Navigator
-    initialRouteName="account"
-      overlayColor="transparent"
-      drawerType="slide"
-      drawerStyle={{ flex: 1, width: 240, backgroundColor: "transparent" }}
-      hideStatusBar={true}
-      sceneContainerStyle={{
-        backgroundColor: "transparent",
-      }}
-      drawerContent={(props) => {
-        return <CustomDrawerContent navigation={props.navigation} />;
-      }}
-      screenOptions={{ drawerPosition: "right", headerShown: false }}
-    >
-      <Drawer.Screen name="TabScreens" component={TabScreens} />
-      <Drawer.Screen name="StackScreens" component={StackScreens} />
-      <Drawer.Screen name="Acceuil" component={HomePage} />
-      <Drawer.Screen name="Account" component={Account} />
-      <Drawer.Screen name ='Favorites' component={Favorites} />
-            <Drawer.Screen name="ListeCommandes" component={ListeCommandes} />
-      <Drawer.Screen name="ConsulterMenu" component={ConsulterMenu} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
-      <Drawer.Screen name="Settings" component={Settings} />
-
-    </Drawer.Navigator>
-  );
-}
+export { StackScreens,  TabScreens };

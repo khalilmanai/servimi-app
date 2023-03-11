@@ -11,7 +11,7 @@ const ItemCard = ({item}) => {
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.price}>{item.price}</Text>
         </View>
-        <Text style={styles.discription}>{item.ingredients.join(', ')}</Text>
+        <Text style={styles.discription}>{item.ingredients.join(',')}</Text>
         <Text style={styles.discription}>{item.rating} <Image source={StarImg}  resizeMode='contain'/> </Text>
       </View>
     
