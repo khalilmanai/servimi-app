@@ -1,5 +1,5 @@
 
- const data = [
+export default data = [
     { id: '1', title: 'Tout' },
     { id: '2', title: 'Restaurant' },
     { id: '3', title: 'Café' },

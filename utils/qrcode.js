@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { TouchableOpacity } from 'react-native';
 
 export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -30,9 +31,11 @@ export default function QRScanner() {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-
+         
       {scanned && (
-        <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
+        <TouchableOpacity  style={styles.btn}  onPress={() => setScanned(false)} >
+          <Text style={styles.text}> Scanner autre fois !</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -43,5 +46,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    marginBottom:25,
+    alignItems:'center'
   },
+  btn : {
+    width:'70%',
+    height:40,
+    borderRadius:10,
+    backgroundColor:'#FB8703',
+    justifyContent:'center',
+    alignItems:'center'
+    
+  },
+  text : {
+    fontFamily:'Cairo',
+    fontSize:16,
+  
+  }
 });

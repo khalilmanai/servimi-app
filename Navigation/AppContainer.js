@@ -14,6 +14,7 @@ import CustomDrawerContent from "../pages/CustomDrawerContent";
 import Favorites from "../pages/Favorites";
 import UserPanel from "../Components/UserPanel";
 import QRScanner from "../utils/qrcode";
+import SecondPanel from "../Components/SecondPanel";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -38,6 +39,7 @@ function StackScreens() {
       <Stack.Screen name="ConsulterMenu" component={ConsulterMenu} />
       <Stack.Screen name="Notifications" component={Notifications} />
       <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name='SecondPanel' component={SecondPanel} />
     </Stack.Navigator>
   );
 }

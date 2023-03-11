@@ -11,8 +11,8 @@ const PlaceList = () => {
     <View style={styles.container}>
       <FlatList
         data={place}
-        keyExtractor={(index) => String(index)}
-        renderItem={({ item }) => <PlaceCard place={item} />}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <PlaceCard key={item.id} place={item} />}
       />
     </View>
   );
