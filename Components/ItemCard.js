@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import StarImg from '../assets/images/Icons/star.png'
 import PizzaImg from "../assets/images/food/pizza.png";
+import { Ionicons } from "@expo/vector-icons";
 const ItemCard = ({item}) => {
   return (
     
@@ -12,7 +12,7 @@ const ItemCard = ({item}) => {
           <Text style={styles.price}>{item.price}</Text>
         </View>
         <Text style={styles.discription}>{item.ingredients.join(',')}</Text>
-        <Text style={styles.discription}>{item.rating} <Image source={StarImg}  resizeMode='contain'/> </Text>
+        <Text style={styles.discription}>{item.rating}   <Ionicons name='star' size={16} color='yellow' /></Text>
       </View>
     
         <Image style={styles.img} source={PizzaImg} resizeMode="contain" />

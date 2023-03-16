@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   Animated,
   StyleSheet,
   TouchableOpacity,
@@ -12,7 +11,6 @@ import Favorites from '../pages/Favorites';
 import HomePage from '../pages/HomePage';
 import ListeCommandes from '../pages/ListeCommandes';
 import Rewards from '../pages/Rewards';
-import QRScanner from '../utils/qrcode';
 import { useNavigation } from '@react-navigation/native';
 
 export const TabBar = () => {
@@ -74,7 +72,7 @@ export const TabBar = () => {
           renderCircle={({ selectedTab }) => (
             <Animated.View style={styles.btnCircle}>
               <TouchableOpacity
-              onPress={()=> navigation.navigate('qrCode')}
+              onPress={()=> navigation.push('qrCode')}
                 style={{
                   flex: 1,
                   justifyContent: 'center',

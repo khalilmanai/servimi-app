@@ -31,6 +31,9 @@ const HomePage = () => {
         value={value}
         key="search-bar"
       />
+      <View>
+        <Text style={styles.placeTitle}>Offres du jour</Text>
+      </View>
       <DealsCarousel key="deals-carousel" />
     
     </View>
@@ -80,6 +83,7 @@ const styles = StyleSheet.create({
   placeTitle: {
     fontFamily: "Cairo",
     fontSize: 24,
-    marginBottom: 10,
+     margin:'2%',
+     alignSelf:'flex-start'
   },
 });

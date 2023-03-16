@@ -10,11 +10,15 @@ export default place = [
     rating: "4.4",
     nbtable:'100',
     img: require("../assets/images/food/food2.jpg"),
-    liked: 'true'
+    nbCompte : '',
+    liked: 'true',
+    utilisateur :{
+      'userId':'0',
+    }
   },
   {
     id: "1",
-    name: "LE KD Restaurant",
+    name: "The Big Dip",
     description : 'this is an amazing restaurant for your daily meal',
     adresse: "Manouba , Tunis ",
     type: "Restaurant",
@@ -22,12 +26,12 @@ export default place = [
     siteWeb:"www.thekdRestaurant.com",
     rating: "4.4",
     nbtable:'100',
-    img: require("../assets/images/food/food2.jpg"),
+    img: require("../assets/images/food/food6.jpg"),
     liked: 'true',
   },
   {  
       id: "2",
-  name: "LE KD Restaurant",
+  name: "LE Grand Chef",
   description : 'this is an amazing restaurant for your daily meal',
   adresse: "Manouba , Tunis ",
   type: "Restaurant",
@@ -35,11 +39,11 @@ export default place = [
   siteWeb:"www.thekdRestaurant.com",
   rating: "4.4",
   nbtable:'100',
-  img: require("../assets/images/food/food2.jpg"),
+  img: require("../assets/images/food/food4.jpg"),
   liked: 'true',
   },
   {    id: "3",
-  name: "LE KD Restaurant",
+  name: "Restaurant La Goulette",
   description : 'this is an amazing restaurant for your daily meal',
   adresse: "Manouba , Tunis ",
   type: "Restaurant",
@@ -47,7 +51,7 @@ export default place = [
   siteWeb:"www.thekdRestaurant.com",
   rating: "4.4",
   nbtable:'100',
-  img: require("../assets/images/food/food2.jpg"),
+  img: require("../assets/images/food/food1.jpg"),
   liked: 'false',
   },
 
@@ -60,7 +64,7 @@ export default place = [
   siteWeb:"www.thekdRestaurant.com",
   rating: "4.4",
   nbtable:'100',
-  img: require("../assets/images/food/food2.jpg"),
+  img: require("../assets/images/food/food5.jpg"),
   liked: 'true',
   },
   {
@@ -73,7 +77,7 @@ export default place = [
     siteWeb:"www.thekdRestaurant.com",
     rating: "4.4",
     nbtable:'100',
-    img: require("../assets/images/food/food2.jpg"),
+    img: require("../assets/images/food/food4.jpg"),
     liked: 'false',
   },
 ];

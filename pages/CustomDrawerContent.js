@@ -10,35 +10,37 @@ import User from "../utils/User";
 import React, { useState } from "react";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useFonts } from "expo-font";
 const MENUs = [
   {
-    name: "Acceuil",
-    label: "Acceuil",
-  },
-  {
     name: "Account",
     label: "Compte",
+    icon: "person-outline",
   },
   {
-    name: 'ListeCommandes',
+    name: "ListeCommandes",
     label: "Consulter Commandes",
+    icon: "reorder-four-outline",
   },
   {
     name: "ConsulterMenu",
     label: "Consulter Menu",
+    icon: "fast-food-outline",
   },
   {
     name: "Notifications",
     label: "Notifications",
+    icon: "notifications-outline",
   },
   {
     name: "Settings",
     label: "Paramétres",
+    icon: "settings-outline",
   },
 ];
 
-const CustomDrawerContent = ({ navigation}) => {
+const CustomDrawerContent = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [fontsLoaded] = useFonts({
     Cairo: require("../assets/fonts/Cairo-Regular.ttf"),
@@ -53,7 +55,11 @@ const CustomDrawerContent = ({ navigation}) => {
       <View style={styles.box}>
         <View style={styles.headerBox}>
           <View style={styles.ImgContainer}>
-            <Image style={styles.userImg} source={User.img} resizeMode="contain" />
+            <Image
+              style={styles.userImg}
+              source={User.img}
+              resizeMode="contain"
+            />
           </View>
           <View style={styles.txtContainer}>
             <Text style={styles.txt}>{User.name}</Text>
@@ -88,8 +94,14 @@ const CustomDrawerContent = ({ navigation}) => {
                         backgroundColor: focused ? "#fb8703" : "transparent",
                       }}
                     ></View>
-                    <TouchableOpacity>
-                      <Text style={{ fontWeight: focused ? "bold" : "normal" }}>
+                    <TouchableOpacity style={{ flexDirection: "row" }}>
+                      <Ionicons name={menu.icon} size={16} />
+                      <Text
+                        style={{
+                          marginLeft: 10,
+                          fontWeight: focused ? "bold" : "normal",
+                        }}
+                      >
                         {menu.label}
                       </Text>
                     </TouchableOpacity>

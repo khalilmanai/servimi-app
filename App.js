@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useFonts } from "expo-font";
 import CustomDrawerContent from "./pages/CustomDrawerContent";
-import {StackScreens , TabScreens } from './Navigation/AppContainer'
+import {StackScreens , TabScreens } from './Navigation/navigationContainer'
 
 export default function App() {
   const [fontsLoaded] = useFonts({

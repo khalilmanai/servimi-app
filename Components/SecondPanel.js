@@ -3,8 +3,9 @@ import React from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
 import User from "../utils/User";
-
-const SecondPanel = ({navigation}) => {
+import { DrawerActions, useNavigation } from "@react-navigation/native";
+const SecondPanel = () => {
+  const navigation = useNavigation()
   return (
 <View style={styles.box}>
 <View style={styles.container}>
@@ -27,7 +28,11 @@ const SecondPanel = ({navigation}) => {
         </View>
       </View>
       <View style={styles.right}>
-     <TouchableOpacity>
+     <TouchableOpacity
+     onPress={()=>{
+      navigation.dispatch(DrawerActions.toggleDrawer())
+     }}
+     >
      <Feather name="align-right"  size={24}/>
      </TouchableOpacity>
       </View>
