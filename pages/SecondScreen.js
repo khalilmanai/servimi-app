@@ -14,7 +14,7 @@ const SecondScreen = ({ navigation }) => {
   }
 
   const continuePressed = () => {
-    navigation.navigate("LoginScreen");
+    navigation.replace("Acceuil");
   };
 
   return (

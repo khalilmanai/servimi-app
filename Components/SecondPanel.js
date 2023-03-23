@@ -2,10 +2,12 @@ import { StyleSheet, Text, View,Image, TouchableOpacity } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
-import User from "../utils/User";
+
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { getuser } from "../api/getUser";
 const SecondPanel = () => {
   const navigation = useNavigation()
+  const user = getuser()
   return (
 <View style={styles.box}>
 <View style={styles.container}>

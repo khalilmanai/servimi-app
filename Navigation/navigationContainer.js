@@ -1,5 +1,3 @@
-
-
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import ListeCommandes from "../pages/ListeCommandes";
@@ -17,31 +15,46 @@ import Favorites from "../pages/Favorites";
 import UserPanel from "../Components/UserPanel";
 import QRScanner from "../utils/qrcode";
 import SecondPanel from "../Components/SecondPanel";
+import PlaceScreen from "../pages/PlaceScreen";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 // define the screens for the Stack Navigator
 function StackScreens() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  const checkLoginStatus = async () => {
+    const user = await AsyncStorage.getItem('user');
+    setIsLoggedIn(!!user);
+  }
+
   return (
     <Stack.Navigator
+      initialRouteName="SecondScreen"
       screenOptions={{
         headerShown: false,
       }}
     >
       <Stack.Screen name="SecondScreen" component={SecondScreen} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+    { isLoggedIn ? <Stack.Screen name="Acceuil" component={HomePage} /> :
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />}
       <Stack.Screen name="SignUpScreen" component={InputsScreen} />
       <Stack.Screen name="UserPanel" component={UserPanel} />
+      <Stack.Screen name="LoginPage" component={LoginScreen} />
+      <Stack.Screen name="HomePage" component={HomePage}  />
       <Stack.Screen name="TabScreens" component={TabScreens} />
-      <Stack.Screen name="Acceuil" component={HomePage} />
-      <Stack.Screen name="Account" component={Account} />
       <Stack.Screen name="Favorites" component={Favorites} />
-      <Stack.Screen name='qrCode' component={QRScanner} />
+      <Stack.Screen name="qrCode" component={QRScanner} />
       <Stack.Screen name="ListeCommandes" component={ListeCommandes} />
-      <Stack.Screen name="ConsulterMenu" component={ConsulterMenu} />
-      <Stack.Screen name="Notifications" component={Notifications} />
+      <Stack.Screen name='PlaceScreen' component={PlaceScreen} />
       <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name='SecondPanel' component={SecondPanel} />
+      <Stack.Screen name="SecondPanel" component={SecondPanel} />
     </Stack.Navigator>
   );
 }
@@ -51,4 +64,27 @@ function TabScreens() {
   return <TabBar />;
 }
 
-export { StackScreens,  TabScreens };
+function DrawerScreens() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="SecondScreen"
+      overlayColor="transparent"
+      drawerType="slide"
+      drawerStyle={{ flex: 1, width: 240, backgroundColor: "transparent" }}
+      hideStatusBar={true}
+      sceneContainerStyle={{
+        backgroundColor: "transparent",
+      }}
+      drawerContent={(props) => {
+        return <CustomDrawerContent navigation={props.navigation} />;
+      }}
+      screenOptions={{ drawerPosition: "right", headerShown: false }}
+    >
+      <Drawer.Screen name="Account" component={Account} />
+      <Drawer.Screen name="ConsulterMenu" component={ConsulterMenu} />
+      <Drawer.Screen name="Notifications" component={Notifications} />
+    </Drawer.Navigator>
+  );
+}
+
+export { StackScreens, DrawerScreens, TabScreens };

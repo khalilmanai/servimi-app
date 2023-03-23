@@ -6,12 +6,15 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import User from "../utils/User";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useFonts } from "expo-font";
+import { disconnectUser } from "../api/Disconnect";
+import { getuser } from "../api/getUser";
+
+
 const MENUs = [
   {
     name: "Account",
@@ -40,7 +43,14 @@ const MENUs = [
   },
 ];
 
+
+
+
 const CustomDrawerContent = ({ navigation }) => {
+  const user = getuser()
+ 
+ const handleDisconnect = async()=>  await disconnectUser(navigation);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [fontsLoaded] = useFonts({
     Cairo: require("../assets/fonts/Cairo-Regular.ttf"),
@@ -57,13 +67,13 @@ const CustomDrawerContent = ({ navigation }) => {
           <View style={styles.ImgContainer}>
             <Image
               style={styles.userImg}
-              source={User.img}
+              source={require('../assets/images/user.jpg')}
               resizeMode="contain"
             />
           </View>
           <View style={styles.txtContainer}>
-            <Text style={styles.txt}>{User.name}</Text>
-            <Text style={styles.txt}>{User.Country}</Text>
+            <Text style={styles.txt}>{user?.username}</Text>
+            
           </View>
         </View>
       </View>
@@ -71,7 +81,7 @@ const CustomDrawerContent = ({ navigation }) => {
       <DrawerContentScrollView
         scrollEnabled={false}
         contentContainerStyle={{}}
-        style={{ marginLeft: -18 }}
+        style={{ marginLeft: "-2%" }}
       >
         {MENUs.map((menu, index) => {
           return (
@@ -113,14 +123,20 @@ const CustomDrawerContent = ({ navigation }) => {
         })}
       </DrawerContentScrollView>
       <View style={{ marginBottom: 27, marginLeft: 30 }}>
+      <TouchableOpacity style={styles.contents}
+           onPress={()=>{
+            handleDisconnect()
+           }}
+          >
         <View style={styles.contents}>
-          <TouchableOpacity style={styles.contents}>
+        
             <FontAwesome5 name="power-off" size={24} color="#C0C0C0" />
             <Text style={{ marginLeft: 10, fontWeight: "bold" }}>
               se déconnecter
             </Text>
-          </TouchableOpacity>
+        
         </View>
+        </TouchableOpacity>
         <View style={{ marginTop: 23 }}>
           <Text style={{ color: "gray" }}> version 1.0.0</Text>
         </View>
@@ -167,6 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Cairo",
     fontWeight: "bold",
+    color:'#FB8703'
   },
   textbold: {
     fontWeight: "bold",

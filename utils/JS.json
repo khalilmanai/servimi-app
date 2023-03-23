@@ -1,0 +1,13 @@
+{
+    "addresse": "La Manouba , Tunis , Tunisie",
+    "description": "Bienvenue dans notre petit restaurant chaleureux et convivial ! Nous sommes fiers de vous offrir une expérience culinaire unique et de qualité. Notre cuisine est préparée avec des ingrédients frais et locaux pour vous garantir une explosion de saveurs dans chaque plat Nous proposons une variété de plats pour satisfaire tous les goûts, des plats végétariens aux viandes et poissons grillés, en passant par les pâtes et les pizzas. Notre menu change régulièrement pour refléter les saisons et pour vous offrir une expérience culinaire différente à chaque visite.",
+    "etabId": 4,
+    "nbCompte": 2,
+    "nbTable": 110,
+    "nom": "Le Royal",
+    "siteweb": "www.leroyal.com",
+    "tel": "2454210",
+    "utilisateur": {
+      "userID": 21
+    }
+  }

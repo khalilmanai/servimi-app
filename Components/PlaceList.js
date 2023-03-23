@@ -1,19 +1,25 @@
-import { StyleSheet, Text, View 
-, FlatList, 
-} from "react-native";
-import React from "react";
-import place from "../utils/Place";
+import { StyleSheet, Text, View, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
 import PlaceCard from "./PlaceCard";
-
+import { getEtablissement } from "../api/axios";
 
 const PlaceList = () => {
+  const [etablissement, setEtablissement] = useState([]);
+
+  useEffect(() => {
+    getEtablissement().then((data) => {
+      setEtablissement(data);
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={place}
-        keyExtractor={(item) => String(item.id)}
+        data={etablissement}
+        keyExtractor={(etablissement) => etablissement.etabId}
         renderItem={({ item }) => <PlaceCard key={item.id} place={item} />}
       />
+      {console.log(etablissement)}
     </View>
   );
 };
@@ -21,7 +27,7 @@ const PlaceList = () => {
 export default PlaceList;
 
 const styles = StyleSheet.create({
-     container : {
-      flex:1,
-     }
+  container: {
+    flex: 1,
+  },
 });

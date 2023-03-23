@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -9,52 +9,59 @@ import location from "../assets/images/Icons/location.png";
 const PlaceCard = ({ place }) => {
   const [toggle, setToggle] = useState(false);
 
-  function liked(place) {
-    return toggle ? (place.liked = "true") : (place.liked = "false");
+  function liked() {
+    return toggle ? "true" : "false";
   }
 
-
   const navigation = useNavigation();
-
 
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("PlaceScreen");
+        navigation.navigate("StackScreens", {
+          screen: "PlaceScreen",
+          params: place,
+        });
       }}
     >
       <View style={styles.container}>
         {/* image container*/}
-        <View style={styles.imgBox}>
-          <Image source={place.img} resizeMode="contain" style={styles.img} />
-        </View>
-        {/* Text container*/}
-        <View style={styles.txtBox}>
-          <View>
-            <Text style={styles.txt}>{place.name}</Text>
-          </View>
-          <Text style={styles.txt1}>
-            {place.type} | {place.rating}{" "}
-            <Image source={starImg} resizeMode="contain" />
-          </Text>
-          <Text style={styles.txt1}>
+        <View style={styles.contentBox}>
+          <View style={styles.imgBox}>
             <Image
-              source={location}
+              source={require("../assets/images/food/food2.jpg")}
               resizeMode="contain"
-              style={{ height: 10, width: 10 }}
-            />{" "}
-            {place.adresse}
-          </Text>
-          <View style={styles.line} />
+              style={styles.img}
+            />
+          </View>
+          {/* Text container*/}
+          <View style={styles.txtBox}>
+            <View>
+              <Text style={styles.txt}>{place.nom}</Text>
+            </View>
+            <View style={styles.box}>
+              <Ionicons name="ellipse" size={12} color="green" />
+              <Text style={styles.txt1}>{place.nbTable}</Text>
+            </View>
+            <View style={styles.box}>
+              <Ionicons name="location" size={12} color="#FB8703" />
+              <Text style={styles.txt1}>{place.addresse}</Text>
+            </View>
+            <View style={styles.line} />
+          </View>
         </View>
         <View style={styles.icon}>
           <TouchableOpacity
             onPress={() => {
               setToggle(!toggle);
-              liked;
+              liked();
             }}
           >
-            <Ionicons name={toggle ? "md-heart-sharp" : "md-heart-outline"} size={28} color="red" />
+            <Ionicons
+              name={toggle ? "md-heart-sharp" : "md-heart-outline"}
+              size={28}
+              color="red"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -68,11 +75,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    marginBottom: 10,
-
-    alignItems: "center",
-    justifyContent: "flex-start",
-    width: "100%",
+    width: "98%",
+    justifyContent: "space-between",
+    marginRight: 5,
+    marginBottom: 5,
+  },
+  box: {
+    flexDirection: "row",
+    alignItems:'center'
+  },
+  contentBox: {
+    flexDirection: "row",
   },
   txt: {
     fontFamily: "Cairo",
@@ -81,6 +94,7 @@ const styles = StyleSheet.create({
   txt1: {
     fontFamily: "Cairo",
     fontSize: 16,
+    marginLeft: 10,
   },
   imgBox: {
     width: 90,
@@ -95,13 +109,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   line: {
-    width: "190%",
     height: 1.25,
     marginTop: 10,
     backgroundColor: "#FB8703",
   },
   txtBox: {
-    marginRight: "20%",
+    width: "50%",
   },
   icon: {
     justifyContent: "center",

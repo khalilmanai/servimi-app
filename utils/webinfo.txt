@@ -1,0 +1,102 @@
+ClienID : 757839386106-uo9ieabloon0c3f3vmeji51jfof96u06.apps.googleusercontent.com
+
+
+
+Client secret : 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
+
+
+IOS clientID : 757839386106-72i92gkig5dcbj69jbevmcvqr4lpq4e4.apps.googleusercontent.com
+
+
+
+
+Android clientID : 757839386106-i5gb814lsaj04n13tj9588722jbj58ts.apps.googleusercontent.com
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+import React, { useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+
+const restaurantData = [
+  {
+    id: '1',
+    name: 'Pizza Place',
+    description: 'A popular pizza restaurant with a variety of toppings and crusts.',
+    rating: 4.5,
+    image: require('./images/pizza.jpg')
+  },
+  {
+    id: '2',
+    name: 'Burger Joint',
+    description: 'A classic American burger joint with juicy burgers and crispy fries.',
+    rating: 4.2,
+    image: require('./images/burger.jpg')
+  },
+  {
+    id: '3',
+    name: 'Sushi Bar',
+    description: 'A trendy sushi bar with fresh fish and creative sushi rolls.',
+    rating: 4.8,
+    image: require('./images/sushi.jpg')
+  },
+];
+
+const RestaurantItem = ({ restaurant, onPress }) => {
+  return (
+    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+      <View style={styles.imageContainer}>
+        <Image source={restaurant.image} style={styles.image} />
+      </View>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.name}>{restaurant.name}</Text>
+        <Text style={styles.rating}>{restaurant.rating} stars</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const RestaurantScreen = ({ restaurant }) => {
+  return (
+    <View style={styles.container}>
+      <Image source={restaurant.image} style={styles.image} />
+      <Text style={styles.name}>{restaurant.name}</Text>
+      <Text style={styles.description}>{restaurant.description}</Text>
+      <Text style={styles.rating}>{restaurant.rating} stars</Text>
+    </View>
+  );
+};
+
+const RestaurantList = () => {
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
+  const handleRestaurantPress = (restaurant) => {
+    setSelectedRestaurant(restaurant);
+  };
+
+  const renderRestaurantItem = ({ item }) => (
+    <RestaurantItem restaurant={item} onPress={() => handleRestaurantPress(item)} />
+  );
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={restaurantData}
+        renderItem={renderRestaurantItem}
+        keyExtractor={(item) => item.id}
+      />
+      {selectedRestaurant && <RestaurantScreen restaurant={selectedRestaurant} />}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 

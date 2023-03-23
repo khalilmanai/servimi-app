@@ -1,15 +1,15 @@
 {
   "expo": {
     "name": "Servimi",
-    "slug": "Servimi",
+    "slug": "servimi",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/icon.png",
     "splash": {
       "resizeMode": "cover",
-      "image" : "./assets/images/SplashScreen.png",
-      "backgroundColor" : "#FFFFFF"
+      "image": "./assets/images/SplashScreen.png",
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -19,17 +19,22 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "icon": "./assets/images/icon.png"
+      "icon": "./assets/images/icon.png",
+      "bundleIdentifier": "com.servimi.servimi"
     },
     "android": {
+      "package": "com.servimi.servimi",
       "adaptiveIcon": {
-        "foregroundImage" : "./assets/images/icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
-    "expo-barcode-scanner":
-    {
-      "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
-    }
+  
+    "extra": {
+      "eas": {
+        "projectId": "5d2d45a6-9352-4612-8328-8ba57478261e"
+      }
+    },
+    "owner": "khalil_manai"
   }
 }

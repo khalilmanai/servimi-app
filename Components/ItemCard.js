@@ -9,10 +9,10 @@ const ItemCard = ({item}) => {
       <View style={styles.txtBox}>
         <View style={styles.rowBox}>
           <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.price}>{item.price}</Text>
+        
         </View>
         <Text style={styles.discription}>{item.ingredients.join(',')}</Text>
-        <Text style={styles.discription}>{item.rating}   <Ionicons name='star' size={16} color='yellow' /></Text>
+      <Text style={styles.price}>{item.price} DT </Text>
       </View>
     
         <Image style={styles.img} source={PizzaImg} resizeMode="contain" />
@@ -24,10 +24,8 @@ export default ItemCard;
 
 const styles = StyleSheet.create({
   container: {
-    height: 120,
-    width: 400,
-    marginTop:25,
-    flexDirection: "row",
+    flex:1,
+    flexDirection:'row',
     backgroundColor: "#E8E6E3",
   
    alignItems:"center",
@@ -38,6 +36,8 @@ const styles = StyleSheet.create({
   },
   txtBox: {
     flexDirection: "column",
+    padding:15,
+  flexWrap:'wrap'
   },
   rowBox: {
     flexDirection: "row",
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     fontFamily:'Cairo',
     fontSize: 16,
     color:'#676161',
-    marginRight: 10,
     marginBottom:5,
     alignItems:'center',
     justifyContent:'center'

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { SearchBar } from "@rneui/base";
 
 import UserPanel from "../Components/UserPanel";
 import DealsCarousel from "../Components/DealsCarousel";
 import PlaceList from "../Components/PlaceList";
-import { CategorieList } from "../Components/Categorie";
+
 
 const HomePage = () => {
   const [value, setValue] = useState("");
+
 
   return (
     <View style={styles.container}>

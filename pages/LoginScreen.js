@@ -13,6 +13,7 @@ import google from "../assets/images/google.png";
 import Inputs from "../Components/Inputs";
 import facebook from "../assets/images/facebook.png";
 import { Dimensions } from "react-native";
+import { handleLogin } from "../api/axios";
 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
@@ -36,14 +37,7 @@ const LoginScreen = ({ navigation }) => {
   const validatePassword = () => {
     //validate usernmae
   };
-  const handleSubmit = () => {
-    const userData = {
-      username: userName,
-      password: password,
-    };
-    console.log(userData);
-    // Validate inputs and submit form
-  };
+
   const [obscure, setObscure] = useState(true);
 
   const handleObscure = () => {
@@ -57,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate("ResetPassword");
   };
   const gotoHome = () => {
-    navigation.navigate("TabScreens", { screen: "Home" });
+    navigation.replace ("TabScreens", { screen: "Home" });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -92,9 +86,9 @@ const LoginScreen = ({ navigation }) => {
       </TouchableOpacity>
       <View style={styles.connectBtn}>
         <TouchableOpacity
-          onPress={() => {
-            handleSubmit();
-            gotoHome();
+           onPress={async () => {
+            const result = await handleLogin(userName , password);
+            result ? gotoHome() : console.log('error logging');
           }}
         >
           <Text style={[styles.text, styles.connect]}>Se Connecter</Text>

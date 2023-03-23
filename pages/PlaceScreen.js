@@ -1,33 +1,126 @@
-import { StyleSheet, Text, View } from "react-native";
-import UserPanel from "../Components/UserPanel";
-import React from "react";
-import { Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import place from "../utils/Place";
-import { TouchableOpacity } from "react-native";
-const PlaceScreen = (props) => {
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import Clipboard from "@react-native-clipboard/clipboard";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import React, { useState } from "react";
+import QRScanner from "../utils/qrcode";
+
+const PlaceScreen = ({ navigation, route }) => {
+  const handleCopy = (text) => {
+    Clipboard.setString(text);
+  };
+
+  const place = route.params;
   return (
     <View style={styles.container}>
-      <UserPanel />
-      <View style={styles.box}>
-        <Image source={place.img}/>
-        <View style={styles.contentbox}>
-          <View style={{alignItems:'flex-end',margin:10}}>
+      <View style={styles.imgBox}>
+        <ImageBackground
+          source={require("../assets/images/food/food2.jpg")}
+          resizeMode="cover"
+          style={styles.img}
+        >
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Ionicons name="arrow-back" size={32} color="white" />
+          </TouchableOpacity>
+        </ImageBackground>
+        <View style={styles.bottomSide}>
+          <View style={styles.textBox}>
+            <Text style={styles.nom}>{place.nom}</Text>
+            <Text style={styles.description}>{place.description}</Text>
+          </View>
+          <View style={styles.panel}>
+            <TouchableOpacity
+              onPress={() => {
+                handleCopy(place.siteweb);
+              }}
+            >
+              <View style={styles.location}>
+                <Ionicons name="location-outline" size={16} color="white" />
+                <Text
+                  style={{
+                    fontFamily: "Cairo",
+                    marginLeft: 10,
+                    color: "white",
+                  }}
+                >
+                  {place.addresse}
+                </Text>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity>
-            <Ionicons name="heart-outline" size={16} color="white" />
+              <View style={styles.phone}>
+                <Ionicons name="call-outline" size={16} color="white" />
+                <Text
+                  style={{
+                    fontFamily: "Cairo",
+                    marginLeft: 10,
+                    color: "white",
+                  }}
+                >
+                  {place.tel}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <View style={styles.site}>
+                <Ionicons name="earth" size={16} color="white" />
+                <Text
+                  style={{
+                    fontFamily: "Cairo",
+                    marginLeft: 10,
+                    color: "white",
+                  }}
+                >
+                  {place.siteweb}
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
-          <View style={{alignItems:'center'}}>
-            <Text>place name</Text>
-            <Text> place address</Text>
-          </View>
-          <View style={{alignItems:'flex-end', margin:10}}>
-            <Ionicons name="star" size={16} color="yellow" />
+          <View style={{width:'100%' , height:'100%' , alignItems:'center',}}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.push("qrCode")}
+          >
+            <Ionicons name="qr-code-outline" size={24} color="white" />
+            <Text
+              style={{
+                fontFamily: "Cairo",
+                marginLeft: 10,
+                color: "white",
+              }}
+            >
+              
+              Scanner QR
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.push("ItemList")}
+          >
+            <Ionicons name="fast-food-outline" size={24} color="white" />
+            <Text
+              style={{
+                fontFamily: "Cairo",
+                marginLeft: 10,
+                color: "white",
+              }}
+            >
+              
+              Consulter Menu
+            </Text>
+          </TouchableOpacity>
           </View>
         </View>
-      </View>
-      <View style={{position:'absolute', top:'50%', alignSelf:"center"}}>
-        <Text> menu | review </Text>
       </View>
     </View>
   );
@@ -39,17 +132,77 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  box: {
-    position: "absolute",
-    alignSelf: "center",
-    top: "20%",
-    width: "80%",
-    height: "25%",
-    borderRadius: 10,
-    backgroundColor: "red",
-    
+  imgBox: {
+    height: "100%",
+    width: "100%",
   },
-  contentbox  : {
-    justifyContent:'space-evenly'
-  }
+  img: {
+    height: "70%",
+    width: "100%",
+  },
+  icon: {
+    zIndex: 1,
+    position: "absolute",
+    top: "10%",
+    left: "5%",
+  },
+  bottomSide: {
+    height: "55%",
+    position: "absolute",
+    alignItems: "center",
+    right: 0,
+    left: 0,
+    bottom: 0,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+  nom: {
+    fontFamily: "Cairo",
+    fontSize: 34,
+  },
+  description: {
+    color: "gray",
+    fontSize: 18,
+  },
+  textBox: {
+    marginTop: "10%",
+    marginLeft: "10%",
+    marginRight: "10%",
+  },
+  panel: {
+    flexDirection: "row",
+    margin: 10,
+    flexWrap: "wrap",
+  },
+  phone: {
+    flexDirection: "row",
+    backgroundColor: "#03C03C",
+    padding: 10,
+    borderRadius: 10,
+    margin: 10,
+  },
+  site: {
+    flexDirection: "row",
+    backgroundColor: "#007FFF",
+    padding: 10,
+    borderRadius: 10,
+    margin: 10,
+  },
+  location: {
+    flexDirection: "row",
+    backgroundColor: "#A52A2A",
+    padding: 10,
+    borderRadius: 10,
+    margin: 10,
+  },
+  button: {
+    margin:'1%',
+    flexDirection: "row",
+    width: "80%",
+    height: "10%",
+    backgroundColor: "#FB8703",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
 });
