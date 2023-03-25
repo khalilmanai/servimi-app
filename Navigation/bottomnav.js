@@ -29,7 +29,7 @@ export const TabBar = () => {
         icon =  'trophy-outline'
         break;
         case 'ListeCommandes':
-        icon= 'reorder-four';
+        icon= 'fast-food-outline';
         break;
     }
     return (

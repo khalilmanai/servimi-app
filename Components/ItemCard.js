@@ -1,22 +1,45 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import React from "react";
-import PizzaImg from "../assets/images/food/pizza.png";
-import { Ionicons } from "@expo/vector-icons";
-const ItemCard = ({item}) => {
+import React, { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { ApiManager } from "../api/axios";
+
+const ItemCard = ({ item }) => {
+  const [image, setImageUri] = useState("");
+  const navigation = useNavigation();
+  /* 
+  
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await ApiManager.get('solutionprisecommandeatable/v1/MANAGER/image/display/1');
+         setImageUri(response.data.url);
+        setImageUri(uri);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchImage();
+  }, []); */
+
+  console.log(image);
+
   return (
-    
-      <TouchableOpacity style={styles.container}>
-      <View style={styles.txtBox}>
-        <View style={styles.rowBox}>
-          <Text style={styles.name}>{item.name}</Text>
-        
+    <TouchableOpacity style={styles.container} onPress={() => {}}>
+      <View style={styles.box}>
+        <View style={styles.textBox}>
+          <Text style={styles.txt}>Pizza Neptune</Text>
+          <Text style={styles.desc}>Description</Text>
         </View>
-        <Text style={styles.discription}>{item.ingredients.join(',')}</Text>
-      <Text style={styles.price}>{item.price} DT </Text>
+        <View>
+          <Image
+            style={{ height: 110, width: 110 , marginRight:-50}}
+            source={require("../assets/images/food/pizza.png")}
+            resizeMode="contain"
+          />
+        </View>
       </View>
-    
-        <Image style={styles.img} source={PizzaImg} resizeMode="contain" />
-        </TouchableOpacity>
+    </TouchableOpacity>
   );
 };
 
@@ -24,50 +47,31 @@ export default ItemCard;
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    flexDirection:'row',
-    backgroundColor: "#E8E6E3",
+    flex: 1,
+    alignItems: "center",
+  },
+  box: {
   
-   alignItems:"center",
-   justifyContent:"space-around",
-    margin: 10,
+    width: "95%",
+    height: "15%",
+    backgroundColor: "#D3D3D3",
     borderRadius: 10,
-    overflow:'hidden',
-  },
-  txtBox: {
-    flexDirection: "column",
-    padding:15,
-  flexWrap:'wrap'
-  },
-  rowBox: {
     flexDirection: "row",
-  alignItems:'center'
+    justifyContent:'space-between',
+    alignItems:'center'
+    ,overflow:'hidden'
   },
-  name : {
-    fontFamily:'Cairo',
-    fontSize: 20,
-    marginRight: 10,
-    marginBottom:5,
-  },
-  price : {
-    fontFamily:'Cairo',
-    fontSize: 20,
-    marginRight: 10,
-    marginBottom:5,
-  },
-  img: {
-    height: 120,
-    width: 120,
-    marginRight:-80,
-    
+  textBox: {
+    margin: "5%",
 
   },
-  discription:{
-    fontFamily:'Cairo',
-    fontSize: 16,
-    color:'#676161',
-    marginBottom:5,
-    alignItems:'center',
-    justifyContent:'center'
+  txt : {
+    fontFamily:'Cairo', 
+    fontSize:16
+  },
+  desc : {
+    fontFamily:'Cairo', 
+    fontSize:16,
+    color:'gray'
   }
 });

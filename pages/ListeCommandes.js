@@ -4,7 +4,7 @@ import React from 'react'
 const ListeCommandes = () => {
   return (
     <View style={styles.container}>
-      <Text>Liste Commandes</Text>
+      <Text>Vous n'avez aucune Commande Courante</Text>
     </View>
   )
 }

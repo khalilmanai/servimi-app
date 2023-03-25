@@ -16,21 +16,18 @@ import { getuser } from "../api/getUser";
 
 
 const MENUs = [
+   {
+
+    name: "HomePage",
+    label: "Acceuil",
+    icon: "home-outline",
+   },
   {
     name: "Account",
     label: "Compte",
     icon: "person-outline",
   },
-  {
-    name: "ListeCommandes",
-    label: "Consulter Commandes",
-    icon: "reorder-four-outline",
-  },
-  {
-    name: "ConsulterMenu",
-    label: "Consulter Menu",
-    icon: "fast-food-outline",
-  },
+
   {
     name: "Notifications",
     label: "Notifications",
@@ -87,7 +84,7 @@ const CustomDrawerContent = ({ navigation }) => {
           return (
             <DrawerItem
               onPress={() => {
-                navigation.navigate(menu.name);
+                navigation.navigate("StackScreens", { screen: menu.name });;
                 setActiveIndex(index);
               }}
               activeTintColor="#D3D3D3"

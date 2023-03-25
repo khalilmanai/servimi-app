@@ -2,7 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import ListeCommandes from "../pages/ListeCommandes";
 import Notifications from "../pages/Notifications";
-import ConsulterMenu from "../pages/ConsulterMenu";
+
 import Settings from "../pages/Settings";
 import HomePage from "../pages/HomePage";
 import SecondScreen from "../pages/SecondScreen";
@@ -14,10 +14,14 @@ import CustomDrawerContent from "../pages/CustomDrawerContent";
 import Favorites from "../pages/Favorites";
 import UserPanel from "../Components/UserPanel";
 import QRScanner from "../utils/qrcode";
+import ItemList from '../pages/ItemList'
 import SecondPanel from "../Components/SecondPanel";
 import PlaceScreen from "../pages/PlaceScreen";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import ItemPage from "../pages/ItemPage";
+import ItemCard from "../Components/ItemCard";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -46,6 +50,7 @@ function StackScreens() {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />}
       <Stack.Screen name="SignUpScreen" component={InputsScreen} />
       <Stack.Screen name="UserPanel" component={UserPanel} />
+      <Stack.Screen name = 'Account' component={Account} />
       <Stack.Screen name="LoginPage" component={LoginScreen} />
       <Stack.Screen name="HomePage" component={HomePage}  />
       <Stack.Screen name="TabScreens" component={TabScreens} />
@@ -55,6 +60,11 @@ function StackScreens() {
       <Stack.Screen name='PlaceScreen' component={PlaceScreen} />
       <Stack.Screen name="Settings" component={Settings} />
       <Stack.Screen name="SecondPanel" component={SecondPanel} />
+      <Stack.Screen name='ItemList' component={ItemList} />
+      <Stack.Screen name='ItemPage' component={ItemPage} />
+      <Stack.Screen name = 'ItemCard'component={ItemCard}/>
+      <Stack.Screen name="Notifications" component={Notifications} />
+
     </Stack.Navigator>
   );
 }
@@ -80,10 +90,8 @@ function DrawerScreens() {
       }}
       screenOptions={{ drawerPosition: "right", headerShown: false }}
     >
-      <Drawer.Screen name="Account" component={Account} />
-      <Drawer.Screen name="ConsulterMenu" component={ConsulterMenu} />
-      <Drawer.Screen name="Notifications" component={Notifications} />
-    </Drawer.Navigator>
+    <Stack.Screen name='Account' component={Account} />
+       </Drawer.Navigator>
   );
 }
 

@@ -1,67 +1,64 @@
-import { StyleSheet, Text, View,Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Feather from "react-native-vector-icons/Feather";
-
-import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { DrawerActions } from "@react-navigation/native";
+import { DzrawerActions, useNavigation } from "@react-navigation/native";
 import { getuser } from "../api/getUser";
 const SecondPanel = () => {
-  const navigation = useNavigation()
-  const user = getuser()
+  const navigation = useNavigation();
+  const user = getuser();
   return (
-<View style={styles.box}>
-<View style={styles.container}>
-      <View style={styles.left}>
-        <TouchableOpacity
-        onPress={()=>{
-          navigation.goBack();
-        }}
-        >
-          <Icon name="keyboard-backspace" size={24} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.center}>
-        <TouchableOpacity>
-          <Image style={styles.userImg} source={User.img} />
-        </TouchableOpacity>
-        <View style={styles.textContainer}>
-          <Text style={styles.welcomeText}>Bienvenue!</Text>
-          <Text style={styles.username}>{User.name}</Text>
+    <View style={styles.box}>
+      <View style={styles.container}>
+        <View style={styles.left}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Icon name="keyboard-backspace" size={24} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.center}>
+          <TouchableOpacity>
+            <Image
+              style={styles.userImg}
+              source={ require("../assets/images/user.jpg")}
+            />
+          </TouchableOpacity>
+          <View style={styles.textContainer}>
+            <Text style={styles.welcomeText}>Bienvenue!</Text>
+            <Text style={styles.username}>{user?.name}</Text>
+          </View>
+        </View>
+        <View style={styles.right}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.dispatch(DrawerActions.toggleDrawer());
+            }}
+          >
+            <Feather name="align-right" size={24} />
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.right}>
-     <TouchableOpacity
-     onPress={()=>{
-      navigation.dispatch(DrawerActions.toggleDrawer())
-     }}
-     >
-     <Feather name="align-right"  size={24}/>
-     </TouchableOpacity>
-      </View>
     </View>
-</View>
   );
 };
 
 export default SecondPanel;
 
 const styles = StyleSheet.create({
-  box:{
-   flex:1,
-
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: 25,
   },
-    container : {
-     
 
- flexDirection:'row',
- justifyContent:'space-between',
- alignItems:'center',
- margin:25,
-    },
-  
-    center:{
-      alignItems:'center'
-    },
+  center: {
+    alignItems: "center",
+  },
 
   userImg: {
     height: 60,
@@ -77,7 +74,7 @@ const styles = StyleSheet.create({
 
   textContainer: {
     flexDirection: "column",
-    alignItems:'center',
+    alignItems: "center",
     margin: 10,
   },
   welcomeText: {

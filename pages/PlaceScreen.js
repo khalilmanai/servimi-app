@@ -11,9 +11,7 @@ import React, { useState } from "react";
 import QRScanner from "../utils/qrcode";
 
 const PlaceScreen = ({ navigation, route }) => {
-  const handleCopy = (text) => {
-    Clipboard.setString(text);
-  };
+ 
 
   const place = route.params;
   return (
@@ -105,7 +103,12 @@ const PlaceScreen = ({ navigation, route }) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.push("ItemList")}
+            onPress={() => {
+              navigation.navigate("StackScreens", {
+                screen: "ItemList",
+                params: place,
+              });
+            }}
           >
             <Ionicons name="fast-food-outline" size={24} color="white" />
             <Text

@@ -6,39 +6,38 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import item  from '../utils/item'
 import React, { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Items from "../utils/item";
 
-const ItemPage = () => {
-const [quantity , setQuantity ] = useState(1);
-const [total , setTotal ]= useState(22)
-function itemtotal (){
-  setTotal((value)=>value + 22 * quantity)
-}
-function reduceTotal (){
-  if(total >= 22){
-    setTotal((value)=>value - 22 * quantity)
+const ItemPage = ({ route }) => {
+  const item = route.params;
+  const price = item.menuItems[0].prix;
+
+  const [quantity, setQuantity] = useState(1);
+  const [total, setTotal] = useState(price);
+
+  function itemtotal() {
+    setTotal(price * quantity);
   }
-}
-function increment (){
-    setQuantity((value)=>value+1)
 
-}
-function decrement (){
-  if(quantity > 1){
-  setQuantity((value)=>value-1)
-
+  function increment() {
+    setQuantity((value) => value + 1);
+    itemtotal();
   }
-}
-console.log(total)
+
+  function decrement() {
+    if (quantity > 1) {
+      setQuantity((value) => value - 1);
+      itemtotal();
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgBox}>
         <Image
           style={styles.img}
-          source={require("../assets/images/food/pizza.png")}
+          source={{uri : 'https://1a81-197-0-242-247.eu.ngrok.io/solutionprisecommandeatable/v1/MANAGER/image/display/1'}}
           resizeMode="contain"
         />
       </View>
@@ -50,20 +49,21 @@ console.log(total)
             width: "100%",
           }}
         >
-          <Text style={styles.name}>Pizza Neptune</Text>
-          <Text style={styles.name}> 22 DT</Text>
+          <Text style={styles.name}>{item.menuItems[0].nom}</Text>
+          <Text style={styles.name}>{price} DT</Text>
         </View>
         <View style={styles.description}>
-          <Text style={{ fontFamily: "Cairo", fontSize: 14 }}>Description</Text>
+          <Text style={{ fontFamily: "Cairo", fontSize: 24}}>
+            {item.menuItems[0].description}
+          </Text>
         </View>
         <View style={styles.counterBox}>
-          <View style={{flexDirection:'row' , alignItems:'center'}}>
-            <TouchableOpacity style={styles.box}
-            onPress={()=>{
-                decrement()
-                reduceTotal()
-                
-            }}
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <TouchableOpacity
+              style={styles.box}
+              onPress={() => {
+                decrement();
+              }}
             >
               <Ionicons
                 name="remove-circle-outline"
@@ -71,24 +71,29 @@ console.log(total)
                 color="#FB8703"
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.box}
-            onPress={()=>{
-                increment()
-                itemtotal()
-            }}
+            <TouchableOpacity
+              style={styles.box}
+              onPress={() => {
+                increment();
+              }}
             >
               <Ionicons name="add-circle" size={24} color="#FB8703" />
             </TouchableOpacity>
-            <Text style={{fontFamily:'Cairo'}}>x{quantity}  =  {total}</Text>
+            <Text style={{ fontFamily: "Cairo" }}>
+              x{quantity} = {total}
+            </Text>
+            
           </View>
-          
+          <TouchableOpacity >
+              <View style={styles.confirm}>
+              <Text>Confirmer</Text>
+              </View>
+            </TouchableOpacity>
         </View>
-      
       </View>
     </SafeAreaView>
   );
 };
-
 export default ItemPage;
 
 const styles = StyleSheet.create({
@@ -111,24 +116,32 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: "Cairo",
-    fontSize: 32,
+    fontSize: 48,
   },
   description: {
      marginBottom:'5%',
     height: "50%",
     width: "90%",
-    backgroundColor: "gray",
+
+  
   },
   counterBox: {
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     height: "10%",
-    width: "70%",
+    width: "100%",
     borderWidth: 1,
     borderRadius: 10,
   },
   box: {
     margin: 10,
   },
+  confirm : {
+    height:'100%',
+    width:'150%',
+    borderRadius:10,justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'#FB8703'
+  }
 });
