@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "icon": "./assets/images/icon.png",
@@ -29,7 +27,7 @@
         "backgroundColor": "#FFFFFF"
       }
     },
-  
+
     "extra": {
       "eas": {
         "projectId": "5d2d45a6-9352-4612-8328-8ba57478261e"

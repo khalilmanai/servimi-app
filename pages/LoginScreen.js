@@ -13,7 +13,7 @@ import google from "../assets/images/google.png";
 import Inputs from "../Components/Inputs";
 import facebook from "../assets/images/facebook.png";
 import { Dimensions } from "react-native";
-import { handleLogin } from "../api/axios";
+import { handleLogin } from "../api/fetch";
 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");

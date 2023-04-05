@@ -14,22 +14,23 @@ const PlaceCard = ({ place }) => {
   }
 
   const navigation = useNavigation();
-
+  const base64Image = `data:image/png;base64,${place.image}`;
   return (
     <TouchableOpacity
-      onPress={() => {
-        navigation.navigate("StackScreens", {
-          screen: "PlaceScreen",
-          params: place,
-        });
-      }}
-    >
+    onPress={() => {
+      navigation.navigate("StackScreens", {
+        screen: "PlaceScreen",
+        params: place,
+      });
+    }}
+  >
+  
       <View style={styles.container}>
         {/* image container*/}
         <View style={styles.contentBox}>
           <View style={styles.imgBox}>
             <Image
-              source={require("../assets/images/food/food2.jpg")}
+              source={{uri : base64Image}}
               resizeMode="contain"
               style={styles.img}
             />
@@ -37,7 +38,7 @@ const PlaceCard = ({ place }) => {
           {/* Text container*/}
           <View style={styles.txtBox}>
             <View>
-              <Text style={styles.txt}>{place.nom}</Text>
+              <Text style={styles.txt}numberOfLines={1} ellipsizeMode='tail'>{place.nom}</Text>
             </View>
             <View style={styles.box}>
               <Ionicons name="ellipse" size={12} color="green" />
@@ -45,7 +46,7 @@ const PlaceCard = ({ place }) => {
             </View>
             <View style={styles.box}>
               <Ionicons name="location" size={12} color="#FB8703" />
-              <Text style={styles.txt1}>{place.addresse}</Text>
+              <Text style={styles.txt1} numberOfLines={1} ellipsizeMode='tail'>{place.addresse}</Text>
             </View>
             <View style={styles.line} />
           </View>
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     fontFamily: "Cairo",
     fontSize: 16,
     marginLeft: 10,
+    
   },
   imgBox: {
     width: 90,
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FB8703",
   },
   txtBox: {
-    width: "50%",
+    width: "60%",
   },
   icon: {
     justifyContent: "center",

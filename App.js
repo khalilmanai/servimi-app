@@ -15,19 +15,16 @@ import {
   TabScreens,
 } from "./Navigation/navigationContainer";
 import {  ApiManager} from "./api/axios";
-import ItemList from "./pages/ItemList";
-import ItemPage from "./pages/ItemPage";
-import ItemCard from "./Components/ItemCard";
-
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 export default function App() {
   
-
 useEffect(()=>{
   ApiManager()
   
-},[])
-  
+},[]) 
+ 
 
   const [fontsLoaded] = useFonts({
     Cairo: require("./assets/fonts/Cairo-Regular.ttf"),
@@ -39,7 +36,8 @@ useEffect(()=>{
 
   const Drawer = createDrawerNavigator();
   return (
-    <NavigationContainer>
+   <Provider store={store}>
+     <NavigationContainer>
       <Drawer.Navigator
       
         overlayColor="transparent"
@@ -64,6 +62,7 @@ useEffect(()=>{
       
       </Drawer.Navigator> 
     </NavigationContainer> 
+   </Provider>
 
   );
 }

@@ -12,11 +12,8 @@ export const disconnectUser = async (navigation) => {
     delete ApiManager.defaults.headers.common['Authorization'];
     console.log('User disconnected successfully');
     navigation.closeDrawer()
-    navigation.reset({
-      index: 1,
-      routes: [{ name: 'LoginPage' }],
-    });
-    
+    navigation.replace('StackScreens', { screen: 'LoginPage' });
+
     return true;
   } catch (error) {
     console.error('Error disconnecting user: ', error.message);

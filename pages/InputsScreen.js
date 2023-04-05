@@ -5,7 +5,7 @@ import BottomButtons from "../Components/BottomButtons";
 import Inputs from "../Components/Inputs";
 import InfoTemplate from "./InfoTemplate";
 import { Ionicons } from "@expo/vector-icons";
-import { registerUser } from "../api/axios";
+import { registerUser } from "../api/fetch";
 const InputsScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,7 +34,7 @@ const InputsScreen = ({ navigation }) => {
   const userData = {
     email: email,
     password: password,
-    role: ["CLIENT"],
+    role: [3],
     username: userName,
   };
   console.log(userData)

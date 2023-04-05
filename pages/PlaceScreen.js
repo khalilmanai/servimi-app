@@ -5,20 +5,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Clipboard from "@react-native-clipboard/clipboard";
+
 import Ionicons from "react-native-vector-icons/Ionicons";
-import React, { useState } from "react";
-import QRScanner from "../utils/qrcode";
+import React from 'react'
+
 
 const PlaceScreen = ({ navigation, route }) => {
  
 
   const place = route.params;
+  const base64Image = `data:image/png;base64,${place.image}`;
   return (
     <View style={styles.container}>
       <View style={styles.imgBox}>
         <ImageBackground
-          source={require("../assets/images/food/food2.jpg")}
+          source={{uri : base64Image}}
           resizeMode="cover"
           style={styles.img}
         >

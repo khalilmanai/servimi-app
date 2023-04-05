@@ -1,56 +1,58 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { SearchBar } from "@rneui/base";
 
 import UserPanel from "../Components/UserPanel";
-import DealsCarousel from "../Components/DealsCarousel";
+
 import PlaceList from "../Components/PlaceList";
 
-
 const HomePage = () => {
-  const [value, setValue] = useState("");
+  const [query, setQuery] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
 
+ /*  const handleSearch = (text) => {
+    const newData = etablissement.filter((item) => {
+      const itemData = item.title.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    }); 
+
+    setQuery(text);
+    setFilteredData(newData);
+  };*/
 
   return (
     <View style={styles.container}>
-   <View
-   style={{height:100}}><UserPanel /></View>
-    <FlatList
-  contentContainerStyle={styles.contentContainer}
-  ListHeaderComponent={
-    <View key="search-container" style={styles.searchContainer}>
-      <SearchBar
-        platform="default"
-        containerStyle={styles.searchBarContainer}
-        inputContainerStyle={styles.searchBarInputContainer}
-        inputStyle={styles.searchBarInput}
-        round
-        lightTheme
-        onChangeText={setValue}
-        placeholder="Recherche"
-        placeholderTextColor="white"
-        value={value}
-        key="search-bar"
-      />
-      <View>
-        <Text style={styles.placeTitle}>Offres du jour</Text>
+      <View style={{ height: 100, margin: "2%" }}>
+        <UserPanel />
       </View>
-      <DealsCarousel key="deals-carousel" />
-    
-    </View>
-  }
-  data={[]}
-  renderItem={({ item }) => null}
-  ListFooterComponent={
-    <View key="place-container" style={styles.placeContainer}>
-      <Text key="place-title" style={styles.placeTitle}>Découvrir</Text>
-    <View style={{width:'100%'}}>
-    <PlaceList key="place-list" />
-    </View>
-    </View>
-  }
-/>
+      <View style={{ margin: "2%" }}>
+        <SearchBar
+          ref={(search) => (this.search = search)}
+          platform="default"
+          containerStyle={styles.searchBarContainer}
+          inputContainerStyle={styles.searchBarInputContainer}
+          inputStyle={styles.searchBarInput}
+          round
+          lightTheme
+          value={query}
+          placeholder="Recherche"
+          placeholderTextColor="white"
+          key="search-bar"
+        />
+      </View>
 
+      <View key="place-container" style={styles.placeContainer}>
+        <Text key="place-title" style={styles.placeTitle}>
+          Découvrir
+        </Text>
+        <View style={{ width: "100%", height: "100%" }}>
+          <PlaceList
+            key="place-list"
+          
+          />
+        </View>
+      </View>
     </View>
   );
 };
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
   placeTitle: {
     fontFamily: "Cairo",
     fontSize: 24,
-     margin:'2%',
-     alignSelf:'flex-start'
+    margin: "2%",
+    alignSelf: "flex-start",
   },
 });

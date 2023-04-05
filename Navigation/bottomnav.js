@@ -9,9 +9,9 @@ import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Favorites from '../pages/Favorites';
 import HomePage from '../pages/HomePage';
-import ListeCommandes from '../pages/ListeCommandes';
 import Rewards from '../pages/Rewards';
 import { useNavigation } from '@react-navigation/native';
+import Cart from '../pages/Cart';
 
 export const TabBar = () => {
   const navigation = useNavigation()
@@ -28,7 +28,7 @@ export const TabBar = () => {
         case 'Rewards': 
         icon =  'trophy-outline'
         break;
-        case 'ListeCommandes':
+        case 'Cart':
         icon= 'fast-food-outline';
         break;
     }
@@ -43,7 +43,7 @@ export const TabBar = () => {
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     return (
       <TouchableOpacity
-        onPress={() => navigate(routeName)}
+        onPress={() => navigation.navigate(routeName)}
         style={{
           flex: 1,
           alignItems: 'center',
@@ -67,12 +67,12 @@ export const TabBar = () => {
           borderTopLeftRight
           screenOptions={{
             headerShown:false,
-            
+            tabBarHideOnKeyboard:true,
           }}
           renderCircle={({ selectedTab }) => (
             <Animated.View style={styles.btnCircle}>
               <TouchableOpacity
-              onPress={()=> navigation.push('qrCode')}
+              onPress={()=> navigation.navigate('qrCode')}
                 style={{
                   flex: 1,
                   justifyContent: 'center',
@@ -99,8 +99,8 @@ export const TabBar = () => {
             position="RIGHT"
           />
              <CurvedBottomBar.Screen
-            name="ListeCommandes"
-            component={ListeCommandes}
+            name="Cart"
+            component={Cart}
             position="RIGHT"
           />
         </CurvedBottomBar.Navigator>

@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useFonts } from "expo-font";
+
 import { disconnectUser } from "../api/Disconnect";
 import { getuser } from "../api/getUser";
 
@@ -29,9 +29,9 @@ const MENUs = [
   },
 
   {
-    name: "Notifications",
-    label: "Notifications",
-    icon: "notifications-outline",
+    name:  'Cart',
+    label: "Liste Commandes",
+    icon: "fast-food-outline",
   },
   {
     name: "Settings",
@@ -49,14 +49,19 @@ const CustomDrawerContent = ({ navigation }) => {
  const handleDisconnect = async()=>  await disconnectUser(navigation);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [fontsLoaded] = useFonts({
-    Cairo: require("../assets/fonts/Cairo-Regular.ttf"),
-    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return null;
+  function greet() {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+  
+    if (currentHour < 12) {
+      return "Bonjour , et bon appetit";
+    } else {
+      return "Bonsoir , et bon appetit";
+    }
   }
+  
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.box}>
@@ -69,7 +74,7 @@ const CustomDrawerContent = ({ navigation }) => {
             />
           </View>
           <View style={styles.txtContainer}>
-            <Text style={styles.txt}>{user?.username}</Text>
+            <Text style={styles.txt}>{greet()}</Text>
             
           </View>
         </View>
@@ -177,10 +182,11 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   txt: {
-    fontSize: 18,
+    fontSize: 16,
+    
     fontFamily: "Cairo",
-    fontWeight: "bold",
-    color:'#FB8703'
+
+  
   },
   textbold: {
     fontWeight: "bold",
