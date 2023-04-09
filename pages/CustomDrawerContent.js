@@ -10,18 +10,16 @@ import React, { useEffect, useState } from "react";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Ionicons from "react-native-vector-icons/Ionicons";
-
-import { disconnectUser } from "../api/Disconnect";
 import { getuser } from "../api/getUser";
-
+import { disconnect } from "../api/axios";
+import { CommonActions } from "@react-navigation/native";
 
 const MENUs = [
-   {
-
+  {
     name: "HomePage",
     label: "Acceuil",
     icon: "home-outline",
-   },
+  },
   {
     name: "Account",
     label: "Compte",
@@ -29,38 +27,36 @@ const MENUs = [
   },
 
   {
-    name:  'Cart',
+    name: "Cart",
     label: "Liste Commandes",
     icon: "fast-food-outline",
   },
-  {
-    name: "Settings",
-    label: "Paramétres",
-    icon: "settings-outline",
-  },
 ];
 
-
-
-
 const CustomDrawerContent = ({ navigation }) => {
-  const user = getuser()
- 
- const handleDisconnect = async()=>  await disconnectUser(navigation);
+  const user = getuser();
+
+
+  async function handleOffline() {
+    try {
+      await disconnect();
+      navigation.navigate('StackScreens' , {screen : 'LoginPage'})
+    } catch (error) {
+      console.log("Error while disconnecting:", error);
+    }
+  }
 
   const [activeIndex, setActiveIndex] = useState(0);
   function greet() {
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
-  
+
     if (currentHour < 12) {
       return "Bonjour , et bon appetit";
     } else {
       return "Bonsoir , et bon appetit";
     }
   }
-  
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,13 +65,12 @@ const CustomDrawerContent = ({ navigation }) => {
           <View style={styles.ImgContainer}>
             <Image
               style={styles.userImg}
-              source={require('../assets/images/user.jpg')}
+              source={require("../assets/images/user.jpg")}
               resizeMode="contain"
             />
           </View>
           <View style={styles.txtContainer}>
             <Text style={styles.txt}>{greet()}</Text>
-            
           </View>
         </View>
       </View>
@@ -89,7 +84,7 @@ const CustomDrawerContent = ({ navigation }) => {
           return (
             <DrawerItem
               onPress={() => {
-                navigation.navigate("StackScreens", { screen: menu.name });;
+                navigation.navigate("StackScreens", { screen: menu.name });
                 setActiveIndex(index);
               }}
               activeTintColor="#D3D3D3"
@@ -125,19 +120,19 @@ const CustomDrawerContent = ({ navigation }) => {
         })}
       </DrawerContentScrollView>
       <View style={{ marginBottom: 27, marginLeft: 30 }}>
-      <TouchableOpacity style={styles.contents}
-           onPress={()=>{
-            handleDisconnect()
-           }}
-          >
-        <View style={styles.contents}>
-        
+        <TouchableOpacity
+          style={styles.contents}
+          onPress={() => {
+            //handleDisconnect()
+            handleOffline();
+          }}
+        >
+          <View style={styles.contents}>
             <FontAwesome5 name="power-off" size={24} color="#C0C0C0" />
             <Text style={{ marginLeft: 10, fontWeight: "bold" }}>
               se déconnecter
             </Text>
-        
-        </View>
+          </View>
         </TouchableOpacity>
         <View style={{ marginTop: 23 }}>
           <Text style={{ color: "gray" }}> version 1.0.0</Text>
@@ -183,10 +178,8 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 16,
-    
-    fontFamily: "Cairo",
 
-  
+    fontFamily: "Cairo",
   },
   textbold: {
     fontWeight: "bold",

@@ -88,7 +88,7 @@ const PlaceScreen = ({ navigation, route }) => {
           <View style={{width:'100%' , height:'100%' , alignItems:'center',}}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.push("qrCode")}
+            onPress={() => navigation.navigate('StackScreens' , { screen :'QrScanner'})}
           >
             <Ionicons name="qr-code-outline" size={24} color="white" />
             <Text

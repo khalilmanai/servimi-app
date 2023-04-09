@@ -23,7 +23,7 @@ const HomePage = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{ height: 100, margin: "2%" }}>
+      <View style={{ height: 160, margin: "2%" }}>
         <UserPanel />
       </View>
       <View style={{ margin: "2%" }}>

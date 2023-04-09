@@ -21,6 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ItemPage from "../pages/ItemPage";
 import ItemCard from "../Components/ItemCard";
 import ImgTest from "../Components/imgTest";
+import ResetPassword from "../pages/ResetPassword";
 import Cart from "../pages/Cart";
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -30,13 +31,23 @@ function StackScreens() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const checkLoginStatus = async () => {
+      const loggedIn = await isUserLoggedIn();
+      setIsLoggedIn(loggedIn);
+    }
     checkLoginStatus();
   }, []);
-
-  const checkLoginStatus = async () => {
-    const user = await AsyncStorage.getItem("user");
-    setIsLoggedIn(!!user);
+  
+  const isUserLoggedIn = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (token !== null) {
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      return true;
+    } else {
+      return false;
+    }
   };
+  
 
   return (
     <Stack.Navigator
@@ -58,7 +69,8 @@ function StackScreens() {
       <Stack.Screen name="HomePage" component={HomePage} />
       <Stack.Screen name="TabScreens" component={TabScreens} />
       <Stack.Screen name="Favorites" component={Favorites} />
-      <Stack.Screen name="qrCode" component={QRScanner} />
+      <Stack.Screen name="QrScanner" component={QRScanner} />
+      <Stack.Screen name="ResetPassword"  component={ResetPassword} />
       <Stack.Screen name='Cart' component={Cart} />
       <Stack.Screen name="PlaceScreen" component={PlaceScreen} />
       <Stack.Screen name="Settings" component={Settings} />

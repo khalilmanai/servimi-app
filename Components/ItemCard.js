@@ -1,18 +1,33 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity , Alert} from "react-native";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { ApiManager } from "../api/axios";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setScanned } from "../redux/qrReducer";
 const ItemCard = ({ item }) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const scanned = useSelector((state)=> state.scan.scanned)
   const base64Image = `data:image/png;base64,${item.image}`;
+
+  function handleScan(){
+   if(!scanned){
+      navigation.navigate('StackScreens' , {screen : 'QrScanner'})
+    
+   }
+   }
 
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        navigation.navigate("StackScreens", { screen: "ItemScreen", params: item });
+        Alert.alert(
+          'Servimi',
+          'Veuiller scanner le QR code sur la table pour commander',
+          [
+            { text: 'Annuler', style: 'cancel', onPress: () => console.log('Cancel Pressed') },
+            { text: 'Scanner QR', onPress: () =>  navigation.navigate('StackScreens' , {screen : 'QrScanner'})},
+          ],
+        );
       }}
     >
       <View style={styles.box}>

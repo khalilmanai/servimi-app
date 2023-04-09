@@ -1,7 +1,8 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const baseUrl = "http://10.0.2.2:8081";
+import { Alert } from "react-native";
+// physical phone url http://192.168.1.15:8081
+const baseUrl = "http://192.168.1.15:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -19,34 +20,45 @@ export const getEtablissement = async () => {
   }
 };
 
-export const handleLogin = async (username, password) => {
-  this.username = username.toLowerCase();
+// Log in a user and store the token
+export const handlelogin = async (username, password) => {
   try {
-    const response = await ApiManager.post("/api/auth/signin", {
-      username: this.username,
+    const response = await ApiManager.post("/api/auth/authentification", {
+      username,
       password,
     });
+
     if (response.status === 200) {
       const token = response.data.token;
       await AsyncStorage.setItem("token", token);
-      await AsyncStorage.setItem("userData", JSON.stringify(response.data));
-      console.log("login successful");
+     ApiManager.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+      console.log("User logged in successfully");
       return true;
+    } else if (response.status == 401) {
+      Alert("verifier vos informations");
     } else {
       throw new Error("Invalid credentials");
     }
   } catch (error) {
-    console.error("Login error: ", error.message);
+    console.error("Login error:", error.message);
     return false;
   }
 };
 export const registerUser = async (userData) => {
   try {
     const response = await ApiManager.post("/api/auth/inscription", userData);
-    console.log("Successfully added a new account:", response.data);
-    return response.data;
+
+    if (response.status === 200) {
+      console.log("New account created successfully:", response.data);
+      return response.data;
+    } else {
+      throw new Error("Unexpected response status");
+    }
   } catch (error) {
-    console.error("Registration problem: ", error);
+    console.error("Registration error:", error.message);
+    return undefined;
   }
 };
 
@@ -85,5 +97,44 @@ export const creerCommande = async (commandeInfo) => {
   } catch (error) {
     console.error("saving problem: ", error);
     throw error;
+  }
+};
+
+// mot de passe oublié
+
+export const forgotPassword = async (email) => {
+  try {
+    const response = await ApiManager.post("/api/auth/oublier-mdp", email);
+    return response.data;
+  } catch (error) {
+    console.error("error in forgot password", error);
+    throw error;
+  }
+};
+
+// change account informations
+
+export const changeInformations = async (newData) => {
+  try {
+    const response = await ApiManager.post(
+      "/api/auth/reinitialisation-mdp",
+      newData
+    );
+    return response.data;
+  } catch (error) {
+    console.error("error in change user informations", error);
+    throw error;
+  }
+};
+
+export const disconnect = async () => {
+  try {
+    await AsyncStorage.removeItem("token");
+    ApiManager.defaults.headers.common["Authorization"] = "";
+    console.log("User logged out successfully");
+    return true;
+  } catch (error) {
+    console.error("Logout error:", error.message);
+    return false;
   }
 };

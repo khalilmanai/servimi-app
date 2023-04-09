@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import logo from "../assets/images/logo.png";
@@ -13,7 +14,7 @@ import google from "../assets/images/google.png";
 import Inputs from "../Components/Inputs";
 import facebook from "../assets/images/facebook.png";
 import { Dimensions } from "react-native";
-import { handleLogin } from "../api/fetch";
+import { handlelogin } from "../api/axios";
 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
@@ -51,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate("ResetPassword");
   };
   const gotoHome = () => {
-    navigation.replace ("TabScreens", { screen: "Home" });
+    navigation.replace("TabScreens", { screen: "Home" });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -82,13 +83,29 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={gotoReset} style={styles.passText}>
-        <Text style={styles.text}> mot de passe oublié ?</Text>
+        <Text
+          style={{
+            fontFamily: "Cairo",
+            fontSize: 16,
+            color: "blue",
+            margin: "1%",
+          }}
+        >
+          mot de passe oublié ?
+        </Text>
       </TouchableOpacity>
       <View style={styles.connectBtn}>
         <TouchableOpacity
-           onPress={async () => {
-            const result = await handleLogin(userName , password);
-            result ? gotoHome() : console.log('error logging');
+          onPress={async () => {
+            const result = await handlelogin(userName, password);
+            if (result) {
+              gotoHome();
+            } else {
+              Alert.alert(
+                "Login failed",
+                "Veuiller verifer vos informations"
+              );
+            }
           }}
         >
           <Text style={[styles.text, styles.connect]}>Se Connecter</Text>
@@ -103,7 +120,7 @@ const LoginScreen = ({ navigation }) => {
       </View>
       <View style={styles.divider} />
       <View style={styles.buttonBox}>
-        <View >
+        <View>
           <TouchableOpacity style={styles.gbutton}>
             <Image style={styles.icon} source={google} />
             <Text style={styles.text}>Connecter avec Google</Text>
@@ -128,7 +145,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   img: {
-    flex:4,
+    flex: 4,
     resizeMode: "contain",
     height: height / 2.5,
     width: width / 1.5,
@@ -154,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#D3D3D3",
-    margin:10,
+    margin: 10,
   },
   textContainer: {
     flexDirection: "row",
@@ -201,9 +218,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   buttonBox: {
-
-   marginBottom:50,
-
+    marginBottom: 50,
   },
 });
 

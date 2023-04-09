@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import ItemCard from "../Components/ItemCard";
 import UserPanel from "../Components/UserPanel";
@@ -13,33 +20,33 @@ const ItemList = ({ route }) => {
 
   const dispatch = useDispatch();
 
-  const fetchCategories = useCallback(() => {
-    setLoading(true);
-    getCategorie(place.etabId)
-      .then((data) => {
-        data[0].menuItems.map((item) => {
-          dispatch(addItem(item));
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        // Display a user-friendly error message
-      })
-      .finally(() => setLoading(false));
-  }, [dispatch, place.etabId]);
-
+  async function fetchCategories() {
+    try {
+      setLoading(true);
+      const data = await getCategorie(place.etabId);
+      data[0].menuItems.forEach((item) => {
+        dispatch(addItem(item));
+      });
+    } catch (error) {
+      console.log("problem fetching item list", error);
+      // Display a user-friendly error message
+    } finally {
+      setLoading(false);
+    }
+  }
+  
   useEffect(() => {
     fetchCategories();
-  }, [fetchCategories]);
-
-  const handleRefresh = useCallback(() => {
+  }, []);
+  
+  function handleRefresh() {
     setRefreshing(true);
-    fetchCategories();
-    setRefreshing(false);
-  }, [fetchCategories]);
+    fetchCategories().then(() => setRefreshing(false));
+  }
+  
 
   const items = useSelector((state) => state.item);
-console.log(items)
+  console.log(items);
   return (
     <View style={styles.container}>
       <UserPanel />
@@ -52,7 +59,9 @@ console.log(items)
           data={items}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           renderItem={({ item }) => <ItemCard item={item} />}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
         />
       )}
     </View>
@@ -64,11 +73,11 @@ export default ItemList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

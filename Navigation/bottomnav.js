@@ -72,7 +72,7 @@ export const TabBar = () => {
           renderCircle={({ selectedTab }) => (
             <Animated.View style={styles.btnCircle}>
               <TouchableOpacity
-              onPress={()=> navigation.navigate('qrCode')}
+              onPress={()=> navigation.navigate("StackScreens" , {screen : 'QrScanner'})}
                 style={{
                   flex: 1,
                   justifyContent: 'center',

@@ -16,12 +16,10 @@ const user = getuser()
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.userContainer}>
-          <TouchableOpacity>
-            <Image style={styles.userImg} source={require('../assets/images/user.jpg')} />
-          </TouchableOpacity>
+        
           <View style={styles.textContainer}>
-            <Text style={styles.welcomeText}>Bienvenue!</Text>
-            <Text style={styles.username}>{user?.username}</Text>
+            <Text style={styles.welcomeText}>Bienvenue dans </Text>
+            <Text style={{marginTop :-10, fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>Servimi</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -64,18 +62,17 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
-    flexDirection: "column",
-    margin: 10,
+    width:'80%',
+    justifyContent:'center',
+
   },
   welcomeText: {
     fontFamily: "Cairo",
-    fontSize: 16,
-    fontWeight: "800",
+    fontSize : 24,
   },
   welcomeText: {
     fontFamily: "Cairo",
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 32,
   },
   username: {
     fontFamily: "Cairo",

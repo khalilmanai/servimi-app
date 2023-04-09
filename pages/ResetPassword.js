@@ -1,36 +1,59 @@
-import React from "react";
-import { View  , Text , Image  , StyleSheet} from "react-native";
-import passImg from '../assets/images/passImg.png'
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
+import passImg from "../assets/images/passImg.png";
 import InfoTemplate from "./InfoTemplate";
-import Inputs from '../Components/Inputs'
-import { useFonts } from "expo-font";
-const ResetPassword = () => {
-  const [fontsLoaded] = useFonts({
-    Cairo: require("../assets/fonts/Cairo-Regular.ttf"),
-    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
-  });
+import Inputs from "../Components/Inputs";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { forgotPassword } from "../api/axios";
 
-  if (!fontsLoaded) {
-    return null
+export const ResetPassword = () => {
+  const [email, setEmail] = useState("");
+  const handleEmailChange = (value) => {
+    setEmail(value);
   };
 
-  const continuePressed = ()=>{
-     navigation.navigate('LoginScreen')
-  }
+  const continuePressed = () => {
+    navigation.navigate("LoginScreen");
+  };
+  const onSendPress = (email) => {
+    forgotPassword(email);
+  };
+
   return (
-    <View style={styles.container}>
-      <InfoTemplate text='Reset Votre mot de passe' />
+    <SafeAreaView style={styles.container}>
+      <InfoTemplate text="re-initialiser votre mot du passe" />
       <Image source={passImg} style={styles.img} />
-    <View style={styles.textContainer}>
-    <Text style={styles.text1}>C'est normal tout le monde a vécu ça</Text>
-      <Text style={styles.text2}>Veuiller entre votre email</Text>
-    </View>
-      <Inputs styl={styles.input} label="Email" />
-      <View style={styles.bottomText}>
-        <Text style={styles.policeText}>Polices et termes d'utilisation</Text>
-        <Text style={styles.aideText}>Aide</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.text1}>C'est normal tout le monde a vécu ça</Text>
+        <Text style={styles.text2}>Veuiller entre votre email</Text>
       </View>
-    </View>
+      <View style={styles.inputContainer}>
+        <Inputs
+          style={styles.input}
+          label="Email"
+          placeholder="Email"
+          type="email-address"
+          changeValue={handleEmailChange}
+          value={email}
+        />
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => {
+            onSendPress(email);
+          }}
+        >
+          <Ionicons name="send" size={32} color="#FB8703" />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -38,52 +61,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    alignItems:'center',
-    marginTop:90,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "10%",
   },
   img: {
-    flex:2,
-    justifyContent:"center",
-    alignItems:"center",
-    margin:100,
-    flex:6,
-    resizeMode : 'contain',
-    height: 400,
-    width: 400,
+    justifyContent: "center",
+    alignItems: "center",
+    resizeMode: "cover",
+    marginTop: "10%",
+    height: "40%",
+    width: "80%",
   },
-  textContainer : {
-    flex:2,
-    alignItems:'center'
-  },
-  Text1: {
-    fontFamily: "Cairo",
-    fontSize: 16,
-    fontWeight:'bold'
-  },
-  text2: {
-    fontFamily:'Cairo',
-    color: "#FB8703",
-    textDecorationLine: "underline",
-    fontSize: 16,
-  },
-  input: {
-    width: "60%",
-  },
-
-  bottomText: {
-    margin: 20,
-    textAlign: "center",
+  textContainer: {
+    flex: 2,
     alignItems: "center",
   },
-  policeText: {
+  text1: {
     fontFamily: "Cairo",
-    textDecorationLine: "underline",
-    color: "#FB8703",
+    fontSize: 18,
   },
-  aideText: {
-    marginTop: 5,
+  text2: {
     fontFamily: "Cairo",
+    color: "#FB8703",
     textDecorationLine: "underline",
+    fontSize: 16,
+  },
+  inputContainer: {
+    flex: 3,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    marginLeft: "-15%",
   },
 });
 
