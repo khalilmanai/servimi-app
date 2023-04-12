@@ -1,20 +1,12 @@
 import React from "react";
 import qrImg from "../assets/images/qr-code.png";
 import { View, Text, StyleSheet, Image} from "react-native";
-import { useFonts } from "expo-font";
 import ContinueButton from "../Components/ContinueButton";
 const SecondScreen = ({ navigation }) => {
-  const [fontsLoaded] = useFonts({
-    Cairo: require("../assets/fonts/Cairo-Regular.ttf"),
-    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
-  });
 
-  if (!fontsLoaded) {
-    return null;
-  }
 
   const continuePressed = () => {
-    navigation.replace("Acceuil");
+    navigation.replace("LoginScreen");
   };
 
   return (

@@ -48,7 +48,7 @@ const InputsScreen = ({ navigation }) => {
   };
 
   const goto = () => {
-    navigation.navigate("LoginPage");
+    navigation.navigate("LoginScreen");
   };
 
   return (

@@ -37,14 +37,6 @@ const CustomDrawerContent = ({ navigation }) => {
   const user = getuser();
 
 
-  async function handleOffline() {
-    try {
-      await disconnect();
-      navigation.navigate('StackScreens' , {screen : 'LoginPage'})
-    } catch (error) {
-      console.log("Error while disconnecting:", error);
-    }
-  }
 
   const [activeIndex, setActiveIndex] = useState(0);
   function greet() {
@@ -123,8 +115,7 @@ const CustomDrawerContent = ({ navigation }) => {
         <TouchableOpacity
           style={styles.contents}
           onPress={() => {
-            //handleDisconnect()
-            handleOffline();
+         disconnect(navigation)
           }}
         >
           <View style={styles.contents}>

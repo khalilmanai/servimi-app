@@ -15,12 +15,16 @@ import Inputs from "../Components/Inputs";
 import facebook from "../assets/images/facebook.png";
 import { Dimensions } from "react-native";
 import { handlelogin } from "../api/axios";
+import { useDispatch, useSelector } from "react-redux";
+
+
 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const dispatch = useDispatch()
 
   const handleUserNameChange = (value) => {
     setUserName(value);
@@ -39,6 +43,16 @@ const LoginScreen = ({ navigation }) => {
     //validate usernmae
   };
 
+   const connect =  async(username , password , dispatch , navigation)=>{
+    try {
+      const result = await handlelogin(userName, password , dispatch , navigation);
+       console.log('connected Succesfully') 
+      return true    
+    } catch(error){
+    console.error('problem connecting' , error)
+    }
+   }
+
   const [obscure, setObscure] = useState(true);
 
   const handleObscure = () => {
@@ -46,13 +60,10 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const goto = () => {
-    navigation.navigate("SignUpScreen");
+    navigation.navigate("InputsScreen");
   };
   const gotoReset = () => {
     navigation.navigate("ResetPassword");
-  };
-  const gotoHome = () => {
-    navigation.replace("TabScreens", { screen: "Home" });
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -96,16 +107,8 @@ const LoginScreen = ({ navigation }) => {
       </TouchableOpacity>
       <View style={styles.connectBtn}>
         <TouchableOpacity
-          onPress={async () => {
-            const result = await handlelogin(userName, password);
-            if (result) {
-              gotoHome();
-            } else {
-              Alert.alert(
-                "Login failed",
-                "Veuiller verifer vos informations"
-              );
-            }
+          onPress={ () => {
+           connect(userName , password , dispatch , navigation)
           }}
         >
           <Text style={[styles.text, styles.connect]}>Se Connecter</Text>

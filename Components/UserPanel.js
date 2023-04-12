@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getuser } from "../api/getUser";
 
 
-const UserPanel = () => {
+const UserPanel = (props) => {
 const user = getuser()
    const navigation = useNavigation()
 
@@ -18,8 +18,8 @@ const user = getuser()
         <View style={styles.userContainer}>
         
           <View style={styles.textContainer}>
-            <Text style={styles.welcomeText}>Bienvenue dans </Text>
-            <Text style={{marginTop :-10, fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>Servimi</Text>
+            <Text style={styles.welcomeText}>{props.headerText }</Text>
+            <Text style={{marginTop :-10, fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>{props.secondText}</Text>
           </View>
         </View>
         <TouchableOpacity

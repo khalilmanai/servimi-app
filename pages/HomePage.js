@@ -24,11 +24,10 @@ const HomePage = () => {
   return (
     <View style={styles.container}>
       <View style={{ height: 160, margin: "2%" }}>
-        <UserPanel />
+        <UserPanel headerText='Bienvenue dans' secondText='Servimi'/>
       </View>
       <View style={{ margin: "2%" }}>
         <SearchBar
-          ref={(search) => (this.search = search)}
           platform="default"
           containerStyle={styles.searchBarContainer}
           inputContainerStyle={styles.searchBarInputContainer}

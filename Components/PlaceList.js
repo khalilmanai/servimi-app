@@ -34,7 +34,7 @@ const PlaceList = () => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <View style={{ flex: 1, justifyContent: "center" }}>
+        <View style={{ flex: 1, justifyContent: "center", marginBottom:'50%' }}>
           <ActivityIndicator size="large" color="#FB8703" />
         </View>
       ) : (

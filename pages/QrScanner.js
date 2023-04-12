@@ -4,7 +4,8 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
-import { setScanned } from "../redux/qrReducer";
+import { setScanned , setData } from "../redux/qrReducer";
+
 
 export default function QRScanner({ navigation }) {
   const dispatch = useDispatch();
@@ -19,25 +20,22 @@ export default function QRScanner({ navigation }) {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+const handleBarCodeScanned = ({ type, data }) => {
     dispatch(setScanned(true));
+    dispatch(setData(data))
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     console.log(data);
-    navigation.navigate("StackScreens", { screen: "ItemList", params: data });
+    return true
   };
 
   const handleScanAgain = () => {
     dispatch(setScanned(false));
   };
+  
 
   return (
     <View style={styles.container}>
-      {scanned ? (
-        <View style={styles.success}>
-          <Text style={styles.successText}>Barcode scanned successfully!</Text>
-          <Button title="Scan Again" onPress={handleScanAgain} />
-        </View>
-      ) : (
+      {scanned ? navigation.navigate('StackScreens' , {screen:'Cart'}) : (
         <View style={styles.cameraView}>
           <TouchableOpacity
             style={{ zIndex: 999, justifyContent: "flex-start" }}
@@ -68,7 +66,6 @@ export default function QRScanner({ navigation }) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

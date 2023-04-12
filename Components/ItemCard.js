@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setScanned } from "../redux/qrReducer";
-const ItemCard = ({ item }) => {
+const ItemCard = ({ item} , route) => {
+  const data = route.params
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const scanned = useSelector((state)=> state.scan.scanned)
@@ -18,8 +19,9 @@ const ItemCard = ({ item }) => {
 
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={styles.container} 
       onPress={() => {
+      if(data == null){
         Alert.alert(
           'Servimi',
           'Veuiller scanner le QR code sur la table pour commander',
@@ -28,6 +30,9 @@ const ItemCard = ({ item }) => {
             { text: 'Scanner QR', onPress: () =>  navigation.navigate('StackScreens' , {screen : 'QrScanner'})},
           ],
         );
+      }else {
+        navigation.navigate('StackScreens' , {screen : 'ItemScreen'})
+      }
       }}
     >
       <View style={styles.box}>

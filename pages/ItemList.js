@@ -15,10 +15,12 @@ import { addItem } from "../redux/ItemReducer";
 
 const ItemList = ({ route }) => {
   const place = route.params;
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
+  
 
   async function fetchCategories() {
     try {
@@ -49,7 +51,7 @@ const ItemList = ({ route }) => {
   console.log(items);
   return (
     <View style={styles.container}>
-      <UserPanel />
+      <UserPanel headerText='Votre liste des' secondText='Aliments'/>
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#FB8703" />

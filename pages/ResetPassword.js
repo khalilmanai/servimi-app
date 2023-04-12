@@ -20,12 +20,7 @@ export const ResetPassword = () => {
     setEmail(value);
   };
 
-  const continuePressed = () => {
-    navigation.navigate("LoginScreen");
-  };
-  const onSendPress = (email) => {
-    forgotPassword(email);
-  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +28,7 @@ export const ResetPassword = () => {
       <Image source={passImg} style={styles.img} />
       <View style={styles.textContainer}>
         <Text style={styles.text1}>C'est normal tout le monde a vécu ça</Text>
-        <Text style={styles.text2}>Veuiller entre votre email</Text>
+        <Text style={styles.text2}>Veuiller entrer votre email</Text>
       </View>
       <View style={styles.inputContainer}>
         <Inputs
@@ -46,9 +41,11 @@ export const ResetPassword = () => {
         />
         <TouchableOpacity
           style={styles.icon}
-          onPress={() => {
-            onSendPress(email);
-          }}
+       onPress={async()=>{
+        console.log(email)
+        forgotPassword(email)
+       
+       }}
         >
           <Ionicons name="send" size={32} color="#FB8703" />
         </TouchableOpacity>

@@ -1,30 +1,27 @@
-import { StyleSheet, Text, View , FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import React from "react";
 import CategorieData from "../utils/CategorieData";
 
-export const CategorieList = ()=>{
+export const CategorieList = () => {
   return (
-    <View style={styles.ListContainer}>
-        <FlatList
+    <View style={styles.container }>
+      <FlatList
+      horizontal:true
         data={CategorieData}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <Categorie item={item} />}
       />
     </View>
-  )
-}
+  );
+};
 
-
-
-
-const Categorie = ({item}) => {
+const Categorie = ({ item }) => {
   return (
     <View style={styles.container}>
-   <View style={styles.box}>
-    <Text>{item.title}</Text>
-  </View>
-  </View>
-
+      <View style={styles.box}>
+        <Text>{item.title}</Text>
+      </View>
+    </View>
   );
 };
 
@@ -36,5 +33,5 @@ const styles = StyleSheet.create({
     height: 70,
     width: "100%",
   },
-  box:{ alignSelf: 'center',borderWidth:1,borderRadius:10, padding: 12},
+  box: { alignSelf: "center", borderWidth: 1, borderRadius: 10, padding: 12 },
 });

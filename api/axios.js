@@ -1,8 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-// physical phone url http://192.168.1.15:8081
-const baseUrl = "http://192.168.1.15:8081";
+import { setRole } from "../redux/userSlice";
+
+const baseUrl = "http://10.0.2.2:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -20,8 +21,8 @@ export const getEtablissement = async () => {
   }
 };
 
-// Log in a user and store the token
-export const handlelogin = async (username, password) => {
+
+export const handlelogin = async (username, password , dispatch , navigation) => {
   try {
     const response = await ApiManager.post("/api/auth/authentification", {
       username,
@@ -29,13 +30,12 @@ export const handlelogin = async (username, password) => {
     });
 
     if (response.status === 200) {
-      const token = response.data.token;
+      const { token, role } = response.data; // get the token and role from the response
       await AsyncStorage.setItem("token", token);
-     ApiManager.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${token}`;
+      dispatch(setRole(role))
       console.log("User logged in successfully");
-      return true;
+      role == 'ROLE_WAITER'? navigation.navigate('WaiterStack' , {screen : 'WaiterHome'}) :navigation.navigate('StackScreens' , {screen : 'HomePage'}) 
+      return { success: true, role }; // return the role along with the success message
     } else if (response.status == 401) {
       Alert("verifier vos informations");
     } else {
@@ -43,9 +43,11 @@ export const handlelogin = async (username, password) => {
     }
   } catch (error) {
     console.error("Login error:", error.message);
-    return false;
+    return { success: false, error: error.message };
   }
 };
+
+
 export const registerUser = async (userData) => {
   try {
     const response = await ApiManager.post("/api/auth/inscription", userData);
@@ -104,7 +106,9 @@ export const creerCommande = async (commandeInfo) => {
 
 export const forgotPassword = async (email) => {
   try {
-    const response = await ApiManager.post("/api/auth/oublier-mdp", email);
+    const response = await ApiManager.post("/api/auth/oublier-mdp", {
+      email: email,
+    });
     return response.data;
   } catch (error) {
     console.error("error in forgot password", error);
@@ -114,7 +118,7 @@ export const forgotPassword = async (email) => {
 
 // change account informations
 
-export const changeInformations = async (newData) => {
+export const resetPassword = async (newData) => {
   try {
     const response = await ApiManager.post(
       "/api/auth/reinitialisation-mdp",
@@ -127,14 +131,25 @@ export const changeInformations = async (newData) => {
   }
 };
 
-export const disconnect = async () => {
+
+export const disconnect = async (navigation) => {
+
   try {
-    await AsyncStorage.removeItem("token");
-    ApiManager.defaults.headers.common["Authorization"] = "";
-    console.log("User logged out successfully");
-    return true;
+    await AsyncStorage.removeItem('token');
+    const token = await AsyncStorage.getItem('token');
+    console.log(token)
+    if (token === null) {
+      ApiManager.defaults.headers.common['Authorization'] = '';
+      console.log('User logged out successfully');
+      navigation.navigate('SecondScreen')
+      return true;
+    } else {
+      console.error('Logout error: Token was not removed from AsyncStorage');
+      return false;
+    }
   } catch (error) {
-    console.error("Logout error:", error.message);
+    console.error('Logout error:', error.message);
     return false;
   }
 };
+

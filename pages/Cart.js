@@ -15,6 +15,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.total);
+  const scannedData = useSelector((state) => state.qrCodeScanner.data);
   const handleRemoveFromCart = (product) => {
     dispatch(removeItemFromCart(product));
   };
@@ -29,8 +30,12 @@ const Cart = () => {
     try {
       const commandeInfo = {
         date: Date.now().toString(),
-        statut: "Ocupé",
+        statut: "non_paye",
+        t: {
+          tableId: scannedData,
+        },
         totalAddition: totalPrice,
+        totalTip: 0,
       };
       console.log(commandeInfo);
       const response = await creerCommande(commandeInfo);
