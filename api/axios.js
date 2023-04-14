@@ -2,8 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { setRole } from "../redux/userSlice";
-
-const baseUrl = "http://10.0.2.2:8081";
+//http://10.0.2.2:8081
+const baseUrl = "http://192.168.1.15:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -21,8 +21,7 @@ export const getEtablissement = async () => {
   }
 };
 
-
-export const handlelogin = async (username, password , dispatch , navigation) => {
+export const handlelogin = async (username, password, dispatch) => {
   try {
     const response = await ApiManager.post("/api/auth/authentification", {
       username,
@@ -30,14 +29,18 @@ export const handlelogin = async (username, password , dispatch , navigation) =>
     });
 
     if (response.status === 200) {
-      const { token, role } = response.data; // get the token and role from the response
+      const { token, role } = response.data; // get the token and role from the respons
+      dispatch(setRole(role));
       await AsyncStorage.setItem("token", token);
-      dispatch(setRole(role))
+      console.log(role);
+
       console.log("User logged in successfully");
-      role == 'ROLE_WAITER'? navigation.navigate('WaiterStack' , {screen : 'WaiterHome'}) :navigation.navigate('StackScreens' , {screen : 'HomePage'}) 
+
       return { success: true, role }; // return the role along with the success message
     } else if (response.status == 401) {
       Alert("verifier vos informations");
+    } else if (response.status == 400) {
+      Alert("veuiller inserer des informations");
     } else {
       throw new Error("Invalid credentials");
     }
@@ -47,20 +50,15 @@ export const handlelogin = async (username, password , dispatch , navigation) =>
   }
 };
 
-
 export const registerUser = async (userData) => {
-  try {
-    const response = await ApiManager.post("/api/auth/inscription", userData);
+  const response = await ApiManager.post("/api/auth/inscription", userData);
 
-    if (response.status === 200) {
-      console.log("New account created successfully:", response.data);
-      return response.data;
-    } else {
-      throw new Error("Unexpected response status");
-    }
-  } catch (error) {
-    console.error("Registration error:", error.message);
-    return undefined;
+  if (response.status === 200) {
+    console.log("New account created successfully:", response.data);
+    return response.data;
+  } else {
+    console.error("Unexpected response status:", response.status);
+    throw new Error("Registration failed");
   }
 };
 
@@ -69,24 +67,12 @@ export const getCategorie = async (etabId) => {
     const response = await ApiManager.get(
       `/solutionprisecommandeatable/v1/MANAGER/filter/${etabId}`
     );
+
     return response.data;
   } catch (error) {
     console.error(error);
   }
 };
-
-export const fetchImage = async (ItemId) => {
-  try {
-    const response = await ApiManager.get(
-      `/solutionprisecommandeatable/v1/MANAGER/filter/${ItemId}`
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-///  API commandes
 
 export const creerCommande = async (commandeInfo) => {
   try {
@@ -131,25 +117,58 @@ export const resetPassword = async (newData) => {
   }
 };
 
-
-export const disconnect = async (navigation) => {
-
+export const disconnect = async (navigation, role) => {
   try {
-    await AsyncStorage.removeItem('token');
-    const token = await AsyncStorage.getItem('token');
-    console.log(token)
+    await AsyncStorage.removeItem("token");
+    const token = await AsyncStorage.getItem("token");
+    console.log(token);
     if (token === null) {
-      ApiManager.defaults.headers.common['Authorization'] = '';
-      console.log('User logged out successfully');
-      navigation.navigate('SecondScreen')
+      ApiManager.defaults.headers.common["Authorization"] = "";
+      console.log("User logged out successfully");
+      navigation.navigate("SecondScreen");
       return true;
     } else {
-      console.error('Logout error: Token was not removed from AsyncStorage');
+      console.error("Logout error: Token was not removed from AsyncStorage");
       return false;
     }
   } catch (error) {
-    console.error('Logout error:', error.message);
+    console.error("Logout error:", error.message);
     return false;
   }
 };
+ //error in this request , command is not being validated
+// axios http requests to server
+export const getCommandesServeur = async () => {
+  try {
+    const { data: commandes } = await ApiManager.get("/solutionprisecommandeatable/v1/WAITER/commandes");
+
+    const tableIds = commandes.map((commande) => commande.comid);
+
+    const responses = await axios.all(
+      tableIds.map((tableId) => ApiManager.get(`/solutionprisecommandeatable/v1/commandeClientByComId/${tableId}`))
+    );
+
+    const data = responses.map((response) => response.data[0]);
+
+    const items = data.flatMap(({ items }) => items);
+    const supps = data.flatMap(({ supps }) => supps);
+
+    const { data: itemsResponseData } = await ApiManager.get(`/solutionprisecommandeatable/v1/MANAGERafficher/${items.join(',')}`);
+    const { data: suppsResponseData } = await ApiManager.get(`/solutionprisecommandeatable/v1/afficherSupplement/${supps.join(',')}`);
+
+    // return an object containing all the relevant data
+    return {
+      commandes,
+      data,
+      itemsResponseData,
+      suppsResponseData
+    };
+
+  } catch (error) {
+    console.error("error in receiving command from api", error);
+    throw new Error(error);
+  }
+};
+
+
 

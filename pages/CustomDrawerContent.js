@@ -13,7 +13,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { getuser } from "../api/getUser";
 import { disconnect } from "../api/axios";
 import { CommonActions } from "@react-navigation/native";
-
+import { useSelector } from "react-redux";
 const MENUs = [
   {
     name: "HomePage",
@@ -35,7 +35,7 @@ const MENUs = [
 
 const CustomDrawerContent = ({ navigation }) => {
   const user = getuser();
-
+const  role = useSelector(state=> state.role.role)
 
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -115,7 +115,7 @@ const CustomDrawerContent = ({ navigation }) => {
         <TouchableOpacity
           style={styles.contents}
           onPress={() => {
-         disconnect(navigation)
+         disconnect(navigation , role)
           }}
         >
           <View style={styles.contents}>

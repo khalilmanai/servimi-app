@@ -11,6 +11,9 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import StackScreens from "./Navigation/StackScreens";
 import WaiterStack from "./Navigation/WaiterStack";
+import SecondScreen from "./pages/SecondScreen";
+import LoginScreen from "./pages/LoginScreen";
+import InputsScreen from "./pages/InputsScreen";
 
 export default function App() {
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Drawer.Navigator
-          initialRouteName="StackScreens"
+          initialRouteName="FirstScreen"
           overlayColor="transparent"
           drawerType="slide"
           drawerStyle={{ flex: 1, width: 240, backgroundColor: "transparent" }}
@@ -46,6 +49,9 @@ export default function App() {
             headerShown: false,
           }}
         >
+          <Drawer.Screen name='FirstScreen' component={SecondScreen} />
+          <Drawer.Screen name='LoginScreen' component={LoginScreen} />
+          <Drawer.Screen name='InputsScreen' component={InputsScreen} />
           <Drawer.Screen name="StackScreens" component={StackScreens} />
           <Drawer.Screen name="TabScreens" component={TabScreens} />
           <Drawer.Screen name="DrawerScreen" component={DrawerScreens} />

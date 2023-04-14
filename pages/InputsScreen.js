@@ -18,28 +18,20 @@ const InputsScreen = ({ navigation }) => {
   };
   const handleEmailChange = (value) => {
     setEmail(value);
-    setUserNameError(validateEmail(value));
   };
 
   const handlePasswordChange = (value) => {
     setPassword(value);
-    setPasswordError(validatePassword(value));
   };
-  const validateEmail = (email) => {
-    // Email validation logic here
-  };
-  const validatePassword = (email) => {
-    // Email validation logic here
-  };
+
   const userData = {
     email: email,
     password: password,
     role: {
-      id : 3
+      id: 3
     },
     username: userName,
   };
-
 
   const [obscure, setObscure] = useState(true);
 
@@ -93,7 +85,7 @@ const InputsScreen = ({ navigation }) => {
       <BottomButtons
         onPressContinue={() => {
           registerUser(userData);
-          goto()
+          goto();
         }}
       />
     </ScrollView>

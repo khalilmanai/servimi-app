@@ -7,6 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Alert,
+  Platform,
 } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import logo from "../assets/images/logo.png";
@@ -16,7 +17,7 @@ import facebook from "../assets/images/facebook.png";
 import { Dimensions } from "react-native";
 import { handlelogin } from "../api/axios";
 import { useDispatch, useSelector } from "react-redux";
-
+import { KeyboardAvoidingView } from "react-native";
 
 
 const LoginScreen = ({ navigation }) => {
@@ -24,8 +25,8 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [userNameError, setUserNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
+  const role = useSelector((state) => state.role.role);
   const handleUserNameChange = (value) => {
     setUserName(value);
     setUserNameError(validateUserName(value));
@@ -43,15 +44,29 @@ const LoginScreen = ({ navigation }) => {
     //validate usernmae
   };
 
-   const connect =  async(username , password , dispatch , navigation)=>{
+  const connect = async (username, password, dispatch, navigation) => {
     try {
-      const result = await handlelogin(userName, password , dispatch , navigation);
-       console.log('connected Succesfully') 
-      return true    
-    } catch(error){
-    console.error('problem connecting' , error)
+      const { success, role } = await handlelogin(username, password, dispatch);
+      if (success) {
+        if (role === "ROLE_WAITER") {
+          navigation.navigate("WaiterStack", { screen: "WaiterHome" });
+        } else if (role === "ROLE_CLIENT") {
+          navigation.navigate("StackScreens", { screen: "HomePage" });
+        } else {
+          Alert.alert("servimi", "You are not eligible");
+        }
+
+        console.log("Connected successfully");
+        return true;
+      } else {
+        console.error("Problem connecting");
+        return false;
+      }
+    } catch (error) {
+      console.error("Problem connecting", error);
+      return false;
     }
-   }
+  };
 
   const [obscure, setObscure] = useState(true);
 
@@ -66,6 +81,11 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate("ResetPassword");
   };
   return (
+<KeyboardAvoidingView
+  behavior={Platform.OS === "ios" ? "padding" : "height"}
+  enabled={false}
+  style={styles.container}
+>
     <SafeAreaView style={styles.container}>
       <Image style={styles.img} source={logo} />
       <Inputs
@@ -107,8 +127,8 @@ const LoginScreen = ({ navigation }) => {
       </TouchableOpacity>
       <View style={styles.connectBtn}>
         <TouchableOpacity
-          onPress={ () => {
-           connect(userName , password , dispatch , navigation)
+          onPress={() => {
+            connect(userName, password, dispatch, navigation);
           }}
         >
           <Text style={[styles.text, styles.connect]}>Se Connecter</Text>
@@ -137,6 +157,7 @@ const LoginScreen = ({ navigation }) => {
         </View>
       </View>
     </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 // all buttons require Onpress function to be added after

@@ -2,13 +2,18 @@ import React from "react";
 import qrImg from "../assets/images/qr-code.png";
 import { View, Text, StyleSheet, Image} from "react-native";
 import ContinueButton from "../Components/ContinueButton";
+import { useSelector } from "react-redux";
+
 const SecondScreen = ({ navigation }) => {
 
+  const role = useSelector(state => state.role.role)
 
   const continuePressed = () => {
-    navigation.replace("LoginScreen");
-  };
 
+      navigation.navigate('LoginScreen')
+  
+  };
+  
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={qrImg} />
