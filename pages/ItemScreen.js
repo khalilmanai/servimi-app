@@ -3,13 +3,16 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { View, Text, StyleSheet , TouchableOpacity , Image } from "react-native";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../redux/cartReducers";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 
-const ItemScreen = ({ route}) => {
+const ItemScreen = () => {
+  const route = useRoute()
   const dispatch = useDispatch();
   const navigation = useNavigation()
-const item = route.params
+const params = route.params
+const {item} = params
+console.log(params)
 const addToCart = (item) => {
   dispatch(
     addItemToCart({
@@ -31,7 +34,7 @@ const addToCart = (item) => {
     }
   }
 
-  const base64Image = `data:image/png;base64,${item.image}`;
+  const base64Image = `data:image/png;base64,${item?.image}`;
 
   return (
     <View style={styles.container}>
@@ -49,9 +52,9 @@ const addToCart = (item) => {
       <View style={styles.detailsContainer}>
         <View style={styles.DetailsBox}>
           <View style={styles.textBox}>
-            <Text style={styles.name}>{item.nom}</Text>
-            <Text style={styles.description}>{item.description}</Text>
-            <Text style={styles.price}>{item.prix} DT</Text>
+            <Text style={styles.name}>{item?.nom}</Text>
+            <Text style={styles.description}>{item?.description}</Text>
+            <Text style={styles.price}>{item?.prix} DT</Text>
           </View>
           <View style={styles.buttonsBox}>
             <TouchableOpacity onPress={() => Increment()}>

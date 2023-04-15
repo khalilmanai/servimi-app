@@ -46,11 +46,12 @@ export default function App() {
             headerShown: false,
           }}
         >
+        <Drawer.Screen name="TabScreens" component={TabScreens} />
           <Drawer.Screen name='FirstScreen' component={SecondScreen} />
           <Drawer.Screen name='LoginScreen' component={LoginScreen} />
           <Drawer.Screen name='InputsScreen' component={InputsScreen} />
           <Drawer.Screen name="StackScreens" component={StackScreens} />
-          <Drawer.Screen name="TabScreens" component={TabScreens} />
+     
           <Drawer.Screen name="DrawerScreen" component={DrawerScreens} />
           <Drawer.Screen name="WaiterStack" component={WaiterStack} />
         </Drawer.Navigator>

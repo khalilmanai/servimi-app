@@ -3,14 +3,29 @@ import qrImg from "../assets/images/qr-code.png";
 import { View, Text, StyleSheet, Image} from "react-native";
 import ContinueButton from "../Components/ContinueButton";
 import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
-const SecondScreen = ({ navigation }) => {
+const SecondScreen = ({navigation}) => {
 
-  const role = useSelector(state => state.role.role)
 
-  const continuePressed = () => {
+  const continuePressed = async() => {
 
-      navigation.navigate('LoginScreen')
+     const token =  await AsyncStorage.getItem('token') 
+     const role = await AsyncStorage.getItem('role')
+           if(!token){
+            navigation.navigate('LoginScreen')
+           } else {
+            if (role === "ROLE_WAITER") {
+              navigation.navigate("WaiterStack", { screen: "WaiterHome" });
+            } else if (role === "ROLE_CLIENT") {
+              navigation.navigate("StackScreens", { screen: "HomePage" });
+            } else {
+              Alert.alert("servimi", "You are not eligible");
+            }
+       
+           }
+      
   
   };
   

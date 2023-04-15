@@ -34,6 +34,7 @@ export const handlelogin = async (username, password, dispatch) => {
       const { token, role } = response.data; // get the token and role from the respons
       dispatch(setRole(role));
       await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("role", role);
       console.log(role);
 
       console.log("User logged in successfully");
@@ -119,15 +120,16 @@ export const resetPassword = async (newData) => {
   }
 };
 
-export const disconnect = async (navigation, role) => {
+export const disconnect = async (navigation) => {
   try {
     await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("role");
     const token = await AsyncStorage.getItem("token");
     console.log(token);
     if (token === null) {
       ApiManager.defaults.headers.common["Authorization"] = "";
       console.log("User logged out successfully");
-      navigation.navigate("SecondScreen");
+      navigation.navigate("FirstScreen");
       return true;
     } else {
       console.error("Logout error: Token was not removed from AsyncStorage");

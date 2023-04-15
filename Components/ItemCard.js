@@ -21,7 +21,8 @@ const ItemCard = ({ item} , route) => {
     <TouchableOpacity
       style={styles.container} 
       onPress={() => {
-      if(data == null){
+        navigation.navigate('ItemScreen', { item: item})
+     /*  if(data == null){
         Alert.alert(
           'Servimi',
           'Veuiller scanner le QR code sur la table pour commander',
@@ -31,8 +32,8 @@ const ItemCard = ({ item} , route) => {
           ],
         );
       }else {
-        navigation.navigate('StackScreens' , {screen : 'ItemScreen'})
-      }
+     
+      } */
       }}
     >
       <View style={styles.box}>

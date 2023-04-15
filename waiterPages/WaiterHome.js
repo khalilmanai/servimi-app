@@ -14,7 +14,7 @@ const WaiterHome = ({ navigation }) => {
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const handleCommandPress = (item) => {
+  const handleCommandPress = () => {
     navigation.navigate("CommandeScreen", { command: commandes });
   };
   useEffect(() => {

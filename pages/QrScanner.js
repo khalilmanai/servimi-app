@@ -4,12 +4,13 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
-import { setScanned , setData } from "../redux/qrReducer";
+import { setScanned, setData } from "../redux/qrReducer";
+import { useNavigation } from "@react-navigation/native";
 
-
-export default function QRScanner({ navigation }) {
+export default function QRScanner() {
   const dispatch = useDispatch();
   const scanned = useSelector((state) => state.scan.scanned);
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -20,49 +21,47 @@ export default function QRScanner({ navigation }) {
     })();
   }, []);
 
-const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = ({ type, data }) => {
     dispatch(setScanned(true));
-    dispatch(setData(data))
+    dispatch(setData(data));
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    navigation.navigate('StackScreens' , {screen:'ItemScreen'})
     console.log(data);
-    return true
+    return true;
   };
 
   const handleScanAgain = () => {
     dispatch(setScanned(false));
   };
-  
 
   return (
     <View style={styles.container}>
-      {scanned ? navigation.navigate('StackScreens' , {screen:'Cart'}) : (
-        <View style={styles.cameraView}>
-          <TouchableOpacity
-            style={{ zIndex: 999, justifyContent: "flex-start" }}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Ionicons name="close" size={32} color="#FB8703" />
+      <View style={styles.cameraView}>
+        <TouchableOpacity
+          style={{ zIndex: 999, justifyContent: "flex-start" }}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Ionicons name="close" size={32} color="#FB8703" />
+        </TouchableOpacity>
+        <BarCodeScanner
+          onBarCodeScanned={handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+        <View
+          style={{
+            justifyContent: "flex-end",
+            height: "100%",
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity style={styles.btn} onPress={handleScanAgain}>
+            <Text style={styles.text}>Scan Again</Text>
           </TouchableOpacity>
-          <BarCodeScanner
-            onBarCodeScanned={handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
-          />
-          <View
-            style={{
-              justifyContent: "flex-end",
-              height: "100%",
-              width: "100%",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity style={styles.btn} onPress={handleScanAgain}>
-              <Text style={styles.text}>Scan Again</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      )}
+      </View>
     </View>
   );
 }
