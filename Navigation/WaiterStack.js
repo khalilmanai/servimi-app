@@ -3,6 +3,7 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import WaiterHome from '../waiterPages/WaiterHome'
 import SecondScreen from '../pages/SecondScreen'
+import CommandeScreen from '../waiterPages/CommandeScreen'
 
 const WaiterStack = () => {
     const WaiterStack = createStackNavigator()
@@ -14,6 +15,7 @@ const WaiterStack = () => {
     >
         <WaiterStack.Screen name="WaiterHome" component={WaiterHome} />
         <WaiterStack.Screen name='EntryScreen' component={SecondScreen} />
+        <WaiterStack.Screen name='CommandeScreen' component={CommandeScreen} />
       </WaiterStack.Navigator>
   )
 }

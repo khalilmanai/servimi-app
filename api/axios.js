@@ -3,8 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { setRole } from "../redux/userSlice";
 //http://10.0.2.2:8081
-const baseUrl = "http://192.168.1.15:8081";
+const baseUrl = "http://10.0.2.2:8081";
 export const ApiManager = axios.create({
+
+
   baseURL: `${baseUrl}`,
   responseType: "json",
   withCredentials: true,
@@ -162,7 +164,8 @@ export const getCommandesServeur = async () => {
       data,
       itemsResponseData,
       suppsResponseData
-    };
+      ,
+    }; 
 
   } catch (error) {
     console.error("error in receiving command from api", error);

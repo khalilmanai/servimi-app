@@ -16,10 +16,7 @@ import LoginScreen from "./pages/LoginScreen";
 import InputsScreen from "./pages/InputsScreen";
 
 export default function App() {
-  useEffect(() => {
-    ApiManager();
-  }, []);
-
+ 
   const [fontsLoaded] = useFonts({
     Cairo: require("./assets/fonts/Cairo-Regular.ttf"),
   });
