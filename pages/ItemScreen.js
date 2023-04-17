@@ -12,7 +12,6 @@ const ItemScreen = () => {
   const navigation = useNavigation()
 const params = route.params
 const {item} = params
-console.log(params)
 const addToCart = (item) => {
   dispatch(
     addItemToCart({

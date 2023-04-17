@@ -47,6 +47,7 @@ const LoginScreen = ({ navigation }) => {
   const connect = async (username, password, dispatch, navigation) => {
     try {
       const { success, role } = await handlelogin(username, password, dispatch);
+      console.log(success, role)
       if (success) {
         if (role === "ROLE_WAITER") {
           navigation.navigate("WaiterStack", { screen: "WaiterHome" });

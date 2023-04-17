@@ -5,14 +5,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import starImg from "../assets/images/Icons/star.png";
 import location from "../assets/images/Icons/location.png";
+import { useDispatch } from "react-redux";
+import { setPlace } from "../redux/placeReducer";
 
 const PlaceCard = ({ place }) => {
   const [toggle, setToggle] = useState(false);
-
+   const dispatch = useDispatch()
+   dispatch(setPlace(place))
   function liked() {
     return toggle ? "true" : "false";
   }
-
   const navigation = useNavigation();
   const base64Image = `data:image/png;base64,${place.image}`;
   return (

@@ -102,27 +102,7 @@ const PlaceScreen = ({ navigation, route }) => {
               Scanner QR
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate("StackScreens", {
-                screen: "ItemList",
-                params: place,
-              });
-            }}
-          >
-            <Ionicons name="fast-food-outline" size={24} color="white" />
-            <Text
-              style={{
-                fontFamily: "Cairo",
-                marginLeft: 10,
-                color: "white",
-              }}
-            >
-              
-              Consulter Menu
-            </Text>
-          </TouchableOpacity>
+        
           </View>
         </View>
       </View>

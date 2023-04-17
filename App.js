@@ -51,7 +51,6 @@ export default function App() {
           <Drawer.Screen name='LoginScreen' component={LoginScreen} />
           <Drawer.Screen name='InputsScreen' component={InputsScreen} />
           <Drawer.Screen name="StackScreens" component={StackScreens} />
-     
           <Drawer.Screen name="DrawerScreen" component={DrawerScreens} />
           <Drawer.Screen name="WaiterStack" component={WaiterStack} />
         </Drawer.Navigator>

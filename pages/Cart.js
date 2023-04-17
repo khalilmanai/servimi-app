@@ -16,6 +16,7 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.total);
   const scannedData = useSelector((state) => state.scan.data);
+
   const handleRemoveFromCart = (product) => {
     dispatch(removeItemFromCart(product));
   };

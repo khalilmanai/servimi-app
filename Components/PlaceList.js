@@ -18,6 +18,7 @@ const PlaceList = () => {
   useEffect(() => {
     refreshList();
   }, []);
+
   const refreshList = async () => {
     setRefreshing(true);
     try {

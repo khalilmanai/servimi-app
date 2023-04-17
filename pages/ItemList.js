@@ -13,9 +13,11 @@ import UserPanel from "../Components/UserPanel";
 import { getCategorie } from "../api/axios";
 import { addItem } from "../redux/ItemReducer";
 
-const ItemList = ({ route }) => {
-  const place = route.params;
+const ItemList = () => {
 
+  const scannedData = useSelector(state=>state.scan.data).slice(2,3)
+  console.log(scannedData)
+  const place = useSelector(state=>state.place)
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -25,7 +27,7 @@ const ItemList = ({ route }) => {
   async function fetchCategories() {
     try {
       setLoading(true);
-      const data = await getCategorie(place.etabId);
+      const data = await getCategorie(scannedData);
       data[0].menuItems.forEach((item) => {
         dispatch(addItem(item));
       });

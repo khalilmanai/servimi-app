@@ -4,6 +4,7 @@ import ItemReducer from './ItemReducer';
 import qrReducer from './qrReducer';
 import userSlice from './userSlice'
 import commandsReducer from './commandReducer'
+import placeReducer from './placeReducer';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     scan : qrReducer,
       role :userSlice,
       commands: commandsReducer,
+      place:placeReducer
   },
 });
 
