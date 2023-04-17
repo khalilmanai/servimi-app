@@ -22,18 +22,6 @@ const ItemCard = ({ item} , route) => {
       style={styles.container} 
       onPress={() => {
         navigation.navigate('ItemScreen', { item: item})
-     /*  if(data == null){
-        Alert.alert(
-          'Servimi',
-          'Veuiller scanner le QR code sur la table pour commander',
-          [
-            { text: 'Annuler', style: 'cancel', onPress: () => console.log('Cancel Pressed') },
-            { text: 'Scanner QR', onPress: () =>  navigation.navigate('StackScreens' , {screen : 'QrScanner'})},
-          ],
-        );
-      }else {
-     
-      } */
       }}
     >
       <View style={styles.box}>

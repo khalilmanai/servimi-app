@@ -10,17 +10,20 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native";
 import { creerCommande } from "../api/axios";
+import { useNavigation } from "@react-navigation/native";
 
 const Cart = () => {
+  const navigation = useNavigation()
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalPrice = useSelector((state) => state.cart.total);
-  const scannedData = useSelector((state) => state.scan.data);
-
+  const scannedData = useSelector((state) => state.scan.data).slice(9,10);
+ console.log(scannedData)
   const handleRemoveFromCart = (product) => {
     dispatch(removeItemFromCart(product));
   };
   const handleClearCart = () => {
+  
     dispatch(clearCart());
   };
   useEffect(() => {
@@ -30,10 +33,10 @@ const Cart = () => {
   const handleConfirm = async () => {
     try {
       const commandeInfo = {
-        date: Date.now().toString(),
-        statut: "non_paye",
+        date: new Date().toISOString(), 
+        statut: 'en_attente',
         t: {
-          tableId: scannedData,
+          tableID: scannedData
         },
         totalAddition: totalPrice,
         totalTip: 0,
@@ -41,6 +44,7 @@ const Cart = () => {
       console.log(commandeInfo);
       const response = await creerCommande(commandeInfo);
       console.log("response", response);
+      navigation.navigate('HomePage')
     } catch (error) {
       console.error("handling problem: ", error);
     }

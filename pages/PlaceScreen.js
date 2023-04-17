@@ -98,7 +98,6 @@ const PlaceScreen = ({ navigation, route }) => {
                 color: "white",
               }}
             >
-              
               Scanner QR
             </Text>
           </TouchableOpacity>
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   button: {
-    margin:'1%',
+  marginTop:"10%",
     flexDirection: "row",
     width: "80%",
     height: "10%",

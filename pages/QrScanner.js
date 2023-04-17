@@ -21,17 +21,17 @@ export default function QRScanner() {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {try{
-    
-    dispatch(setScanned(true));
-    dispatch(setData(data));
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    navigation.navigate('ItemList')
+  const handleBarCodeScanned = ({ type, data }) => {
+    try {
+      dispatch(setScanned(true));
+      dispatch(setData(data));
 
-    return true;
-  }catch(error){
-    console.error('qr error' , error)
-  }
+      navigation.navigate("ItemList");
+
+      return true;
+    } catch (error) {
+      console.error("qr error", error);
+    }
   };
 
   const handleScanAgain = () => {
