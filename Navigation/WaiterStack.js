@@ -10,10 +10,16 @@ const WaiterStack = () => {
   return (
     <WaiterStack.Navigator initialRouteName="WaiterHome"
     screenOptions={{
-        headerShown:false
+        headerShown:false,
+        drawerLockMode  :'locked-closed'
+      
     }}
     >
-        <WaiterStack.Screen name="WaiterHome" component={WaiterHome} />
+        <WaiterStack.Screen name="WaiterHome"   component={WaiterHome}
+          options={{
+          
+            drawerLockMode: 'locked-closed', // Disable drawer on this screen
+          }} />
         <WaiterStack.Screen name='EntryScreen' component={SecondScreen} />
         <WaiterStack.Screen name='CommandeScreen' component={CommandeScreen} />
       </WaiterStack.Navigator>

@@ -3,19 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setScanned } from "../redux/qrReducer";
-const ItemCard = ({ item} , route) => {
-  const data = route.params
-  const dispatch = useDispatch();
+const ItemCard = ({ item}) => {
   const navigation = useNavigation();
-  const scanned = useSelector((state)=> state.scan.scanned)
-  const base64Image = `data:image/png;base64,${item.image}`;
 
-  function handleScan(){
-   if(!scanned){
-      navigation.navigate('StackScreens' , {screen : 'QrScanner'})
-    
-   }
-   }
+  const base64Image = `data:image/png;base64,${item.image}`;
 
   return (
     <TouchableOpacity

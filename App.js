@@ -5,8 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useFonts } from "expo-font";
 import CustomDrawerContent from "./pages/CustomDrawerContent";
-import { DrawerScreens } from "./Navigation/navigationContainer";
-
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import StackScreens from "./Navigation/StackScreens";
@@ -14,7 +12,8 @@ import WaiterStack from "./Navigation/WaiterStack";
 import SecondScreen from "./pages/SecondScreen";
 import LoginScreen from "./pages/LoginScreen";
 import InputsScreen from "./pages/InputsScreen";
-import { TabBar } from "./Navigation/bottomnav";
+import { TabBar } from "./Navigation/TabBar";
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -34,7 +33,7 @@ export default function App() {
           overlayColor="transparent"
           drawerType="slide"
           drawerStyle={{ flex: 1, width: 240, backgroundColor: "transparent" }}
-          hideStatusBar={true}
+          hideStatusBar={true} 
           sceneContainerStyle={{
             backgroundColor: "transparent",
           }}
@@ -45,13 +44,11 @@ export default function App() {
             drawerPosition: "right",
             headerShown: false,
           }}
-        >
-          <Drawer.Screen name="TabScreens" component={TabBar} />
+        ><Drawer.Screen name="TabScreens" component={TabBar} />
           <Drawer.Screen name="FirstScreen" component={SecondScreen} />
           <Drawer.Screen name="LoginScreen" component={LoginScreen} />
           <Drawer.Screen name="InputsScreen" component={InputsScreen} />
           <Drawer.Screen name="StackScreens" component={StackScreens} />
-          <Drawer.Screen name="DrawerScreen" component={DrawerScreens} />
           <Drawer.Screen name="WaiterStack" component={WaiterStack} />
         </Drawer.Navigator>
       </NavigationContainer>

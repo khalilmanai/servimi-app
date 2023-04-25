@@ -8,22 +8,9 @@ import PlaceList from "../Components/PlaceList";
 
 const HomePage = () => {
   const [query, setQuery] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-
- /*  const handleSearch = (text) => {
-    const newData = etablissement.filter((item) => {
-      const itemData = item.title.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    }); 
-
-    setQuery(text);
-    setFilteredData(newData);
-  };*/
-
   return (
     <View style={styles.container}>
-      <View style={{ height: 160, margin: "2%" }}>
+      <View style={{ height: 100, margin: "2%" }}>
         <UserPanel headerText='Bienvenue dans' secondText='Servimi'/>
       </View>
       <View style={{ margin: "2%" }}>
@@ -40,7 +27,6 @@ const HomePage = () => {
           key="search-bar"
         />
       </View>
-
       <View key="place-container" style={styles.placeContainer}>
         <Text key="place-title" style={styles.placeTitle}>
           Découvrir
@@ -55,9 +41,7 @@ const HomePage = () => {
     </View>
   );
 };
-
 export default HomePage;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

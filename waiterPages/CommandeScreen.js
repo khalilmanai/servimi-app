@@ -1,60 +1,119 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
+import React, { useState, useEffect, useMemo } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { getCommandClient, getItemById, getSuppsById } from "../api/axios";
 
-const CommandeScreen = ({ route }) => {
-  const { command } = route.params;
-  const item = command.itemsResponseData
+const CommandeScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const comid = route.params.command.comid;
 
-  console.log(item)
-  return (
-    <View style={styles.card}>
-      <View style={styles.cardInfo}>
-        <Text style={styles.cardTitle}>{item.nom}</Text>
-        <Text style={styles.cardText}>{item.description}</Text>
-   
-        <Text style={styles.cardText}>Price: {item.prix} DT</Text>
+  const [commandeClient, setCommandeClient] = useState([]);
+  const [commandeItems, setCommandeItems] = useState([]);
+  const [commandeSupps, setCommandeSupps] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCommandeClient = async () => {
+      try {
+        const data = await getCommandClient(comid);
+        setCommandeClient(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCommandeClient();
+  }, [comid]);
+
+  const itemsId = useMemo(() => commandeClient.flatMap((obj) => obj.items), [
+    commandeClient,
+  ]);
+  const suppId = useMemo(() => commandeClient.flatMap((obj) => obj.supps), [
+    commandeClient,
+  ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [itemData, suppData] = await Promise.all([
+          itemsId.length > 0
+            ? Promise.all(itemsId.map((itemId) => getItemById(itemId)))
+            : [],
+          suppId.length > 0
+            ? Promise.all(suppId.map((suppId) => getSuppsById(suppId)))
+            : [],
+        ]);
+        setCommandeItems(itemData);
+        setCommandeSupps(suppData);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [itemsId, suppId]);
+
+  console.log(commandeItems , commandeSupps)
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="black" />
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text>CommandeScreen</Text>
+      <FlatList
+        data={commandeItems}
+        keyExtractor={(item, index) => String(item.id) + index}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemNom}>{item.nom}</Text>
+            <Text style={styles.itemDescription}>{item.description}</Text>
+            <Text style={styles.itemPrix}>{item.prix} DT</Text>
+          </View>
+        )}
+      />
+      <Text> Supplements</Text>
+      <FlatList
+        data={commandeSupps}
+        keyExtractor={(supp, index) => String(supp.id) + index}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.itemNom}>{item.nom}</Text>
+            <Text style={styles.itemDescription}>{item.description}</Text>
+            <Text style={styles.itemPrix}>{item.prix} DT</Text>
+          </View>
+        )}
+      />
     </View>
   );
 };
+export default CommandeScreen;
 
 const styles = StyleSheet.create({
-  card: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  cardInfo: {
+  container: {
     flex: 1,
-    marginRight: 10,
   },
-  cardTitle: {
-    fontFamily:'Cairo',
-    fontSize: 16,
-    marginBottom: 5,
+  itemContainer: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
-  cardText: {
-    fontFamily:'Cairo',
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  quantity: {
-    fontSize: 20,
- fontFamily:'Cairo'
+  itemNom: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
-
-
-export default CommandeScreen

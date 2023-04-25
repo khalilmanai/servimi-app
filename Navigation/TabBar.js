@@ -5,14 +5,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Favorites from '../pages/Favorites';
 import HomePage from '../pages/HomePage';
 import Rewards from '../pages/Rewards';
 import { useNavigation } from '@react-navigation/native';
 import Cart from '../pages/Cart';
-
+import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
 export const TabBar = () => {
   const navigation = useNavigation()
   const _renderIcon = (routeName, selectedTab) => {
@@ -57,7 +57,7 @@ export const TabBar = () => {
   return (
     <View style={{ flex: 1 }}>
      
-        <CurvedBottomBar.Navigator
+        <CurvedBottomBarExpo.Navigator
           style={styles.bottomBar}
        
           height={60}
@@ -83,27 +83,27 @@ export const TabBar = () => {
             </Animated.View>
           )}
           tabBar={renderTabBar}>
-          <CurvedBottomBar.Screen
+          <CurvedBottomBarExpo.Screen
             name="Home"
             position="LEFT"
             component={HomePage}
           />
-           <CurvedBottomBar.Screen
+           <CurvedBottomBarExpo.Screen
             name="Favorites"
             position="LEFT"
             component={Favorites}
           />
-          <CurvedBottomBar.Screen
+          <CurvedBottomBarExpo.Screen
             name="Rewards"
             component={Rewards}
             position="RIGHT"
           />
-             <CurvedBottomBar.Screen
+             <CurvedBottomBarExpo.Screen
             name="Cart"
             component={Cart}
             position="RIGHT"
           />
-        </CurvedBottomBar.Navigator>
+        </CurvedBottomBarExpo.Navigator>
 
     </View>
   );

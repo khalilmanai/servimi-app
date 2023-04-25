@@ -2,11 +2,11 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { setRole } from "../redux/userSlice";
+import { setuserID } from "../redux/userIDSlice";
 //http://10.0.2.2:8081
-const baseUrl = "http://192.168.1.15:8081";
+//http://192.168.1.15:8081
+const baseUrl = "http://192.168.1.104:8081";
 export const ApiManager = axios.create({
-
-
   baseURL: `${baseUrl}`,
   responseType: "json",
   withCredentials: true,
@@ -31,13 +31,13 @@ export const handlelogin = async (username, password, dispatch) => {
     });
 
     if (response.status === 200) {
-      const { token, role } = response.data; // get the token and role from the respons
+      const { token, role, userID } = response.data; // get the token and role from the respons
       dispatch(setRole(role));
+
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("role", role);
-      console.log(role);
-
-      console.log("User logged in successfully");
+      await AsyncStorage.setItem("userID", JSON.stringify(userID));
+   
 
       return { success: true, role }; // return the role along with the success message
     } else if (response.status == 401) {
@@ -57,7 +57,7 @@ export const registerUser = async (userData) => {
   const response = await ApiManager.post("/api/auth/inscription", userData);
 
   if (response.status === 200) {
-    console.log("New account created successfully:", response.data);
+
     return response.data;
   } else {
     console.error("Unexpected response status:", response.status);
@@ -83,7 +83,9 @@ export const creerCommande = async (commandeInfo) => {
       "/solutionprisecommandeatable/v1/creerCommande",
       commandeInfo
     );
-    console.log("cart added to database", response.data);
+    const comid  = response.data.comid
+
+    await AsyncStorage.setItem('comid', JSON.stringify(comid));
     return response.data;
   } catch (error) {
     console.error("saving problem: ", error);
@@ -125,10 +127,10 @@ export const disconnect = async (navigation) => {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("role");
     const token = await AsyncStorage.getItem("token");
-    console.log(token);
+
     if (token === null) {
       ApiManager.defaults.headers.common["Authorization"] = "";
-      console.log("User logged out successfully");
+
       navigation.navigate("FirstScreen");
       return true;
     } else {
@@ -140,40 +142,93 @@ export const disconnect = async (navigation) => {
     return false;
   }
 };
- //error in this request , command is not being validated
-// axios http requests to server
-export const getCommandesServeur = async () => {
+export const changeStatus = async (TableId) => {
+  const status = "occupé";
   try {
-    const { data: commandes } = await ApiManager.get("/solutionprisecommandeatable/v1/WAITER/commandes");
+    const response = await ApiManager.put(
+      `/WAITER/${TableId}/status`,
+      Object(status)
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    const tableIds = commandes.map((commande) => commande.comid);
+export const changeStatusCommande = async (comid) => {
+  const status = "en_cours";
+  try {
+    const response = await ApiManager.put(`/${comid}/statut`, Object(status));
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    const responses = await axios.all(
-      tableIds.map((tableId) => ApiManager.get(`/solutionprisecommandeatable/v1/commandeClientByComId/${tableId}`))
+export const getData = async () => {
+  try {
+    const response = await ApiManager.get(
+      "/solutionprisecommandeatable/v1/WAITER/commandes"
+    );
+    return response.data;
+  } catch (error) {
+    console.error("error", error);
+  }
+};
+
+export const getCommandClient = async (commandeId) => {
+  try {
+    const response = await ApiManager.get(
+      `/solutionprisecommandeatable/v1/commandeClientByComId/${commandeId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("error in getting commandeClient by id", error);
+  }
+};
+
+export const getItemById = async (itemId) => {
+  try {
+    const response = await ApiManager.get(
+      `/solutionprisecommandeatable/v1/MANAGERafficher/${itemId}`
     );
 
-    const data = responses.map((response) => response.data[0]);
-
-    const items = data.flatMap(({ items }) => items);
-    const supps = data.flatMap(({ supps }) => supps);
-
-    const { data: itemsResponseData } = await ApiManager.get(`/solutionprisecommandeatable/v1/MANAGERafficher/${items.join(',')}`);
-    const { data: suppsResponseData } = await ApiManager.get(`/solutionprisecommandeatable/v1/afficherSupplement/${supps.join(',')}`);
-
-    // return an object containing all the relevant data
-    return {
-      commandes,
-      data,
-      itemsResponseData,
-      suppsResponseData
-      ,
-    }; 
-
+    return response.data;
   } catch (error) {
-    console.error("error in receiving command from api", error);
+    console.error("error in fetching items from databse", error);
     throw new Error(error);
   }
 };
 
+export const getSuppsById = async (suppId) => {
+  try {
+    const response = await ApiManager.get(
+      `/solutionprisecommandeatable/v1/afficherSupplement/${suppId}`
+    );
 
+    return response.data;
+  } catch (error) {
+    console.error("error fetching supplement items : ", error);
+    throw new Error(error);
+  }
+};
 
+export const sendCommandeClient = async (commandeData , commandeInfo) => {
+  try {
+    const responseCommande = await ApiManager.post(
+      "/solutionprisecommandeatable/v1/creerCommande",
+      commandeInfo
+    );
+    const comid  = responseCommande.data.comid
+
+    await AsyncStorage.setItem('comid', JSON.stringify(comid));
+    const response = await ApiManager.post(
+      "/solutionprisecommandeatable/v1/commandeclient",
+      commandeData
+    );
+
+    return response.data , responseCommande.data;
+  } catch (error) {
+    console.error("error in sending commandeClient ", error);
+  }
+};

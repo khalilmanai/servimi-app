@@ -12,17 +12,14 @@ import PlaceScreen from "../pages/PlaceScreen";
 import QRScanner from "../pages/QrScanner";
 import ResetPassword from "../pages/ResetPassword";
 import Settings from "../pages/Settings";
-import { TabScreens } from "./navigationContainer";
-import { useEffect } from "react";
+
 import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ApiManager } from "../api/axios";
 const Stack = createStackNavigator();
 const StackScreens = () => {
  
     return (
       <Stack.Navigator
-        initialRouteName="HomePage"
+        initialRouteName="MyTabs"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="HomePage" component={HomePage} />
@@ -36,7 +33,6 @@ const StackScreens = () => {
         <Stack.Screen name="SecondPanel" component={SecondPanel} />
         <Stack.Screen name="ItemCard" component={ItemCard} />
         <Stack.Screen name="ItemScreen" component={ItemScreen} />
-        <Stack.Screen name="TabScreens" component={TabScreens} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="ItemList" component={ItemList} />
       </Stack.Navigator>

@@ -6,28 +6,42 @@ import {
   View,
   SafeAreaView,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  RefreshControl,
 } from "react-native";
-import { getCommandesServeur } from "../api/axios";
+import { disconnect, getData } from "../api/axios";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
-const WaiterHome = ({ navigation }) => {
+const WaiterHome = () => {
+  const navigation = useNavigation()
+  React.useLayoutEffect(() => {
+    navigation.setOptions({ drawerLockMode: 'locked-closed' });
+  }, [navigation]);
+
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const handleCommandPress = () => {
-    navigation.navigate("CommandeScreen", { command: commandes });
+
+  const handleCommandPress = (item) => {
+    navigation.navigate("CommandeScreen", { command: item });
   };
+
+  const fetchCommandes = async () => {
+    try {
+      const commandesResponse = await getData();
+      setCommandes(commandesResponse);
+      setLoading(false);
+      setRefreshing(false);
+    } catch (error) {
+      console.error("couldn't fetch command list", error);
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchCommandes = async () => {
-      try {
-        const commandesResponse = await getCommandesServeur();
-        setCommandes(commandesResponse);
-        setLoading(false);
-      } catch (error) {
-        console.error("couldnt fetch command list", error);
-        setLoading(false);
-      }
-    };
     fetchCommandes();
   }, []);
   
@@ -36,29 +50,41 @@ const WaiterHome = ({ navigation }) => {
     <TouchableOpacity
       style={styles.card}
       onPress={() => handleCommandPress(item)}
+      
     >
       <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
       <Text style={styles.cardText}>Date: {item.date}</Text>
       <Text style={styles.cardText}>Statut: {item.statut}</Text>
       <Text style={styles.cardText}>Table:{item.t.tableID}</Text>
       <Text style={styles.cardText}>Addition: {item.totalAddition}</Text>
-      <Text style={styles.cardText}>Tip: {item.totalTip}</Text>
+      <Text style={styles.cardText}>pour boire: {item.totalTip}</Text>
     </TouchableOpacity>
   );
-  console.log(commandes.itemsResponseData)
 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
-    ); 
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ alignItems: "center", margin: 20 }}>
+        <Text
+          style={{
+            fontFamily: "Cairo",
+            fontSize: 24,
+            borderBottomWidth: 1,
+            borderBottomColor: "#FB8703",
+          }}
+        >
+          Liste Des Commandes
+        </Text>
+      </View>
       <FlatList
-        data={commandes.commandes}
+        data={commandes}
         renderItem={renderItem}
         keyExtractor={(item) => String(item.comid)}
         ListEmptyComponent={() => {
@@ -80,7 +106,21 @@ const WaiterHome = ({ navigation }) => {
             </View>
           );
         }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={fetchCommandes} />
+        }
       />
+      <TouchableOpacity
+        style={{ alignItems: "center" }}
+        onPress={() => {
+          disconnect(navigation);
+        }}
+      >
+        <View style={styles.disconnect}>
+          <Ionicons name="power-outline" size={24} color="white" />
+          <Text style={styles.text}>Quitter Session</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -91,8 +131,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 30,
+
+    
   },
   card: {
+    width:'90%',
+    alignSelf:'center',
     backgroundColor: "#fff",
     padding: 10,
     marginBottom: 10,
@@ -107,9 +151,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
   },
-  loadingContainer : {
-    flex:1, 
-    justifyContent:'center',
-    alignItems:'center'
-  }
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontFamily: "Cairo",
+    color: "white",
+    fontSize: 18,
+  },
+  disconnect: {
+    margin: 10,
+    height: 45,
+    backgroundColor: "#FB8703",
+    width: "90%",
+    position: "absolute",
+    bottom: "100%",
+    alignItems: "center",
+    gap: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
 });

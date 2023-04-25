@@ -16,10 +16,9 @@ const user = getuser()
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.userContainer}>
-        
           <View style={styles.textContainer}>
             <Text style={styles.welcomeText}>{props.headerText }</Text>
-            <Text style={{marginTop :-10, fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>{props.secondText}</Text>
+            <Text style={{marginTop :'-10%', fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>{props.secondText}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -69,11 +68,9 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontFamily: "Cairo",
     fontSize : 24,
+    lineHeight:40
   },
-  welcomeText: {
-    fontFamily: "Cairo",
-    fontSize: 32,
-  },
+
   username: {
     fontFamily: "Cairo",
     fontSize: 16,

@@ -25,7 +25,7 @@ const PlaceList = () => {
       const data = await getEtablissement();
       setEtablissement(data);
     } catch (error) {
-      console.log(error);
+     throw new Error(error)
     } finally {
       setLoading(false);
       setRefreshing(false);

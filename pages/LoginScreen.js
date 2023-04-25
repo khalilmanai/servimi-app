@@ -52,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
         if (role === "ROLE_WAITER") {
           navigation.navigate("WaiterStack", { screen: "WaiterHome" });
         } else if (role === "ROLE_CLIENT") {
-          navigation.navigate("StackScreens", { screen: "HomePage" });
+          navigation.navigate("TabScreens", { screen: "Home" });
         } else {
           Alert.alert("servimi", "You are not eligible");
         }

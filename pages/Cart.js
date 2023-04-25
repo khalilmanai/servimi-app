@@ -9,42 +9,80 @@ import {
 } from "../redux/cartReducers";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native";
-import { creerCommande } from "../api/axios";
+import { creerCommande, sendCommandeClient } from "../api/axios";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Cart = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const dispatch = useDispatch();
+  
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartSupps = useSelector((state) => state.cart.cartSupps);
   const totalPrice = useSelector((state) => state.cart.total);
-  const scannedData = useSelector((state) => state.scan.data).slice(9,10);
- console.log(scannedData)
+  const scannedData = useSelector((state) => state.scan.data.slice(9, 10));
+
+  // Removing undefined values from cartItems
+  const filteredCartItems = cartItems.filter((item) => item.id !== undefined);
+
+  // Removing undefined values from cartSupps
+  const filteredCartSupps = cartSupps.filter((item) => item.id !== undefined);
+
   const handleRemoveFromCart = (product) => {
     dispatch(removeItemFromCart(product));
   };
   const handleClearCart = () => {
-  
     dispatch(clearCart());
   };
   useEffect(() => {
     dispatch(calculateTotal());
   }, [dispatch]);
 
+  const ItemsArray = filteredCartItems.flatMap((item) =>
+    Array.from({ length: item.quantity }, () => item.id)
+  );
+  const SuppsArray = filteredCartSupps.flatMap((item) =>
+    Array.from({ length: item.quantity }, () => item.id)
+  );
+
   const handleConfirm = async () => {
+    const comidString = await AsyncStorage.getItem('comid');
+    const comid = JSON.parse(comidString);
+    const userID = await  AsyncStorage.getItem("userID");
+  const userId = JSON.parse(userID);
+
     try {
       const commandeInfo = {
-        date: new Date().toISOString(), 
-        statut: 'en_attente',
+        date: new Date().toISOString(),
+        statut: "en_attente",
         t: {
-          tableID: scannedData
+          tableID: scannedData,
         },
         totalAddition: totalPrice,
-        totalTip: 0,
+        totalTip: 120.0,
       };
-      console.log(commandeInfo);
-      const response = await creerCommande(commandeInfo);
-      console.log("response", response);
-      navigation.navigate('HomePage')
+
+      const commandeData = {
+        commande: {
+          comid: comid,
+        },
+        addition: totalPrice,
+        items: ItemsArray,
+        supps: SuppsArray,
+        tip: 0,
+        utilisateur: {
+          userID: userId,
+        },
+      };
+    
+
+      // const response = await creerCommande(commandeInfo);
+   
+      const responseClient = await sendCommandeClient(commandeData);
+      console.log(responseClient);
+      return (
+    responseClient.data, navigation.navigate("HomePage")
+      );
     } catch (error) {
       console.error("handling problem: ", error);
     }
@@ -66,6 +104,7 @@ const Cart = () => {
           justifyContent: "space-between",
         }}
         index={props.index}
+        
       >
         <View style={{ margin: "5%", height: "90%" }}>
           <Text style={styles.name}>{item.nom}</Text>
@@ -103,8 +142,8 @@ const Cart = () => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.container}>
-        {cartItems.map((item, index) => (
-          <RenderItem key={item.id} item={item} index={index} />
+        {cartItems.map((item) => (
+          <RenderItem key={item.id} item={item}  />
         ))}
 
         <View style={styles.buttonsContainer}>
@@ -124,7 +163,6 @@ const Cart = () => {
               color="#FB8703"
               title="Terminer Commande"
               onPress={() => {
-                console.log("Terminer Commande", cartItems);
                 handleConfirm();
               }}
             />

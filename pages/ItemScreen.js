@@ -2,7 +2,7 @@ import React from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { View, Text, StyleSheet , TouchableOpacity , Image } from "react-native";
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "../redux/cartReducers";
+import { addItemToCart ,addSuppToCart } from "../redux/cartReducers";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 
@@ -11,12 +11,21 @@ const ItemScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
 const params = route.params
-const {item} = params
+const {item} = params 
 const addToCart = (item) => {
   dispatch(
     addItemToCart({
+      id : item.itemId,
       nom : item.nom,
       description : item.description,
+      prix : item.prix,
+      quantity: quantity,
+    })
+  );
+  dispatch(
+    addSuppToCart({
+      nom : item.nom,
+      id : item.suppId,
       prix : item.prix,
       quantity: quantity,
     })
