@@ -12,17 +12,14 @@ import {
 import { disconnect, getData } from "../api/axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { BackHandler } from "react-native";
+import { Alert } from "react-native";
 
 const WaiterHome = () => {
-  const navigation = useNavigation()
-  React.useLayoutEffect(() => {
-    navigation.setOptions({ drawerLockMode: 'locked-closed' });
-  }, [navigation]);
-
+  const navigation = useNavigation();
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
 
   const handleCommandPress = (item) => {
     navigation.navigate("CommandeScreen", { command: item });
@@ -44,7 +41,6 @@ const WaiterHome = () => {
   useEffect(() => {
     fetchCommandes();
   }, []);
-  
 
   const renderItem = ({ item }) => (
     <TouchableOpacity

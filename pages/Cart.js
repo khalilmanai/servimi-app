@@ -64,7 +64,7 @@ const Cart = () => {
 
       const commandeData = {
         commande: {
-          comid: comid,
+          comid: comid+1,
         },
         addition: totalPrice,
         items: ItemsArray,
@@ -76,12 +76,11 @@ const Cart = () => {
       };
     
 
-      // const response = await creerCommande(commandeInfo);
-   
+      const response = await creerCommande(commandeInfo);
       const responseClient = await sendCommandeClient(commandeData);
       console.log(responseClient);
       return (
-    responseClient.data, navigation.navigate("HomePage")
+    responseClient.data , response.data, navigation.navigate("Home")
       );
     } catch (error) {
       console.error("handling problem: ", error);

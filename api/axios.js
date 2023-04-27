@@ -5,11 +5,12 @@ import { setRole } from "../redux/userSlice";
 import { setuserID } from "../redux/userIDSlice";
 //http://10.0.2.2:8081
 //http://192.168.1.15:8081
-const baseUrl = "http://192.168.1.104:8081";
+
+const baseUrl = "http://10.0.2.2:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
-  withCredentials: true,
+  withCredentials: true, 
 });
 
 export const getEtablissement = async () => {
@@ -37,6 +38,7 @@ export const handlelogin = async (username, password, dispatch) => {
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("role", role);
       await AsyncStorage.setItem("userID", JSON.stringify(userID));
+      await AsyncStorage.setItem("username", JSON.stringify(username))
    
 
       return { success: true, role }; // return the role along with the success message
@@ -77,7 +79,7 @@ export const getCategorie = async (etabId) => {
   }
 };
 
-export const creerCommande = async (commandeInfo) => {
+ export const creerCommande = async (commandeInfo) => {
   try {
     const response = await ApiManager.post(
       "/solutionprisecommandeatable/v1/creerCommande",
@@ -91,7 +93,7 @@ export const creerCommande = async (commandeInfo) => {
     console.error("saving problem: ", error);
     throw error;
   }
-};
+}; 
 
 // mot de passe oublié
 
@@ -155,8 +157,8 @@ export const changeStatus = async (TableId) => {
   }
 };
 
-export const changeStatusCommande = async (comid) => {
-  const status = "en_cours";
+export const changeStatusCommande = async (comid , status) => {
+
   try {
     const response = await ApiManager.put(`/${comid}/statut`, Object(status));
     return response.data;
@@ -213,21 +215,14 @@ export const getSuppsById = async (suppId) => {
   }
 };
 
-export const sendCommandeClient = async (commandeData , commandeInfo) => {
+export const sendCommandeClient = async (commandeData) => {
   try {
-    const responseCommande = await ApiManager.post(
-      "/solutionprisecommandeatable/v1/creerCommande",
-      commandeInfo
-    );
-    const comid  = responseCommande.data.comid
-
-    await AsyncStorage.setItem('comid', JSON.stringify(comid));
     const response = await ApiManager.post(
       "/solutionprisecommandeatable/v1/commandeclient",
       commandeData
     );
 
-    return response.data , responseCommande.data;
+    return response.data
   } catch (error) {
     console.error("error in sending commandeClient ", error);
   }

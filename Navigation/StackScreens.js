@@ -24,12 +24,10 @@ const StackScreens = () => {
       >
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="UserPanel" component={UserPanel} />
-        <Stack.Screen name="Account" component={Account} />
         <Stack.Screen name="Favorites" component={Favorites} />
         <Stack.Screen name="QrScanner" component={QRScanner} />
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
         <Stack.Screen name="PlaceScreen" component={PlaceScreen} />
-        <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="SecondPanel" component={SecondPanel} />
         <Stack.Screen name="ItemCard" component={ItemCard} />
         <Stack.Screen name="ItemScreen" component={ItemScreen} />

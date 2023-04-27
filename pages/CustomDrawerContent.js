@@ -35,7 +35,7 @@ const MENUs = [
 
 const CustomDrawerContent = ({ navigation }) => {
   const user = getuser();
-const  role = useSelector(state=> state.role.role)
+
 
 
   const [activeIndex, setActiveIndex] = useState(0);

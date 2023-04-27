@@ -21,14 +21,7 @@ const user = getuser()
             <Text style={{marginTop :'-10%', fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>{props.secondText}</Text>
           </View>
         </View>
-        <TouchableOpacity
-        
-          onPress={() => {
-        navigation.toggleDrawer()
-          }}
-        >
-          <Octicons name="three-bars" size={24} color="black" />
-        </TouchableOpacity>
+     
       </View>
     </View>
   );

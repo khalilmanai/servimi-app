@@ -1,14 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import qrImg from "../assets/images/qr-code.png";
 import { View, Text, StyleSheet, Image} from "react-native";
 import ContinueButton from "../Components/ContinueButton";
-import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import { BackHandler } from "react-native";
 
 const SecondScreen = ({navigation}) => {
+  
 
+  useEffect(() => {
+    const useBackButtonHandler = () => {
+      const backAction = () => {
+        Alert.alert("servimi","Voulez-vous quitter Servimi ?", [
+          {
+            text: "Annuler",
+            onPress: () => null,
+            style: "cancel",
+          },
+          {
+            text: "Oui",
+            onPress: () => BackHandler.exitApp(),
+          },
+        ]);
+        return true;
+      };
 
+      const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+      );
+
+      return () => backHandler.remove();
+    };
+
+    useBackButtonHandler();
+},[])
   const continuePressed = async() => {
 
      const token =  await AsyncStorage.getItem('token') 

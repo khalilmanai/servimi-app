@@ -1,10 +1,7 @@
-import "react-native-gesture-handler";
-import React, { useState, useEffect } from "react";
-
+import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useFonts } from "expo-font";
-import CustomDrawerContent from "./pages/CustomDrawerContent";
+import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import StackScreens from "./Navigation/StackScreens";
@@ -12,8 +9,12 @@ import WaiterStack from "./Navigation/WaiterStack";
 import SecondScreen from "./pages/SecondScreen";
 import LoginScreen from "./pages/LoginScreen";
 import InputsScreen from "./pages/InputsScreen";
-import { TabBar } from "./Navigation/TabBar";
+import { TabBar, styles } from "./Navigation/TabBar";
 
+import "react-native-gesture-handler";
+import { SafeAreaView } from "react-native";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,34 +25,25 @@ export default function App() {
     return null;
   }
 
-  const Drawer = createDrawerNavigator();
   return (
     <Provider store={store}>
+      <SafeAreaView style={{flex:1}}>
       <NavigationContainer>
-        <Drawer.Navigator
+        <Stack.Navigator
           initialRouteName="FirstScreen"
-          overlayColor="transparent"
-          drawerType="slide"
-          drawerStyle={{ flex: 1, width: 240, backgroundColor: "transparent" }}
-          hideStatusBar={true} 
-          sceneContainerStyle={{
-            backgroundColor: "transparent",
-          }}
-          drawerContent={(props) => {
-            return <CustomDrawerContent navigation={props.navigation} />;
-          }}
           screenOptions={{
-            drawerPosition: "right",
             headerShown: false,
           }}
-        ><Drawer.Screen name="TabScreens" component={TabBar} />
-          <Drawer.Screen name="FirstScreen" component={SecondScreen} />
-          <Drawer.Screen name="LoginScreen" component={LoginScreen} />
-          <Drawer.Screen name="InputsScreen" component={InputsScreen} />
-          <Drawer.Screen name="StackScreens" component={StackScreens} />
-          <Drawer.Screen name="WaiterStack" component={WaiterStack} />
-        </Drawer.Navigator>
+        >
+          <Stack.Screen name="TabScreens" component={TabBar} />
+          <Stack.Screen name="FirstScreen" component={SecondScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="InputsScreen" component={InputsScreen} />
+          <Stack.Screen name="StackScreens" component={StackScreens} />
+          <Stack.Screen name="WaiterStack" component={WaiterStack} />
+        </Stack.Navigator>
       </NavigationContainer>
+      </SafeAreaView>
     </Provider>
   );
 }

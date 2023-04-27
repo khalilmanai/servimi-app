@@ -17,7 +17,7 @@ const WaiterStack = () => {
     >
         <WaiterStack.Screen name="WaiterHome"   component={WaiterHome}
           options={{
-          
+       
             drawerLockMode: 'locked-closed', // Disable drawer on this screen
           }} />
         <WaiterStack.Screen name='EntryScreen' component={SecondScreen} />

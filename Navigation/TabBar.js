@@ -9,11 +9,17 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Favorites from '../pages/Favorites';
 import HomePage from '../pages/HomePage';
-import Rewards from '../pages/Rewards';
+
 import { useNavigation } from '@react-navigation/native';
 import Cart from '../pages/Cart';
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
+import Settings from '../pages/Settings';
+import { useSelector } from 'react-redux';
+import { Alert } from 'react-native';
 export const TabBar = () => {
+
+  const scanned = useSelector(state => state.scan.scanned)
+
   const navigation = useNavigation()
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
@@ -25,11 +31,11 @@ export const TabBar = () => {
       case 'Favorites':
         icon = 'heart-outline';
         break;
-        case 'Rewards': 
-        icon =  'trophy-outline'
+        case 'Cart': 
+        icon =  'fast-food-outline'
         break;
-        case 'Cart':
-        icon= 'fast-food-outline';
+        case 'Settings':
+        icon= 'settings-outline';
         break;
     }
     return (
@@ -43,14 +49,24 @@ export const TabBar = () => {
   const renderTabBar = ({ routeName, selectedTab, navigate }) => {
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate(routeName)}
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        {_renderIcon(routeName, selectedTab)}
-      </TouchableOpacity>
+      onPress={() => {
+        if (routeName === 'Cart' && scanned===false) {
+          Alert.alert('servimi','scanner le qr du table pour pouvoir commander', [
+            {
+              text : 'ok'
+            }
+          ])
+          return;
+        }
+        navigation.navigate(routeName);
+      }}
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      {_renderIcon(routeName, selectedTab)}
+    </TouchableOpacity>
     );
   };
 
@@ -93,16 +109,17 @@ export const TabBar = () => {
             position="LEFT"
             component={Favorites}
           />
-          <CurvedBottomBarExpo.Screen
-            name="Rewards"
-            component={Rewards}
-            position="RIGHT"
-          />
-             <CurvedBottomBarExpo.Screen
+           <CurvedBottomBarExpo.Screen
             name="Cart"
             component={Cart}
             position="RIGHT"
           />
+          <CurvedBottomBarExpo.Screen
+            name="Settings"
+            component={Settings}
+            position="RIGHT"
+          />
+            
         </CurvedBottomBarExpo.Navigator>
 
     </View>
