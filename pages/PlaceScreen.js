@@ -131,13 +131,14 @@ const styles = StyleSheet.create({
   },
   bottomSide: {
     height: "55%",
+    backgroundColor:'white',
     position: "absolute",
     alignItems: "center",
     right: 0,
     left: 0,
     bottom: 0,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
   },
   nom: {
     fontFamily: "Cairo",

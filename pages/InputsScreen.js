@@ -19,11 +19,9 @@ const InputsScreen = ({ navigation }) => {
   const handleEmailChange = (value) => {
     setEmail(value);
   };
-
   const handlePasswordChange = (value) => {
     setPassword(value);
   };
-
   const userData = {
     email: email,
     password: password,

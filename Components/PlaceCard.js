@@ -21,7 +21,7 @@ const PlaceCard = ({ place }) => {
     <TouchableOpacity
     onPress={() => {
       navigation.navigate("StackScreens", {
-        screen: "PlaceScreen",
+        screen: "ItemList",
         params: place,
       });
     }}

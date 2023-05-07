@@ -1,107 +1,127 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  StyleSheet,
-  Text,
   View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { getCategorie } from "../api/axios";
 import ItemCard from "../Components/ItemCard";
 import UserPanel from "../Components/UserPanel";
-import { getCategorie } from "../api/axios";
-import { addItem } from "../redux/ItemReducer";
-import { addSupp } from "../redux/suppsReducer";
 
-const ItemList = () => {
-  const scannedData = useSelector((state) => state.scan.data).slice(2, 3);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-
-  const dispatch = useDispatch();
-
-  async function fetchCategories() {
-    try {
-      setLoading(true);
-      const data = await getCategorie(scannedData);
-   
-
-      data[0].menuItems.forEach((item) => {
-        dispatch(addItem(item));
-      });
-
-      data[0].menuSupplements.forEach((item) => {
-        dispatch(addSupp(item));
-      });
-    } catch (error) {
-    throw  new Error(error)
-      // Display a user-friendly error message
-    } finally {
-      setLoading(false);
-    }
-  }
+const ListTest = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetchCategories();
+    const fetchData = async () => {
+      try {
+        const data = await getCategorie(3);
+        setCategories(data);
+        setSelectedCategory(data[0]?.categId);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  function handleRefresh() {
-    setRefreshing(true);
-    fetchCategories().then(() => setRefreshing(false));
-  }
+  const renderCategoryItem = ({ item }) => (
+    <TouchableOpacity
+      style={[
+        styles.categoryItemContainer,
+        selectedCategory === item.categId && styles.selectedCategoryItemContainer,
+      ]}
+      onPress={() => setSelectedCategory(item.categId)}
+    >
+      <Text
+        style={[
+          styles.categoryItemText,
+          selectedCategory === item.categId && styles.selectedCategoryItemText,
+        ]}
+      >
+        {item.nom}
+      </Text>
+    </TouchableOpacity>
+  );
 
-  const items = useSelector((state) => state.item);
-  const supps = useSelector((state) => state.supp);
+  const getSelectedCategoryItems = () => {
+    const selectedCategoryObj = categories.find(
+      (category) => category.categId === selectedCategory
+    );
+
+    if (selectedCategoryObj) {
+      return selectedCategoryObj.menuItems;
+    } else {
+      return [];
+    }
+  };
 
   return (
     <View style={styles.container}>
       <UserPanel headerText="Votre liste des" secondText="Aliments" />
-      {loading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#FB8703" />
-        </View>
-      ) : (
-        <View>
-          <FlatList
-            data={items}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            renderItem={({ item }) => <ItemCard item={item} />}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={handleRefresh}
-              />
-            }
-          />
-          <Text> Supplments </Text>
-          <FlatList
-            data={supps}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            renderItem={({ item }) => <ItemCard item={item} />}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={handleRefresh}
-              />
-            }
-          />
-        </View>
+      <FlatList
+        data={categories}
+        keyExtractor={(item) => item.categId.toString()}
+        renderItem={renderCategoryItem}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      />
+
+      {selectedCategory && (
+        <FlatList
+          data={getSelectedCategoryItems()}
+          keyExtractor={(item) => item.itemId.toString()}
+          renderItem={({ item }) => <ItemCard item={item} />}
+        />
       )}
     </View>
   );
 };
 
-export default ItemList;
+export default ListTest;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    padding: 10,
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  categoryItemContainer: {
+    justifyContent:'center',
+    alignItems:'center',
+    marginBottom:'20%',
+   
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  selectedCategoryItemContainer: {
+    backgroundColor: "#F5A623",
+  },
+  categoryItemText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#222",
+  },
+  selectedCategoryItemText: {
+    color: "#fff",
+  },
+  itemContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    marginHorizontal: 10,
+    marginVertical: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

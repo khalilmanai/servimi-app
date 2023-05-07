@@ -87,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
   enabled={false}
   style={styles.container}
 >
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.box}>
       <Image style={styles.img} source={logo} />
       <Inputs
         value={userName}
@@ -143,20 +143,6 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.divider} />
-      <View style={styles.buttonBox}>
-        <View>
-          <TouchableOpacity style={styles.gbutton}>
-            <Image style={styles.icon} source={google} />
-            <Text style={styles.text}>Connecter avec Google</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <TouchableOpacity style={styles.gbutton}>
-            <Image style={styles.icon} source={facebook} />
-            <Text style={styles.text}>Connecter avec Facebook</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -174,6 +160,10 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     height: height / 2.5,
     width: width / 1.5,
+  },
+  box : {
+marginBottom:'25%',
+alignItems:'center'
   },
   divider: {
     width: "50%",

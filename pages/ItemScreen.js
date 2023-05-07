@@ -50,9 +50,6 @@ const addToCart = (item) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back-outline" size={30} color="#FB8703" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.openDrawer()}>
-          <Ionicons name="menu-outline" size={30} color="#FB8703" />
-        </TouchableOpacity>
       </View>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: base64Image }} />

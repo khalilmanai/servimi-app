@@ -16,18 +16,19 @@ const ItemCard = ({ item}) => {
       }}
     >
       <View style={styles.box}>
+      <View>
+          <Image
+            style={{ height: 110, width: 110,  borderRadius:50}}
+            source={{ uri: base64Image }}
+            resizeMode="cover"
+          />
+        </View>
         <View style={styles.textBox}>
           <Text style={styles.txt}>{item.nom}</Text>
           <Text style={styles.desc}>{item.description}</Text>
           <Text style={styles.prix}>{item.prix} DT </Text>
         </View>
-        <View>
-          <Image
-            style={{ height: 110, width: 110, marginRight: -50 , borderRadius:50}}
-            source={{ uri: base64Image }}
-            resizeMode="cover"
-          />
-        </View>
+        
       </View>
     </TouchableOpacity>
   );
@@ -45,15 +46,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: "95%",
     height: "100%",
-    backgroundColor: "#D3D3D3",
-    borderRadius: 10,
+    backgroundColor: "white",
+    borderRadius: 50,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     overflow: "hidden",
   },
   textBox: {
-    margin: "5%",
+    marginRight:"20%"
   },
   txt: {
     fontFamily: "Cairo",

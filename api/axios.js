@@ -18,6 +18,8 @@ export const getEtablissement = async () => {
     const response = await ApiManager.get(
       "/solutionprisecommandeatable/v1/MANAGER/etablissements"
     );
+   const menuItems = response.data.menuItems
+   console.log(menuItems)
     return response.data;
   } catch (error) {
     console.error(error);
@@ -32,14 +34,15 @@ export const handlelogin = async (username, password, dispatch) => {
     });
 
     if (response.status === 200) {
-      const { token, role, userID } = response.data; // get the token and role from the respons
+      const { token, role, userID  , email , username} = response.data;
+   // get the token and role from the respons
       dispatch(setRole(role));
 
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("role", role);
       await AsyncStorage.setItem("userID", JSON.stringify(userID));
-      await AsyncStorage.setItem("username", JSON.stringify(username))
-   
+      await AsyncStorage.setItem("username", username)
+      await AsyncStorage.setItem("email", email)
 
       return { success: true, role }; // return the role along with the success message
     } else if (response.status == 401) {
@@ -158,9 +161,11 @@ export const changeStatus = async (TableId) => {
 };
 
 export const changeStatusCommande = async (comid , status) => {
+  console.log(status)
 
   try {
     const response = await ApiManager.put(`/${comid}/statut`, Object(status));
+  
     return response.data;
   } catch (error) {
     console.error(error);
@@ -227,3 +232,12 @@ export const sendCommandeClient = async (commandeData) => {
     console.error("error in sending commandeClient ", error);
   }
 };
+
+export const updateUserData  =  async (newData) =>{
+   try {
+    const response = await ApiManager.put(`/solutionprisecommandeatable/v1/Serveur/modifier/${userID}`, newData)
+    return response.data
+   }catch(error){
+    console.error("error in updating user data" , error)
+   }
+}
