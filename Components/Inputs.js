@@ -12,7 +12,6 @@ const Inputs = (props) => {
         secureTextEntry={props.secureText}
         keyboardType={props.type}
         placeholder={props.placeholder}
-      
       />
     </View>
   );
@@ -26,8 +25,7 @@ const styles = StyleSheet.create({
     height: height / 15,
     backgroundColor: "#E5E4E2",
     margin: 10,
-    borderRadius:10,
-    paddingLeft:20,
-  
+    borderRadius: 10,
+    paddingLeft: 20,
   },
 });

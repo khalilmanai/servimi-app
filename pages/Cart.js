@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   buttonsContainer: {
+    marginBottom:"30%",
     position: "absolute",
     bottom: 0,
   },

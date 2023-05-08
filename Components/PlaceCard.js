@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import starImg from "../assets/images/Icons/star.png";
-import location from "../assets/images/Icons/location.png";
 import { useDispatch } from "react-redux";
 import { setPlace } from "../redux/placeReducer";
 
@@ -21,7 +19,7 @@ const PlaceCard = ({ place }) => {
     <TouchableOpacity
     onPress={() => {
       navigation.navigate("StackScreens", {
-        screen: "ItemList",
+        screen: "PlaceScreen",
         params: place,
       });
     }}

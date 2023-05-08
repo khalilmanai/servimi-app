@@ -6,7 +6,7 @@ import { setuserID } from "../redux/userIDSlice";
 //http://10.0.2.2:8081
 //http://192.168.1.15:8081
 
-const baseUrl = "http://10.0.2.2:8081";
+const baseUrl = "http://192.168.31.172:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -19,7 +19,7 @@ export const getEtablissement = async () => {
       "/solutionprisecommandeatable/v1/MANAGER/etablissements"
     );
    const menuItems = response.data.menuItems
-   console.log(menuItems)
+
     return response.data;
   } catch (error) {
     console.error(error);
@@ -233,9 +233,9 @@ export const sendCommandeClient = async (commandeData) => {
   }
 };
 
-export const updateUserData  =  async (newData) =>{
+export const updateUserData  =  async (newData , userId) =>{
    try {
-    const response = await ApiManager.put(`/solutionprisecommandeatable/v1/Serveur/modifier/${userID}`, newData)
+    const response = await ApiManager.put(`/solutionprisecommandeatable/v1/Serveur/modifier/${userId}`, newData)
     return response.data
    }catch(error){
     console.error("error in updating user data" , error)

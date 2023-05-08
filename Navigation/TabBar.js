@@ -3,7 +3,7 @@ import {
   Animated,
   StyleSheet,
   TouchableOpacity,
-  View,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -42,7 +42,7 @@ export const TabBar = () => {
       <Ionicons
         name={icon}
         size={25}
-        color={routeName === selectedTab ? 'black' : 'gray'}
+        color={routeName === selectedTab ? '#FB8703' : 'gray'}
       />
     );
   };
@@ -71,7 +71,11 @@ export const TabBar = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    enabled={false}
+    style={{flex:1}}
+  >
      
         <CurvedBottomBarExpo.Navigator
           style={styles.bottomBar}
@@ -122,7 +126,7 @@ export const TabBar = () => {
             
         </CurvedBottomBarExpo.Navigator>
 
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

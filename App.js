@@ -13,6 +13,7 @@ import { TabBar, styles } from "./Navigation/TabBar";
 
 import "react-native-gesture-handler";
 import { SafeAreaView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 const Stack = createStackNavigator();
 
@@ -24,25 +25,25 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
   return (
     <Provider store={store}>
-      <SafeAreaView style={{flex:1}}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="FirstScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="TabScreens" component={TabBar} />
-          <Stack.Screen name="FirstScreen" component={SecondScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="InputsScreen" component={InputsScreen} />
-          <Stack.Screen name="StackScreens" component={StackScreens} />
-          <Stack.Screen name="WaiterStack" component={WaiterStack} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar />
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="FirstScreen"
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="TabScreens" component={TabBar} />
+            <Stack.Screen name="FirstScreen" component={SecondScreen} />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="InputsScreen" component={InputsScreen} />
+            <Stack.Screen name="StackScreens" component={StackScreens} />
+            <Stack.Screen name="WaiterStack" component={WaiterStack} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </SafeAreaView>
     </Provider>
   );

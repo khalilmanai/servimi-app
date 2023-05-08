@@ -1,17 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
 import { SearchBar } from "@rneui/base";
 
-import UserPanel from "../Components/UserPanel";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  KeyboardAvoidingView
+  ,
+  ActivityIndicator,
+  RefreshControl,
+} from "react-native";
+import { getEtablissement } from "../api/axios";
 
-import PlaceList from "../Components/PlaceList";
+import UserPanel from "../Components/UserPanel";
+import PlaceCard from "../Components/PlaceCard";
 
 const HomePage = () => {
+  const [etablissement, setEtablissement] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [query, setQuery] = useState("");
+  const updateQuery = (query) => {
+    setQuery(query);
+  };
+
+  useEffect(() => {
+    refreshList();
+  }, []);
+
+  const refreshList = async () => {
+    setRefreshing(true);
+    try {
+      const data = await getEtablissement();
+      setEtablissement(data);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+console.log(etablissement)
+const filterData = () => {
+  return etablissement.filter((item) =>
+    item.nom.toLowerCase().includes(query.toLowerCase())
+  );
+};
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    enabled={false}
+    style={styles.container}
+  >
       <View style={{ height: 100, margin: "2%" }}>
-        <UserPanel headerText='Bienvenue dans' secondText='Servimi'/>
+        <UserPanel headerText="Bienvenue dans" secondText="Servimi" />
       </View>
       <View style={{ margin: "2%" }}>
         <SearchBar
@@ -20,6 +63,7 @@ const HomePage = () => {
           inputContainerStyle={styles.searchBarInputContainer}
           inputStyle={styles.searchBarInput}
           round
+          onChangeText={updateQuery}
           lightTheme
           value={query}
           placeholder="Recherche"
@@ -32,13 +76,30 @@ const HomePage = () => {
           Découvrir
         </Text>
         <View style={{ width: "100%", height: "100%" }}>
-          <PlaceList
-            key="place-list"
-          
-          />
+          {isLoading ? (
+            <View
+              style={{ flex: 1, justifyContent: "center", marginBottom: "50%" }}
+            >
+              <ActivityIndicator size="large" color="#FB8703" />
+            </View>
+          ) : (
+            <FlatList
+              data={filterData()}
+              keyExtractor={(item) => item.etabId.toString()}
+              renderItem={({ item }) => (
+                <PlaceCard key={item.etabId} place={item} />
+              )}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={refreshList}
+                />
+              }
+            />
+          )}
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 export default HomePage;

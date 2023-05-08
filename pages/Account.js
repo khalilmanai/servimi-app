@@ -1,42 +1,49 @@
-import { StyleSheet, Text, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Inputs from "../Components/Inputs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import { updateUserData } from "../api/axios";
+import { StatusBar } from "expo-status-bar";
 
 const Account = () => {
-  const [username, setUsername] = useState(null);
-  const [emailPlaceholder, setEmailPlaceholder] = useState(null);
+  const [username, setUsername] = useState("");
+  const [emailPlaceholder, setEmailPlaceholder] = useState("");
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userID, setUserID] = useState("");
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   useEffect(() => {
-    AsyncStorage.getItem('username')
-      .then(value => {
-        console.log(value)
-        setUsername(value || '');
+    AsyncStorage.getItem("userID")
+
+      .then((value) => {
+        setUserID(value || "");
       })
-      .catch(error => {
-        console.error('Error retrieving username:', error);
+      .catch((error) => {
+        console.error("Error retrieving userID:", error);
       });
 
-    AsyncStorage.getItem('email')
-      .then(value => {
-        console.log(value)
-        setEmailPlaceholder(value || '');
+    AsyncStorage.getItem("username")
+      .then((value) => {
+        setUsername(value || "");
       })
-      .catch(error => {
-        console.error('Error retrieving email:', error);
+      .catch((error) => {
+        console.error("Error retrieving username:", error);
+      });
+
+    AsyncStorage.getItem("email")
+      .then((value) => {
+        setEmailPlaceholder(value || "");
+      })
+      .catch((error) => {
+        console.error("Error retrieving email:", error);
       });
   }, []);
-
 
   const handleUserNameChange = (value) => {
     setUserName(value);
@@ -67,25 +74,34 @@ const Account = () => {
   };
 
   const onSavePress = async () => {
-    const token = await getToken();
-
     const newData = {
       username: userName,
       password: password,
       email: email,
-      userID: userid,
+      userID: userID,
+      role: {
+        id: 3,
+        name: "ROLE_CLIENT",
+      },
     };
-    await changeInformations(newData);
+    console.log(newData);
+    console.log(userID);
+    await updateUserData(newData, userID);
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={false}
+      style={styles.container}
+    >
+      <StatusBar />
       <View style={styles.backgroundView}>
-        <TouchableOpacity style={{ marginTop: "10%", marginLeft: "5%" }}
-        onPress={()=>{
-          navigation.goBack()
-        }}
-        
+        <TouchableOpacity
+          style={{ marginTop: "10%", marginLeft: "5%" }}
+          onPress={() => {
+            navigation.goBack();
+          }}
         >
           <Ionicons name="arrow-back-outline" size={32} color="white" />
         </TouchableOpacity>
@@ -104,39 +120,64 @@ const Account = () => {
         </View>
       </View>
       <View style={styles.foregroundView}>
-        <View style={styles.inputContainer}>
-          <Inputs
-            value={email}
-            changeValue={handleEmailChange}
-            placeholder={
-              emailPlaceholder ? emailPlaceholder : "email"
-            }
-            type="email-address"
-          />
-          <Inputs
-            value={userName}
-            changeValue={handleUserNameChange}
-            placeholder={username ? username : "Nom d'utilisateur"}
-          />
-          <Inputs
-            value={password}
-            changeValue={handlePasswordChange}
-            placeholder="Mot du passe"
-          />
+        <View style={{ alignItems: "center" }}>
+          <Text
+            style={{
+              marginTop: "10%",
+              marginBottom: "-10%",
+              fontFamily: "Cairo",
+              fontSize: 16,
+              color: "#8E8D8C",
+              width: "60%",
+              textAlign: "center",
+            }}
+          >
+            Veuillier intégrer vos nouvelles informations
+          </Text>
+          <View style={styles.inputContainer}>
+            <Inputs
+              value={email}
+              changeValue={handleEmailChange}
+              placeholder={emailPlaceholder ? emailPlaceholder : "email"}
+              type="email-address"
+            />
+            <Inputs
+              value={userName}
+              changeValue={handleUserNameChange}
+              placeholder={username ? username : "Nom d'utilisateur"}
+            />
+            <View style={{ flexDirection: "row", left: 15 }}>
+              <Inputs
+                value={password}
+                changeValue={handlePasswordChange}
+                placeholder="Mot du passe"
+                secureText={obscure}
+              />
+              <View style={{ alignSelf: "center", left: -45 }}>
+                <TouchableOpacity style={{}} onPress={handleObscure}>
+                  <Ionicons
+                    name={obscure ? "eye-outline" : "eye-off-outline"}
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => {
-                onSavePress();
-              }}
-            >
-              <Text style={styles.paragraph}>Sauvegarder</Text>
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  onSavePress();
+                }}
+              >
+                <Text style={styles.paragraph}>Sauvegarder</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -177,10 +218,12 @@ const styles = StyleSheet.create({
   },
 
   inputContainer: {
+    alignItems: "center",
     width: "100%",
     marginTop: "10%",
-    alignItems: "center",
+    marginBottom: "10%", // Add marginBottom to adjust spacing
   },
+
   buttonContainer: {
     marginTop: "10%",
     width: "90%",

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { disconnect } from "../api/axios";
 import { useNavigation } from "@react-navigation/native";
+import { KeyboardAvoidingView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 const Settings = () => {
   const navigation = useNavigation();
@@ -13,7 +15,12 @@ const Settings = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    enabled={false}
+    style={styles.container}
+  >
+    <StatusBar />
       <View style={styles.header}>
         <TouchableOpacity
           style={{ margin: "2%" }}
@@ -59,14 +66,20 @@ const Settings = () => {
           </View>
         )}
       </View>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={false}
+      style={styles.disconnect}
+    >
 
       <TouchableOpacity
-        style={styles.disconnect}
+       
         onPress={() => disconnect(navigation)}
       >
         <Text style={styles.disconnectText}>se déconnecter</Text>
       </TouchableOpacity>
-    </View>
+      </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -114,11 +127,12 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
   },
   disconnect: {
+
     borderWidth: 1,
     borderRadius: 10,
     width: "70%",
     padding: 10,
-    marginTop: "80%",
+    marginTop: "40%",
     borderColor: "red",
     alignItems: "center",
   },
