@@ -19,7 +19,6 @@ import { handlelogin } from "../api/axios";
 import { useDispatch, useSelector } from "react-redux";
 import { KeyboardAvoidingView } from "react-native";
 
-
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -43,31 +42,30 @@ const LoginScreen = ({ navigation }) => {
   const validatePassword = () => {
     //validate usernmae
   };
-
   const connect = async (username, password, dispatch, navigation) => {
     try {
       const { success, role } = await handlelogin(username, password, dispatch);
-      console.log(success, role)
+      console.log(success, role);
       if (success) {
         if (role === "ROLE_WAITER") {
           navigation.navigate("WaiterStack", { screen: "WaiterHome" });
         } else if (role === "ROLE_CLIENT") {
           navigation.navigate("TabScreens", { screen: "Home" });
-        } else {
-          Alert.alert("servimi", "You are not eligible");
         }
-
-        console.log("Connected successfully");
-        return true;
       } else {
-        console.error("Problem connecting");
-        return false;
+        Alert.alert(
+          success ? "Access avec succes" : "servimi",
+          success ? "Role: " + role : "Veuillier vérifier vos informations",
+          [{ text: "OK" }]
+        );
       }
     } catch (error) {
-      console.error("Problem connecting", error);
+  
+      Alert.alert("Error", error.message, [{ text: "OK" }]);
       return false;
     }
   };
+  
 
   const [obscure, setObscure] = useState(true);
 
@@ -82,68 +80,68 @@ const LoginScreen = ({ navigation }) => {
     navigation.navigate("ResetPassword");
   };
   return (
-<KeyboardAvoidingView
-  behavior={Platform.OS === "ios" ? "padding" : "height"}
-  enabled={false}
-  style={styles.container}
->
-    <SafeAreaView style={styles.box}>
-      <Image style={styles.img} source={logo} />
-      <Inputs
-        value={userName}
-        changeValue={handleUserNameChange}
-        placeholder="Nom D'utilisateur"
-      />
-      <View style={{ flexDirection: "row" }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={false}
+      style={styles.container}
+    >
+      <SafeAreaView style={styles.box}>
+        <Image style={styles.img} source={logo} />
         <Inputs
-          value={password}
-          secureText={obscure}
-          changeValue={handlePasswordChange}
-          placeholder="Mot du passe"
+          value={userName}
+          changeValue={handleUserNameChange}
+          placeholder="Nom D'utilisateur"
         />
-        <TouchableOpacity
-          style={{ position: "absolute", right: "9%", top: "30%" }}
-          onPress={() => {
-            handleObscure();
-          }}
-        >
-          <Ionicons
-            name={obscure ? "eye-outline" : "eye-off-outline"}
-            size={24}
-            color="black"
+        <View style={{ flexDirection: "row" }}>
+          <Inputs
+            value={password}
+            secureText={obscure}
+            changeValue={handlePasswordChange}
+            placeholder="Mot du passe"
           />
+          <TouchableOpacity
+            style={{ position: "absolute", right: "9%", top: "30%" }}
+            onPress={() => {
+              handleObscure();
+            }}
+          >
+            <Ionicons
+              name={obscure ? "eye-outline" : "eye-off-outline"}
+              size={24}
+              color="black"
+            />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity onPress={gotoReset} style={styles.passText}>
+          <Text
+            style={{
+              fontFamily: "Cairo",
+              fontSize: 16,
+              color: "blue",
+              margin: "1%",
+            }}
+          >
+            mot de passe oublié ?
+          </Text>
         </TouchableOpacity>
-      </View>
-      <TouchableOpacity onPress={gotoReset} style={styles.passText}>
-        <Text
-          style={{
-            fontFamily: "Cairo",
-            fontSize: 16,
-            color: "blue",
-            margin: "1%",
-          }}
-        >
-          mot de passe oublié ?
-        </Text>
-      </TouchableOpacity>
-      <View style={styles.connectBtn}>
-        <TouchableOpacity
-          onPress={() => {
-            connect(userName, password, dispatch, navigation);
-          }}
-        >
-          <Text style={[styles.text, styles.connect]}>Se Connecter</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.connectBtn}>
+          <TouchableOpacity
+            onPress={() => {
+              connect(userName, password, dispatch, navigation);
+            }}
+          >
+            <Text style={[styles.text, styles.connect]}>Se Connecter</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.textContainer}>
-        <Text style={styles.text}>Vous n'avez pas du compte ?</Text>
-        <TouchableOpacity onPress={goto}>
-          <Text style={{ color: "blue", marginLeft: -7 }}>Créer compte</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.divider} />
-    </SafeAreaView>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Vous n'avez pas du compte ?</Text>
+          <TouchableOpacity onPress={goto}>
+            <Text style={{ color: "blue", marginLeft: -7 }}>Créer compte</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.divider} />
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };
@@ -161,9 +159,9 @@ const styles = StyleSheet.create({
     height: height / 2.5,
     width: width / 1.5,
   },
-  box : {
-marginBottom:'25%',
-alignItems:'center'
+  box: {
+    marginBottom: "25%",
+    alignItems: "center",
   },
   divider: {
     width: "50%",

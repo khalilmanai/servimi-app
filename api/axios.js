@@ -6,7 +6,7 @@ import { setuserID } from "../redux/userIDSlice";
 //http://10.0.2.2:8081
 //http://192.168.1.15:8081
 
-const baseUrl = "http://192.168.31.172:8081";
+const baseUrl = "http://192.168.1.15:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -18,7 +18,7 @@ export const getEtablissement = async () => {
     const response = await ApiManager.get(
       "/solutionprisecommandeatable/v1/MANAGER/etablissements"
     );
-   const menuItems = response.data.menuItems
+   
 
     return response.data;
   } catch (error) {
@@ -45,12 +45,6 @@ export const handlelogin = async (username, password, dispatch) => {
       await AsyncStorage.setItem("email", email)
 
       return { success: true, role }; // return the role along with the success message
-    } else if (response.status == 401) {
-      Alert("verifier vos informations");
-    } else if (response.status == 400) {
-      Alert("veuiller inserer des informations");
-    } else {
-      throw new Error("Invalid credentials");
     }
   } catch (error) {
     console.error("Login error:", error.message);
@@ -240,4 +234,18 @@ export const updateUserData  =  async (newData , userId) =>{
    }catch(error){
     console.error("error in updating user data" , error)
    }
+}
+
+
+
+export const getCommandeById = async(tableId)=>{
+  try{
+    const response = await ApiManager.get(`/solutionprisecommandeatable/v1/commandeByTable${tableId}
+    `)
+    console.log(response.data)
+    return response.data
+  }catch(error){
+    console.error(error)
+    throw new Error(error)
+  }
 }

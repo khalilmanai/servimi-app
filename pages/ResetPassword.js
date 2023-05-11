@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     resizeMode: "cover",
-    marginTop: "10%",
-    height: "40%",
+    marginTop: "30%",
+    height: "30%",
     width: "80%",
   },
   textContainer: {

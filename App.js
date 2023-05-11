@@ -10,7 +10,6 @@ import SecondScreen from "./pages/SecondScreen";
 import LoginScreen from "./pages/LoginScreen";
 import InputsScreen from "./pages/InputsScreen";
 import { TabBar, styles } from "./Navigation/TabBar";
-
 import "react-native-gesture-handler";
 import { SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";

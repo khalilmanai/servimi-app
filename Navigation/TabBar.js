@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Animated,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Favorites from '../pages/Favorites';
 import HomePage from '../pages/HomePage';
-
 import { useNavigation } from '@react-navigation/native';
 import Cart from '../pages/Cart';
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
@@ -20,7 +19,15 @@ export const TabBar = () => {
 
   const scanned = useSelector(state => state.scan.scanned)
 
+
+
   const navigation = useNavigation()
+
+  const tabBarRef = useRef(null); // Create a reference to the tab bar navigator
+
+
+
+
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
 
@@ -46,29 +53,39 @@ export const TabBar = () => {
       />
     );
   };
-  const renderTabBar = ({ routeName, selectedTab, navigate }) => {
+  const renderTabBar = ({routeName , navigation }) => {
+
+    if (routeName === 'Cart') {
+      tabBarRef.current.setVisible(false);
+    } else {
+      tabBarRef.current.setVisible(true);
+    }
     return (
       <TouchableOpacity
-      onPress={() => {
-        if (routeName === 'Cart' && scanned===false) {
-          Alert.alert('servimi','scanner le qr du table pour pouvoir commander', [
-            {
-              text : 'ok'
-            }
-          ])
-          return;
-        }
-        navigation.navigate(routeName);
-      }}
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      {_renderIcon(routeName, selectedTab)}
-    </TouchableOpacity>
+        onPress={() => {
+          if (routeName === 'Cart' && scanned === false) {
+            Alert.alert(
+              'servimi',
+              'scanner le qr du table pour pouvoir commander',
+              [{ text: 'ok' }]
+            );
+            return;
+          } else if (routeName === 'Cart' && scanned === true) {
+            navigation.navigate(routeName);
+            hideTabBar();
+          }
+          navigation.navigate(routeName);
+        }}
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        {_renderIcon(routeName)}
+      </TouchableOpacity>
     );
   };
+  
 
   return (
     <KeyboardAvoidingView
@@ -79,7 +96,7 @@ export const TabBar = () => {
      
         <CurvedBottomBarExpo.Navigator
           style={styles.bottomBar}
-       
+          ref={tabBarRef} 
           height={60}
           circleWidth={50}
           bgColor="white"
@@ -89,6 +106,7 @@ export const TabBar = () => {
             headerShown:false,
             tabBarHideOnKeyboard:true,
           }}
+        
           renderCircle={({ selectedTab }) => (
             <Animated.View style={styles.btnCircle}>
               <TouchableOpacity
@@ -114,6 +132,7 @@ export const TabBar = () => {
             component={Favorites}
           />
            <CurvedBottomBarExpo.Screen
+    
             name="Cart"
             component={Cart}
             position="RIGHT"

@@ -1,35 +1,44 @@
 import React, { useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  FlatList,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {
-  removeItemFromCart,
-  clearCart,
-  calculateTotal,
-} from "../redux/cartReducers";
+import { clearCart, calculateTotal } from "../redux/cartReducers";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TouchableOpacity } from "react-native";
 import { creerCommande, sendCommandeClient } from "../api/axios";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "expo-status-bar";
+import ItemCartCard from "../Components/ItemCartCard";
+import Inputs from "../Components/Inputs";
+import { useState } from "react";
 
 const Cart = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  
+
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartSupps = useSelector((state) => state.cart.cartSupps);
   const totalPrice = useSelector((state) => state.cart.total);
-  const scannedData = useSelector((state) => state.scan.data.slice(9, 10));
-
+  const scannedData = useSelector((state) => state.scan.data ? state.scan.data.slice(9, 10) : []);
+ 
+  console.log(scannedData)
   // Removing undefined values from cartItems
   const filteredCartItems = cartItems.filter((item) => item.id !== undefined);
 
   // Removing undefined values from cartSupps
   const filteredCartSupps = cartSupps.filter((item) => item.id !== undefined);
 
-  const handleRemoveFromCart = (product) => {
-    dispatch(removeItemFromCart(product));
+  const [tip, setTip] = useState("");
+  const handleTipChange = (value) => {
+    setTip(value);
   };
   const handleClearCart = () => {
     dispatch(clearCart());
@@ -46,10 +55,10 @@ const Cart = () => {
   );
 
   const handleConfirm = async () => {
-    const comidString = await AsyncStorage.getItem('comid');
+    const comidString = await AsyncStorage.getItem("comid");
     const comid = JSON.parse(comidString);
-    const userID = await  AsyncStorage.getItem("userID");
-  const userId = JSON.parse(userID);
+    const userID = await AsyncStorage.getItem("userID");
+    const userId = JSON.parse(userID);
 
     try {
       const commandeInfo = {
@@ -59,124 +68,114 @@ const Cart = () => {
           tableID: scannedData,
         },
         totalAddition: totalPrice,
-        totalTip: 120.0,
+        totalTip: tip ? tip : 0,
       };
 
       const commandeData = {
         commande: {
-          comid: comid+1,
+          comid: comid + 1,
         },
         addition: totalPrice,
         items: ItemsArray,
         supps: SuppsArray,
-        tip: 0,
+        tip:tip ? tip : 0,
         utilisateur: {
           userID: userId,
         },
       };
-    
 
       const response = await creerCommande(commandeInfo);
       const responseClient = await sendCommandeClient(commandeData);
       console.log(responseClient);
-      return (
-    responseClient.data , response.data, navigation.navigate("Home")
-      );
+      return responseClient.data, response.data, navigation.navigate("Home");
     } catch (error) {
       console.error("handling problem: ", error);
     }
   };
 
-  const RenderItem = (props) => {
-    const item = props.item;
-
-    return (
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar />
       <View
         style={{
-          margin: "2%",
-          height: "15%",
-          width: "95%",
-          borderRadius: 10,
-          backgroundColor: "#D3D3D3",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          padding: 16,
         }}
-        index={props.index}
-        
       >
-        <View style={{ margin: "5%", height: "90%" }}>
-          <Text style={styles.name}>{item.nom}</Text>
-          <Text style={styles.name}>{item.description}</Text>
-          <View
-            style={{
-              height: "29%",
-              width: "100%",
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 10,
-            }}
-          >
-            <Text style={styles.quantity}>x{item.quantity}</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            height: "90%",
-            margin: "5%",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back-outline" color="#FB7803" size={24} />
+        </TouchableOpacity>
+        <Text style={styles.headerText}> Votre Panier </Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("StackScreens", { screen: "CommandeDetails" });
           }}
         >
-          <TouchableOpacity onPress={() => handleRemoveFromCart(item)}>
-            <Ionicons name="close" size={19} color="#FB8703" />
+          <Ionicons name="clipboard-outline" color="#FB7803" size={24} />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          margin: 16,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          borderWidth: 1,
+          borderColor: "black",
+          borderRadius: 10,
+        }}
+      >
+        <Text style={{ margin: 10, fontFamily: "Cairo", fontSize: 24 }}>
+          Total actuel
+        </Text>
+        <Text style={{ fontFamily: "Cairo", fontSize: 24, margin: 10 }}>
+          {totalPrice} DT
+        </Text>
+      </View>
+      <View style={{ justifyContent: "center", alignSelf: "center" }}>
+        <Inputs
+          value={tip}
+          changeValue={handleTipChange}
+          placeholder="pour boire "
+        />
+      </View>
+      <View style={{ height: "50%" }}>
+        <FlatList
+          style={{ height: "100%" }}
+          data={cartItems}
+          keyExtractor={(item, index) => `item-${index}`}
+          renderItem={({ item }) => <ItemCartCard item={item} />}
+        />
+      </View>
+      <View style={styles.buttonsContainer}>
+        <View style={{ margin: 10, width: "100%" }}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              handleClearCart();
+            }}
+          >
+            <Text style={styles.btnText}>Vider Commande</Text>
           </TouchableOpacity>
-
-          <Text style={styles.price}>{item.prix} DT</Text>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() => {
+              handleConfirm();
+            }}
+          >
+            <Text style={styles.btnText}>Passer Commande</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    );
-  };
-  return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        {cartItems.map((item) => (
-          <RenderItem key={item.id} item={item}  />
-        ))}
-
-        <View style={styles.buttonsContainer}>
-          <View style={{ margin: 10 }}>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.total}>Total: </Text>
-              <Text style={styles.total}>{totalPrice} DT</Text>
-            </View>
-            <Button
-              color="#FB8703"
-              title="Vider Commande"
-              onPress={handleClearCart}
-            />
-          </View>
-          <View style={{ margin: 10 }}>
-            <Button
-              color="#FB8703"
-              title="Terminer Commande"
-              onPress={() => {
-                handleConfirm();
-              }}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    width: "100%",
   },
   card: {
     backgroundColor: "#ffffff",
@@ -191,6 +190,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 3,
+  },
+  headerText: {
+    fontFamily: "Cairo",
+    fontSize: 24,
   },
   name: {
     fontFamily: "Cairo",
@@ -213,9 +216,24 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   buttonsContainer: {
-    marginBottom:"30%",
+    alignSelf: "center",
+    width: "100%",
+    margin: 40,
     position: "absolute",
     bottom: 0,
+  },
+  btn: {
+    backgroundColor: "#FB8703",
+    height: "45%",
+    width: "96%",
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnText: {
+    fontFamily: "Cairo",
+    color: "white",
+    fontSize: 16,
   },
 });
 

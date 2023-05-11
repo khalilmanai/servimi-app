@@ -6,8 +6,7 @@ import {
   Text,
   View,
   FlatList,
-  KeyboardAvoidingView
-  ,
+  KeyboardAvoidingView,
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
@@ -28,7 +27,7 @@ const HomePage = () => {
   useEffect(() => {
     refreshList();
   }, []);
-
+ 
   const refreshList = async () => {
     setRefreshing(true);
     try {
@@ -41,18 +40,17 @@ const HomePage = () => {
       setRefreshing(false);
     }
   };
-console.log(etablissement)
-const filterData = () => {
-  return etablissement.filter((item) =>
-    item.nom.toLowerCase().includes(query.toLowerCase())
-  );
-};
+  const filterData = () => {
+    return etablissement.filter((item) =>
+      item.nom.toLowerCase().includes(query.toLowerCase())
+    );
+  };
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
-    enabled={false}
-    style={styles.container}
-  >
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      enabled={false}
+      style={styles.container}
+    >
       <View style={{ height: 100, margin: "2%" }}>
         <UserPanel headerText="Bienvenue dans" secondText="Servimi" />
       </View>

@@ -1,38 +1,33 @@
-import React, { useEffect, useState }  from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Octicons } from "@expo/vector-icons";
-
-import { useNavigation } from "@react-navigation/native";
-import { getuser } from "../api/getUser";
-
-
+import { StyleSheet, Text, View } from "react-native";
 const UserPanel = (props) => {
-const user = getuser()
-   const navigation = useNavigation()
-
-
   return (
-
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.userContainer}>
           <View style={styles.textContainer}>
-            <Text style={styles.welcomeText}>{props.headerText }</Text>
-            <Text style={{marginTop :'-10%', fontFamily:'Cairo' , fontSize : 42, color:'#FB8703'}}>{props.secondText}</Text>
+            <Text style={styles.welcomeText}>{props.headerText}</Text>
+            <Text
+              style={{
+                marginTop: "-10%",
+                fontFamily: "Cairo",
+                fontSize: 42,
+                color: "#FB8703",
+              }}
+            >
+              {props.secondText}
+            </Text>
           </View>
         </View>
-     
       </View>
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     marginTop: 20,
-    width:'100%'
+    width: "100%",
   },
   topContainer: {
     flexDirection: "row",
@@ -54,14 +49,13 @@ const styles = StyleSheet.create({
   },
 
   textContainer: {
-    width:'80%',
-    justifyContent:'center',
-
+    width: "80%",
+    justifyContent: "center",
   },
   welcomeText: {
     fontFamily: "Cairo",
-    fontSize : 24,
-    lineHeight:40
+    fontSize: 24,
+    lineHeight: 40,
   },
 
   username: {

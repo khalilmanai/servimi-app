@@ -1,6 +1,6 @@
 import React from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { View, Text, StyleSheet , TouchableOpacity , Image } from "react-native";
+import { View, Text, StyleSheet , TouchableOpacity , Image, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { addItemToCart ,addSuppToCart } from "../redux/cartReducers";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -17,6 +17,7 @@ const addToCart = (item) => {
     addItemToCart({
       id : item.itemId,
       nom : item.nom,
+      img : item.image,
       description : item.description,
       prix : item.prix,
       quantity: quantity,
@@ -26,6 +27,7 @@ const addToCart = (item) => {
     addSuppToCart({
       nom : item.nom,
       id : item.suppId,
+      image : item.image,
       prix : item.prix,
       quantity: quantity,
     })
@@ -79,7 +81,22 @@ const addToCart = (item) => {
         </View>
         <TouchableOpacity style={styles.button} onPress={() => {
           addToCart(item),
-        alert('Element ajouté avec succées dans votre commande')
+          Alert.alert(
+            'Element ajouté avec succès dans votre commande',
+            '',
+            [
+              {
+                text: 'Vérifier le panier',
+                onPress: () => navigation.navigate('Cart'),
+              },
+              {
+                text: 'OK',
+                onPress: () => console.log('OK Pressed'),
+                style: 'cancel',
+              },
+            ],
+            { cancelable: false },
+          );
         }}>
           <Text style={styles.buttonText}>Ajouter a votre commande</Text>
         </TouchableOpacity>

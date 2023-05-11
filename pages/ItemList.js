@@ -9,15 +9,17 @@ import {
 import { getCategorie } from "../api/axios";
 import ItemCard from "../Components/ItemCard";
 import UserPanel from "../Components/UserPanel";
+import { useSelector } from "react-redux";
 
 const ListTest = () => {
+  const scannedData = useSelector((state) => state.scan.data).slice(2, 3);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getCategorie(3);
+        const data = await getCategorie(scannedData);
         setCategories(data);
         setSelectedCategory(data[0]?.categId);
       } catch (error) {
@@ -69,17 +71,24 @@ const ListTest = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
       />
-
+  
       {selectedCategory && (
-        <FlatList
-          data={getSelectedCategoryItems()}
-          keyExtractor={(item) => item.itemId.toString()}
-          renderItem={({ item }) => <ItemCard item={item} />}
-        />
+        <View>
+          <FlatList
+            data={getSelectedCategoryItems()}
+            keyExtractor={(item) => item.itemId.toString()}
+            renderItem={({ item }) => <ItemCard item={item} />}
+          />
+          <FlatList
+            data={categories.find((category) => category.categId === selectedCategory)?.menuSupplements}
+            keyExtractor={(item) => item.suppId.toString()}
+            renderItem={({ item }) => <ItemCard item={item} />}
+          />
+        </View>
       )}
     </View>
   );
-};
+            }  
 
 export default ListTest;
 

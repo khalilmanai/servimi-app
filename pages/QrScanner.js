@@ -9,7 +9,6 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function QRScanner() {
   const dispatch = useDispatch();
-  const scanned = useSelector((state) => state.scan.scanned);
   const navigation = useNavigation();
 
   useEffect(() => {
