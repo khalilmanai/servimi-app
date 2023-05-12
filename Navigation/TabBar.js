@@ -16,12 +16,9 @@ import Settings from '../pages/Settings';
 import { useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 export const TabBar = () => {
+  const navigation = useNavigation();
 
   const scanned = useSelector(state => state.scan.scanned)
-
-
-
-  const navigation = useNavigation()
 
   const tabBarRef = useRef(null); // Create a reference to the tab bar navigator
 
@@ -53,7 +50,7 @@ export const TabBar = () => {
       />
     );
   };
-  const renderTabBar = ({routeName , navigation }) => {
+  const renderTabBar = ({routeName }) => {
 
     if (routeName === 'Cart') {
       tabBarRef.current.setVisible(false);
@@ -73,9 +70,9 @@ export const TabBar = () => {
           } else if (routeName === 'Cart' && scanned === true) {
             navigation.navigate(routeName);
             hideTabBar();
-          }
+          }else {
           navigation.navigate(routeName);
-        }}
+         } }}
         style={{
           flex: 1,
           alignItems: 'center',
