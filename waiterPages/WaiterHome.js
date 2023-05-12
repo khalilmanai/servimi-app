@@ -12,8 +12,6 @@ import {
 import { disconnect, getData } from "../api/axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
-import { BackHandler } from "react-native";
-import { Alert } from "react-native";
 
 const WaiterHome = () => {
   const navigation = useNavigation();
@@ -43,15 +41,19 @@ const WaiterHome = () => {
   }, []);
 
   const renderItem = ({ item }) => (
+    
     <TouchableOpacity
       style={styles.card}
       onPress={() => handleCommandPress(item)}
       
     >
-      <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
+     <View style={{flexDirection:'row' , justifyContent:'space-between'}}>
+     <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
+      <Text style={styles.cardTitle}>Table:{item.t.tableID}</Text>
+     </View>
       <Text style={styles.cardText}>Date: {item.date}</Text>
       <Text style={styles.cardText}>Statut: {item.statut}</Text>
-      <Text style={styles.cardText}>Table:{item.t.tableID}</Text>
+   
       <Text style={styles.cardText}>Addition: {item.totalAddition}</Text>
       <Text style={styles.cardText}>pour boire: {item.totalTip}</Text>
     </TouchableOpacity>
@@ -81,7 +83,7 @@ const WaiterHome = () => {
       </View>
       <FlatList
         data={commandes}
-        renderItem={renderItem}
+        renderItem={(item)=> renderItem(item)}
         keyExtractor={(item) => String(item.comid)}
         ListEmptyComponent={() => {
           return (

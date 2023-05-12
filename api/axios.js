@@ -141,8 +141,8 @@ export const disconnect = async (navigation) => {
     return false;
   }
 };
-export const changeStatus = async (TableId) => {
-  const status = "occupé";
+export const changeStatus = async (TableId , status) => {
+
   try {
     const response = await ApiManager.put(
       `/WAITER/${TableId}/status`,

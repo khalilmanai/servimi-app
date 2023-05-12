@@ -39,7 +39,7 @@ const Settings = () => {
             navigation.navigate("StackScreens", { screen: "Account" })
           }
         >
-          <Text style={styles.contentText}>Paramétres Profile</Text>
+          <Text style={styles.contentText}>Modifier Profile</Text>
           <Ionicons name="chevron-forward" size={16} color="#FB8703" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.banner} onPress={toggleDropdown}>

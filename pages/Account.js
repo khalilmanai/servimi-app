@@ -136,16 +136,17 @@ const Account = () => {
           </Text>
           <View style={styles.inputContainer}>
             <Inputs
-              value={email}
+              value={email? email : emailPlaceholder}
               changeValue={handleEmailChange}
               placeholder={emailPlaceholder ? emailPlaceholder : "email"}
               type="email-address"
             />
             <Inputs
-              value={userName}
+              value={username? username :userName}
               changeValue={handleUserNameChange}
               placeholder={username ? username : "Nom d'utilisateur"}
             />
+           
             <View style={{ flexDirection: "row", left: 15 }}>
               <Inputs
                 value={password}
