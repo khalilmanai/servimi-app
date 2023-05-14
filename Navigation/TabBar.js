@@ -57,6 +57,7 @@ export const TabBar = () => {
     } else {
       tabBarRef.current.setVisible(true);
     }
+
     return (
       <TouchableOpacity
         onPress={() => {
@@ -68,10 +69,12 @@ export const TabBar = () => {
             );
             return;
           } else if (routeName === 'Cart' && scanned === true) {
+            tabBarRef.current.setVisible(false);
             navigation.navigate(routeName);
-            hideTabBar();
           }else {
+          tabBarRef.current.setVisible(true);
           navigation.navigate(routeName);
+          
          } }}
         style={{
           flex: 1,

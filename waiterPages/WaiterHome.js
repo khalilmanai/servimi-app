@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { disconnect, getData } from "../api/axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 const WaiterHome = () => {
   const navigation = useNavigation();
@@ -36,24 +36,24 @@ const WaiterHome = () => {
     }
   };
 
-  useEffect(() => {
-    fetchCommandes();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCommandes();
+    }, [])
+  );
 
   const renderItem = ({ item }) => (
-    
     <TouchableOpacity
       style={styles.card}
       onPress={() => handleCommandPress(item)}
-      
     >
-     <View style={{flexDirection:'row' , justifyContent:'space-between'}}>
-     <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
-      <Text style={styles.cardTitle}>Table:{item.t.tableID}</Text>
-     </View>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
+        <Text style={styles.cardTitle}>Table:{item.t.tableID}</Text>
+      </View>
       <Text style={styles.cardText}>Date: {item.date}</Text>
       <Text style={styles.cardText}>Statut: {item.statut}</Text>
-   
+
       <Text style={styles.cardText}>Addition: {item.totalAddition}</Text>
       <Text style={styles.cardText}>pour boire: {item.totalTip}</Text>
     </TouchableOpacity>
@@ -83,7 +83,7 @@ const WaiterHome = () => {
       </View>
       <FlatList
         data={commandes}
-        renderItem={(item)=> renderItem(item)}
+        renderItem={(item) => renderItem(item)}
         keyExtractor={(item) => String(item.comid)}
         ListEmptyComponent={() => {
           return (
@@ -129,12 +129,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 30,
-
-    
   },
   card: {
-    width:'90%',
-    alignSelf:'center',
+    width: "90%",
+    alignSelf: "center",
     backgroundColor: "#fff",
     padding: 10,
     marginBottom: 10,

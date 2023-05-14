@@ -9,40 +9,23 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { getCommandeById } from "../api/axios";
 import { useSelector } from "react-redux";
 
 
 const CommandeDetails = () => {
+  const route = useRoute()
+  const data = route.params
+  console.log(data)
   const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [commandes, setCommande] = useState([]);
   const scannedData = useSelector((state) => state.scan.data ? state.scan.data.slice(9, 10) : []);
-  const fetchCommandes = async () => {
-    const tableId = scannedData
-    try {
-      const commandesResponse = await getCommandeById(tableId);
-      console.log(commandesResponse)
-      setCommande(commandesResponse);
-      setLoading(false);
-      setRefreshing(false);
+ 
 
-    } catch (error) {
-      console.error("couldn't fetch command list", error);
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
-  
 
-  useEffect(() => {
-   
-    fetchCommandes()
-  
-  }, [scannedData]);
-  console.log(commandes)
 
   const renderItem = ({ item }) => (
     <TouchableOpacity

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   Image,
+  Alert,
   FlatList,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,7 +30,7 @@ const Cart = () => {
   const totalPrice = useSelector((state) => state.cart.total);
   const scannedData = useSelector((state) => state.scan.data ? state.scan.data.slice(9, 10) : []);
  
-  console.log(scannedData)
+
   // Removing undefined values from cartItems
   const filteredCartItems = cartItems.filter((item) => item.id !== undefined);
 
@@ -84,10 +85,18 @@ const Cart = () => {
         },
       };
 
+      console.log(commandeInfo)
+
       const response = await creerCommande(commandeInfo);
       const responseClient = await sendCommandeClient(commandeData);
-      console.log(responseClient);
-      return responseClient.data, response.data, navigation.navigate("Home");
+      return responseClient.data, response.data,  Alert.alert(
+        'servimi',
+        'Votre commande est envoyé avec succés et en attente',
+        [{ text: 'ok' }]
+      )
+       ,
+       handleClearCart()
+       ,navigation.navigate("Home");
     } catch (error) {
       console.error("handling problem: ", error);
     }

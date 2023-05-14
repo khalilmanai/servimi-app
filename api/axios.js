@@ -2,7 +2,6 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { setRole } from "../redux/userSlice";
-import { setuserID } from "../redux/userIDSlice";
 //http://10.0.2.2:8081
 //http://192.168.1.15:8081
 
@@ -18,8 +17,6 @@ export const getEtablissement = async () => {
     const response = await ApiManager.get(
       "/solutionprisecommandeatable/v1/MANAGER/etablissements"
     );
-   
-
     return response.data;
   } catch (error) {
     console.error(error);
@@ -83,7 +80,6 @@ export const getCategorie = async (etabId) => {
       commandeInfo
     );
     const comid  = response.data.comid
-
     await AsyncStorage.setItem('comid', JSON.stringify(comid));
     return response.data;
   } catch (error) {
@@ -155,12 +151,9 @@ export const changeStatus = async (TableId , status) => {
 };
 
 export const changeStatusCommande = async (comid , status) => {
-  console.log(status)
-
   try {
     const response = await ApiManager.put(`/${comid}/statut`, Object(status));
-  
-    return response.data;
+    return response.data
   } catch (error) {
     console.error(error);
   }

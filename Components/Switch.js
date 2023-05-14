@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import { changeStatus } from '../api/axios';
 
@@ -8,35 +8,29 @@ const options = [
   { label: 'Occupé', value: 'occupé' }
 ];
 
-const Switch= (props) => {
-  const [status, setStatus] = useState('occupé');
+const Switch = ({ tableID }) => {
+  const [status, setStatus] = useState('libre');
 
-  const handleChange = value => {
-    setStatus(value);
+  const updateStatus = async (value) => {
+    try {
+      const response = await changeStatus(tableID, value);
+      setStatus(value);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to update status: ${error.message}`);
+    }
   };
 
-  const tableID = props.tableID
-
-  const updateStatus = async ()=>{
-    try {
-    const response = await  changeStatus(tableID , status)
-
-    }catch(error){
-        console.error(error)
-    }
-  }
-
   return (
-    <View >
-    
+    <View>
       <SwitchSelector
         options={options}
-        initial={1}
-        onPress={handleChange}
-        textColor="#FB8703" //'#7a44cf'
+        initial={status === 'occupé' ? 1 : 0}
+        onPress={updateStatus}
+        textColor="orange"
         selectedColor="white"
-        buttonColor="#FB8703"
-        borderColor="#FB8703"
+        buttonColor="orange"
+        borderColor="orange"
         hasPadding
       />
     </View>
