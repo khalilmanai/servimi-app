@@ -11,17 +11,13 @@ import {
 } from "react-native";
 import { disconnect, getData } from "../api/axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 const WaiterHome = () => {
   const navigation = useNavigation();
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
-  const handleCommandPress = (item) => {
-    navigation.navigate("CommandeScreen", { command: item });
-  };
 
   const fetchCommandes = async () => {
     try {
@@ -30,34 +26,33 @@ const WaiterHome = () => {
       setLoading(false);
       setRefreshing(false);
     } catch (error) {
-      console.error("couldn't fetch command list", error);
+      console.error("Couldn't fetch command list", error);
       setLoading(false);
       setRefreshing(false);
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchCommandes();
-    }, [])
-  );
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => handleCommandPress(item)}
-    >
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
-        <Text style={styles.cardTitle}>Table:{item.t.tableID}</Text>
-      </View>
-      <Text style={styles.cardText}>Date: {item.date}</Text>
-      <Text style={styles.cardText}>Statut: {item.statut}</Text>
-
-      <Text style={styles.cardText}>Addition: {item.totalAddition}</Text>
-      <Text style={styles.cardText}>pour boire: {item.totalTip}</Text>
-    </TouchableOpacity>
-  );
+  useEffect(() => {
+    fetchCommandes();
+  }, []);
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => navigation.navigate("CommandeScreen", { command: item })}
+      >
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={styles.cardTitle}>Commande: {item.comid}</Text>
+          <Text style={styles.cardTitle}>Table: {item.t.tableID}</Text>
+        </View>
+        <Text style={styles.cardText}>Date: {item.date}</Text>
+        <Text style={styles.cardText}>Statut: {item.statut}</Text>
+        <Text style={styles.cardText}>Addition: {item.totalAddition}</Text>
+        <Text style={styles.cardText}>Pour boire: {item.totalTip}</Text>
+      </TouchableOpacity>
+    );
+  };
+  
 
   if (loading) {
     return (

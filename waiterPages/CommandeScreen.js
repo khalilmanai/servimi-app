@@ -4,17 +4,12 @@ import {
   View,
   ActivityIndicator,
   FlatList,
-
   SafeAreaView,
 } from "react-native";
 import React, { useState, useEffect, useMemo } from "react";
 import { Alert } from "react-native";
-import {  useRoute } from "@react-navigation/native";
-import {
-  getCommandClient,
-  getItemById,
-  getSuppsById,
-} from "../api/axios";
+import { useRoute } from "@react-navigation/native";
+import { getCommandClient, getItemById, getSuppsById } from "../api/axios";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { changeStatusCommande } from "../api/axios";
 import Switch from "../Components/Switch";
@@ -22,14 +17,14 @@ import Switch from "../Components/Switch";
 const CommandeScreen = () => {
   const route = useRoute();
   const comid = route.params.command.comid;
-   const status = route.params.command.statut
-  const tableID = route.params.command.t.tableID
+  const status = route.params.command.statut;
+  const tableID = route.params.command.t.tableID;
   const [commandeClient, setCommandeClient] = useState([]);
   const [commandeItems, setCommandeItems] = useState([]);
   const [commandeSupps, setCommandeSupps] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
- 
+
   useEffect(() => {
     const fetchCommandeClient = async () => {
       try {
@@ -115,33 +110,27 @@ const CommandeScreen = () => {
           </View>
         )}
       />
-       <View style={styles.tableControl}>
-<Switch  tableID = {tableID}  />
-</View>
+      <View style={styles.tableControl}>
+        <Switch tableID={tableID} />
+      </View>
       <View style={styles.buttonContainer}>
-       
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
             const status = "en_cours";
             changeStatusCommande(comid, status);
+            Alert.alert("servimi", "commande valide avec succées");
           }}
         >
           <Text style={styles.buttonText}>Valider Commande</Text>
         </TouchableOpacity>
         <TouchableOpacity
-       
           style={styles.button}
           onPress={() => {
-            if(status==="en_attente"){
-              Alert.alert(
-                'servimi',
-                "Veuiller vérifier la commande d'avance",
-                [{ text: 'ok' }]
-              );
-            }else{
             const status = "paye";
-            changeStatusCommande(comid, status);}
+            changeStatusCommande(comid, status);
+
+            Alert.alert("servimi", "commande payée avec succées");
           }}
         >
           <Text style={styles.buttonText}> Finaliser Commande</Text>
@@ -176,14 +165,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    marginTop:50,
+    marginTop: 50,
     margin: 10,
     alignItems: "center",
   },
   headeText: {
     borderWidth: 1,
-    padding:10,
-    borderRadius:10,
+    padding: 10,
+    borderRadius: 10,
     borderColor: "#FB8703",
     fontFamily: "Cairo",
     fontSize: 24,
@@ -204,10 +193,9 @@ const styles = StyleSheet.create({
     fontFamily: "Cairo",
     fontSize: 16,
   },
-  tableControl : {
-    width:'90%',
-    height:'10%',
-    alignSelf:'center'
-  
-  }
+  tableControl: {
+    width: "90%",
+    height: "10%",
+    alignSelf: "center",
+  },
 });

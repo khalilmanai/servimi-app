@@ -112,18 +112,7 @@ const LoginScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={gotoReset} style={styles.passText}>
-          <Text
-            style={{
-              fontFamily: "Cairo",
-              fontSize: 16,
-              color: "blue",
-              margin: "1%",
-            }}
-          >
-            mot de passe oublié ?
-          </Text>
-        </TouchableOpacity>
+   
         <View style={styles.connectBtn}>
           <TouchableOpacity
             onPress={() => {

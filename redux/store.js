@@ -7,6 +7,8 @@ import commandsReducer from './commandReducer'
 import placeReducer from './placeReducer';
 import suppsReducer from './suppsReducer';
 import userIDReducer from './userIDSlice';
+import commandeScReducer from './commandeScReducer';
+
 
 const store = configureStore({
   reducer: {
@@ -18,6 +20,7 @@ const store = configureStore({
       place:placeReducer,
       supp : suppsReducer,
       userID : userIDReducer,
+      commandeSc : commandeScReducer
   },
 });
 

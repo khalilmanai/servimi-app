@@ -3,7 +3,6 @@ import UserPanel from "../Components/UserPanel";
 import Account from "../pages/Account";
 import Cart from "../pages/Cart";
 import CommandeDetails from "../pages/CommandeDetails";
-import Favorites from "../pages/Favorites";
 import HomePage from "../pages/HomePage";
 import ItemList from "../pages/ItemList";
 import ItemScreen from "../pages/ItemScreen";
@@ -20,7 +19,6 @@ const StackScreens = () => {
     >
       <Stack.Screen name="HomePage" component={HomePage} />
       <Stack.Screen name="UserPanel" component={UserPanel} />
-      <Stack.Screen name="Favorites" component={Favorites} />
       <Stack.Screen name="QrScanner" component={QRScanner} />
       <Stack.Screen name="ResetPassword" component={ResetPassword} />
       <Stack.Screen name="PlaceScreen" component={PlaceScreen} />

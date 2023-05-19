@@ -51,20 +51,7 @@ const PlaceCard = ({ place }) => {
             <View style={styles.line} />
           </View>
         </View>
-        <View style={styles.icon}>
-          <TouchableOpacity
-            onPress={() => {
-              setToggle(!toggle);
-              liked();
-            }}
-          >
-            <Ionicons
-              name={toggle ? "md-heart-sharp" : "md-heart-outline"}
-              size={28}
-              color="red"
-            />
-          </TouchableOpacity>
-        </View>
+       
       </View>
     </TouchableOpacity>
   );

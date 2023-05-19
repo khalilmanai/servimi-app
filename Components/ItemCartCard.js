@@ -37,7 +37,7 @@ const ItemCartCard = ({ item }) => {
         </View>
         <View style={styles.textBox}>
           <Text style={styles.txt}>{item.nom}</Text>
-          <Text style={styles.desc}>{item.description}</Text>
+          <Text  numberOfLines={2} ellipsizeMode="tail" style={styles.desc}>{item.description}</Text>
           <Text style={styles.desc}>quantité : {item.quantity}</Text>
           <Text style={styles.prix}> prix unitaire : {item.prix} DT </Text>
         </View>
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   desc: {
+    width:150,
     fontFamily: "Cairo",
     fontSize: 16,
     color: "gray",

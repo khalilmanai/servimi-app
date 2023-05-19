@@ -5,7 +5,7 @@ import { setRole } from "../redux/userSlice";
 //http://10.0.2.2:8081
 //http://192.168.1.15:8081
 
-const baseUrl = "http://192.168.1.15:8081";
+const baseUrl = "http://192.168.31.173:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -242,3 +242,15 @@ export const getCommandeById = async(tableId)=>{
     throw new Error(error)
   }
 }
+
+
+
+export const getStatusforSwitch = async (tableID) => {
+  try {
+    const response = await ApiManager.get(`/solutionprisecommandeatable/v1findById/${tableID}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null; // Return null or handle the error as needed
+  }
+};

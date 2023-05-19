@@ -11,11 +11,11 @@ import { StatusBar } from "expo-status-bar";
 const Account = () => {
   const [username, setUsername] = useState("");
   const [emailPlaceholder, setEmailPlaceholder] = useState("");
-  const [userName, setUserName] = useState("");
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userID, setUserID] = useState("");
-
+console
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Account = () => {
   }, []);
 
   const handleUserNameChange = (value) => {
-    setUserName(value);
+    setUsername(value);
   };
 
   const handlePasswordChange = (value) => {
@@ -74,8 +74,9 @@ const Account = () => {
   };
 
   const onSavePress = async () => {
+    console.log(username)
     const newData = {
-      username: userName,
+      username: username,
       password: password,
       email: email,
       userID: userID,
@@ -142,7 +143,7 @@ const Account = () => {
               type="email-address"
             />
             <Inputs
-              value={username? username :userName}
+              value={username? username :username}
               changeValue={handleUserNameChange}
               placeholder={username ? username : "Nom d'utilisateur"}
             />

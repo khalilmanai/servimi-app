@@ -10,8 +10,6 @@ const InputsScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userNameError, setUserNameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
   const handleUserNameChange = (value) => {
     setUserName(value);
@@ -81,6 +79,9 @@ const InputsScreen = ({ navigation }) => {
         </View>
       </View>
       <BottomButtons
+      onSkipPress = {()=>{
+        navigation.goBack()
+      }}
         onPressContinue={() => {
           registerUser(userData);
           goto();

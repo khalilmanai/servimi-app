@@ -25,7 +25,7 @@ const ItemCard = ({ item}) => {
         </View>
         <View style={styles.textBox}>
           <Text style={styles.txt}>{item.nom}</Text>
-          <Text style={styles.desc}>{item.description}</Text>
+          <Text numberOfLines={3} ellipsizeMode="tail" style={styles.desc}>{item.description}</Text>
           <Text style={styles.prix}>{item.prix} DT </Text>
         </View>
         
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   textBox: {
-    marginRight:"20%"
+    marginRight:"25%"
   },
   txt: {
     fontFamily: "Cairo",
@@ -62,8 +62,11 @@ const styles = StyleSheet.create({
   },
   desc: {
     fontFamily: "Cairo",
-    fontSize: 16,
+    fontSize: 10,
+
     color: "gray",
+    margin:10,
+    
   },
   prix: {
     fontFamily: "Cairo",
