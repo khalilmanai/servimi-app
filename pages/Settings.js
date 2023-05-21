@@ -42,29 +42,7 @@ const Settings = () => {
           <Text style={styles.contentText}>Modifier Profile</Text>
           <Ionicons name="chevron-forward" size={16} color="#FB8703" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.banner} onPress={toggleDropdown}>
-          <Text style={styles.contentText}>Sécurité</Text>
-          <Ionicons
-            name={showDropdown ? "chevron-up" : "chevron-down"}
-            size={16}
-            color="#FB8703"
-          />
-        </TouchableOpacity>
-
-        {showDropdown && (
-          <View style={styles.dropdown}>
-            <TouchableOpacity
-              style={styles.dropdownButton}
-              onPress={() => {
-                navigation.navigate("StackScreens", {
-                  screen: "ResetPassword",
-                });
-              }}
-            >
-              <Text style={styles.contentText}>Changer mot de passe</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+    
       </View>
       <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -132,11 +110,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "70%",
     padding: 10,
-    marginTop: "40%",
+    marginTop: "60%",
     borderColor: "red",
     alignItems: "center",
   },
   disconnectText: {
+   
     fontFamily: "Cairo",
     color: "red",
   },

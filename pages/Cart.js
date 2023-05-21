@@ -31,10 +31,11 @@ const Cart = () => {
   const scannedData = useSelector((state) => state.scan.data ? state.scan.data.slice(9, 10) : []);
  
 
-  // Removing undefined values from cartItems
+
+  // elimination des valeurs undefinie
   const filteredCartItems = cartItems.filter((item) => item.id !== undefined);
 
-  // Removing undefined values from cartSupps
+  // elimination des valeurs undefinie
   const filteredCartSupps = cartSupps.filter((item) => item.id !== undefined);
 
   const [tip, setTip] = useState("");
@@ -55,11 +56,15 @@ const Cart = () => {
     Array.from({ length: item.quantity }, () => item.id)
   );
 
+  //sauvegarde des informations et envois vers base de données
+
   const handleConfirm = async () => {
     const comidString = await AsyncStorage.getItem("comid");
     const comid = JSON.parse(comidString);
     const userID = await AsyncStorage.getItem("userID");
     const userId = JSON.parse(userID);
+
+
 
     try {
       const commandeInfo = {

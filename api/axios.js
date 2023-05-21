@@ -5,12 +5,14 @@ import { setRole } from "../redux/userSlice";
 //http://10.0.2.2:8081
 //http://192.168.1.15:8081
 
-const baseUrl = "http://192.168.31.173:8081";
+const baseUrl = "http://192.168.31.172:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
   withCredentials: true, 
 });
+
+//getEtablissement responsable a l'affichage des etablissements de la base
 
 export const getEtablissement = async () => {
   try {
@@ -23,6 +25,8 @@ export const getEtablissement = async () => {
   }
 };
 
+// fonction du login 'authentification'
+
 export const handlelogin = async (username, password, dispatch) => {
   try {
     const response = await ApiManager.post("/api/auth/authentification", {
@@ -34,21 +38,21 @@ export const handlelogin = async (username, password, dispatch) => {
       const { token, role, userID  , email , username} = response.data;
    // get the token and role from the respons
       dispatch(setRole(role));
-
+// sauvegarde de data utile
       await AsyncStorage.setItem("token", token);
       await AsyncStorage.setItem("role", role);
       await AsyncStorage.setItem("userID", JSON.stringify(userID));
       await AsyncStorage.setItem("username", username)
       await AsyncStorage.setItem("email", email)
 
-      return { success: true, role }; // return the role along with the success message
+      return { success: true, role }; // retrour du role pour accées spécifique 
     }
   } catch (error) {
     console.error("Login error:", error.message);
     return { success: false, error: error.message };
   }
 };
-
+// fonction d'inscription 
 export const registerUser = async (userData) => {
   const response = await ApiManager.post("/api/auth/inscription", userData);
 
@@ -60,7 +64,7 @@ export const registerUser = async (userData) => {
     throw new Error("Registration failed");
   }
 };
-
+// appel au elements par catégories
 export const getCategorie = async (etabId) => {
   try {
     const response = await ApiManager.get(
@@ -72,7 +76,7 @@ export const getCategorie = async (etabId) => {
     console.error(error);
   }
 };
-
+// creation de la commande globale
  export const creerCommande = async (commandeInfo) => {
   try {
     const response = await ApiManager.post(
@@ -88,35 +92,8 @@ export const getCategorie = async (etabId) => {
   }
 }; 
 
-// mot de passe oublié
 
-export const forgotPassword = async (email) => {
-  try {
-    const response = await ApiManager.post("/api/auth/oublier-mdp", {
-      email: email,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("error in forgot password", error);
-    throw error;
-  }
-};
-
-// change account informations
-
-export const resetPassword = async (newData) => {
-  try {
-    const response = await ApiManager.post(
-      "/api/auth/reinitialisation-mdp",
-      newData
-    );
-    return response.data;
-  } catch (error) {
-    console.error("error in change user informations", error);
-    throw error;
-  }
-};
-
+//deconnection
 export const disconnect = async (navigation) => {
   try {
     await AsyncStorage.removeItem("token");
@@ -137,6 +114,8 @@ export const disconnect = async (navigation) => {
     return false;
   }
 };
+
+// changement des informations utilisateurs 
 export const changeStatus = async (TableId , status) => {
 
   try {
@@ -149,7 +128,7 @@ export const changeStatus = async (TableId , status) => {
     console.error(error);
   }
 };
-
+// changement status commandes 
 export const changeStatusCommande = async (comid , status) => {
   try {
     const response = await ApiManager.put(`/${comid}/statut`, Object(status));
@@ -158,7 +137,7 @@ export const changeStatusCommande = async (comid , status) => {
     console.error(error);
   }
 };
-
+// appel data pour serveur
 export const getData = async () => {
   try {
     const response = await ApiManager.get(
@@ -180,7 +159,7 @@ export const getCommandClient = async (commandeId) => {
     console.error("error in getting commandeClient by id", error);
   }
 };
-
+ //appel items
 export const getItemById = async (itemId) => {
   try {
     const response = await ApiManager.get(
@@ -193,7 +172,7 @@ export const getItemById = async (itemId) => {
     throw new Error(error);
   }
 };
-
+//appel supplements
 export const getSuppsById = async (suppId) => {
   try {
     const response = await ApiManager.get(
@@ -206,7 +185,7 @@ export const getSuppsById = async (suppId) => {
     throw new Error(error);
   }
 };
-
+// envoi a la base du commande client
 export const sendCommandeClient = async (commandeData) => {
   try {
     const response = await ApiManager.post(
@@ -229,6 +208,7 @@ export const updateUserData  =  async (newData , userId) =>{
    }
 }
 
+// appel au information par id 
 
 
 export const getCommandeById = async(tableId)=>{
@@ -244,6 +224,7 @@ export const getCommandeById = async(tableId)=>{
 }
 
 
+//changement statut du table par table ID
 
 export const getStatusforSwitch = async (tableID) => {
   try {
