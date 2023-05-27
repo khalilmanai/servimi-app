@@ -7,9 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { setRole } from "../redux/userSlice";
 
-
-
-const baseUrl = "http://192.168.1.17:8081";
+const baseUrl = "http://192.168.1.15:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",

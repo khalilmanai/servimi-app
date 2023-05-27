@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   button: {
-    width: "98%",
+    width: "100%",
     backgroundColor: "#FB8703",
     margin: 10,
     padding: 15,
@@ -201,6 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     alignItems: "center",
+    justifyContent:'center'
   },
   buttonText: {
     color: "white",
