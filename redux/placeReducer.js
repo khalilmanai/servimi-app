@@ -1,3 +1,4 @@
+//place reducer
 import { createSlice } from "@reduxjs/toolkit";
 
 const placeSlice = createSlice({

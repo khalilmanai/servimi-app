@@ -60,12 +60,10 @@ const LoginScreen = ({ navigation }) => {
         );
       }
     } catch (error) {
-  
       Alert.alert("Error", error.message, [{ text: "OK" }]);
       return false;
     }
   };
-  
 
   const [obscure, setObscure] = useState(true);
 
@@ -112,7 +110,7 @@ const LoginScreen = ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-   
+
         <View style={styles.connectBtn}>
           <TouchableOpacity
             onPress={() => {
@@ -129,7 +127,6 @@ const LoginScreen = ({ navigation }) => {
             <Text style={{ color: "blue", marginLeft: -7 }}>Créer compte</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.divider} />
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -149,15 +146,10 @@ const styles = StyleSheet.create({
     width: width / 1.5,
   },
   box: {
-    marginBottom: "25%",
+    marginBottom: "50%",
     alignItems: "center",
   },
-  divider: {
-    width: "50%",
-    height: 2.5,
-    margin: 20,
-    backgroundColor: "#D3D3D3",
-  },
+
   text: {
     margin: 10,
     fontFamily: "Cairo",

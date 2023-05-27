@@ -18,11 +18,13 @@ const WaiterHome = () => {
   const [commandes, setCommandes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  //appel au commandes 
 
   const fetchCommandes = async () => {
     try {
       const commandesResponse = await getData();
-      setCommandes(commandesResponse);
+      const filteredCommandes = commandesResponse.filter((commande) => commande.statut.trim() !== '"paye"');
+      setCommandes(filteredCommandes);
       setLoading(false);
       setRefreshing(false);
     } catch (error) {
@@ -31,6 +33,9 @@ const WaiterHome = () => {
       setRefreshing(false);
     }
   };
+  
+  
+  console.log(commandes)
 
   useEffect(() => {
     fetchCommandes();
@@ -53,7 +58,7 @@ const WaiterHome = () => {
     );
   };
   
-
+// chargement en tant que data et prete
   if (loading) {
     return (
       <View style={styles.loadingContainer}>

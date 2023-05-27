@@ -10,7 +10,7 @@ const options = [
 
 const Switch = ({ tableID }) => {
   const [statusData, setStatusData] = useState(null);
-  const [initialValue, setInitialValue] = useState(1); // State to hold the initial value for the switch
+  const [initialValue, setInitialValue] = useState(1); //valeur initiale du switch
 console.log(initialValue)
   useEffect(() => {
     const fetchData = async () => {

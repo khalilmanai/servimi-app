@@ -22,9 +22,10 @@ const CommandeScreen = () => {
   const [commandeClient, setCommandeClient] = useState([]);
   const [commandeItems, setCommandeItems] = useState([]);
   const [commandeSupps, setCommandeSupps] = useState([]);
+  const [commandeValidee, setCommandeValidee] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  // appel des commandes  de la base du données par leur id
   useEffect(() => {
     const fetchCommandeClient = async () => {
       try {
@@ -76,6 +77,24 @@ const CommandeScreen = () => {
       </View>
     );
   }
+  //validation de la commande
+
+  const validerCommande = () => {
+    const status = "en_cours";
+    changeStatusCommande(comid, status);
+    Alert.alert("servimi", "commande validée avec succès");
+    setCommandeValidee(true);
+  };
+  //finalisation de la commande
+  const finaliserCommande = () => {
+    if (commandeValidee) {
+      const status = "paye";
+      changeStatusCommande(comid, status);
+      Alert.alert("servimi", "commande payée avec succès");
+    } else {
+      Alert.alert("servimi", "Veuillez d'abord valider la commande.");
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -117,9 +136,7 @@ const CommandeScreen = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            const status = "en_cours";
-            changeStatusCommande(comid, status);
-            Alert.alert("servimi", "commande valide avec succées");
+            validerCommande();
           }}
         >
           <Text style={styles.buttonText}>Valider Commande</Text>
@@ -127,10 +144,7 @@ const CommandeScreen = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            const status = "paye";
-            changeStatusCommande(comid, status);
-
-            Alert.alert("servimi", "commande payée avec succées");
+            finaliserCommande();
           }}
         >
           <Text style={styles.buttonText}> Finaliser Commande</Text>

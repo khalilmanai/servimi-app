@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import React, { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,7 +11,6 @@ import { StatusBar } from "expo-status-bar";
 const Account = () => {
   const [username, setUsername] = useState("");
   const [emailPlaceholder, setEmailPlaceholder] = useState("");
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userID, setUserID] = useState("");
@@ -85,9 +84,9 @@ console
         name: "ROLE_CLIENT",
       },
     };
-    console.log(newData);
-    console.log(userID);
+    
     await updateUserData(newData, userID);
+        Alert.alert('Servimi', 'vos informations sont changé avec succées')
   };
 
   return (

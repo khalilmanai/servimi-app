@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
+//item reducer
 const ItemSlice = createSlice({
     name : 'item', 
     initialState : [],

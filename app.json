@@ -9,7 +9,18 @@
     "splash": {
       "resizeMode": "cover",
       "image": "./assets/images/SplashScreen.png",
-      "backgroundColor": "#FFFFFF"
+      "backgroundColor": "#FFFFFF",
+      "plugins": [
+        [
+          "expo-barcode-scanner",
+          {
+            "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+          }
+        ]
+      ]
+
+      
+
     },
     "updates": {
       "fallbackToCacheTimeout": 0

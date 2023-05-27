@@ -33,6 +33,7 @@ const addToCart = (item) => {
     })
   );
 };
+//calcul du quantite commandeé par le client
   const [quantity, setQuantity] = useState(1);
 
   function Increment() {
@@ -43,7 +44,7 @@ const addToCart = (item) => {
       setQuantity((value) => value - 1);
     }
   }
-
+  
   const base64Image = `data:image/png;base64,${item?.image}`;
 
   return (
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   image: {
     width: "90%",
     borderRadius: 10,
-    padding: "40%",
+    padding: "30%",
   },
   detailsContainer: {
     paddingHorizontal: "10%",

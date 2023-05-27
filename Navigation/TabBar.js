@@ -16,10 +16,10 @@ import { useSelector } from "react-redux";
 import { Alert } from "react-native";
 export const TabBar = () => {
   const navigation = useNavigation();
+  const tabBarRef = useRef(null); // Create a reference to the tab bar navigator
 
   const scanned = useSelector((state) => state.scan.scanned);
 
-  const tabBarRef = useRef(null); // Create a reference to the tab bar navigator
 
   const _renderIcon = (routeName, selectedTab) => {
     let icon = "";
@@ -45,6 +45,7 @@ export const TabBar = () => {
     );
   };
   const renderTabBar = ({ routeName }) => {
+    
     if (routeName === "Cart") {
       tabBarRef.current.setVisible(false);
     } else {

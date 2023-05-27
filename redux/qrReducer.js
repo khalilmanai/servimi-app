@@ -1,3 +1,4 @@
+//qr code reducer
 import { createSlice } from "@reduxjs/toolkit";
 
 

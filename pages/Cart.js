@@ -56,7 +56,7 @@ const Cart = () => {
     Array.from({ length: item.quantity }, () => item.id)
   );
 
-  //sauvegarde des informations et envois vers base de données
+  //sauvegarde des informations (panier) et envois vers base de données
 
   const handleConfirm = async () => {
     const comidString = await AsyncStorage.getItem("comid");
@@ -67,6 +67,7 @@ const Cart = () => {
 
 
     try {
+      //envoi d'objet vers table commande
       const commandeInfo = {
         date: new Date().toISOString(),
         statut: "en_attente",
@@ -76,7 +77,7 @@ const Cart = () => {
         totalAddition: totalPrice,
         totalTip: tip ? tip : 0,
       };
-
+  //envoi d'objet vers table commande client
       const commandeData = {
         commande: {
           comid: comid + 1,
@@ -100,6 +101,7 @@ const Cart = () => {
         [{ text: 'ok' }]
       )
        ,
+       // vider panier aprés commande envoyé vers base du données
        handleClearCart()
        ,navigation.navigate("Home");
     } catch (error) {
@@ -122,11 +124,7 @@ const Cart = () => {
           <Ionicons name="arrow-back-outline" color="#FB7803" size={24} />
         </TouchableOpacity>
         <Text style={styles.headerText}> Votre Panier </Text>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("StackScreens", { screen: "CommandeDetails" });
-          }}
-        >
+        <TouchableOpacity        >
           <Ionicons name="clipboard-outline" color="#FB7803" size={24} />
         </TouchableOpacity>
       </View>

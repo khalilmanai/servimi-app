@@ -3,9 +3,9 @@ import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 
 import BottomButtons from "../Components/BottomButtons";
 import Inputs from "../Components/Inputs";
-import InfoTemplate from "./InfoTemplate";
 import { Ionicons } from "@expo/vector-icons";
 import { registerUser } from "../api/axios";
+import InfoTemplate from "../Components/InfoTemplate";
 const InputsScreen = ({ navigation }) => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");

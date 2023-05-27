@@ -1,3 +1,4 @@
+// reducteur de panier
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -10,18 +11,20 @@ export const cartSlice = createSlice({
   name: "cartReducer",
   initialState,
   reducers: {
+    //ajout item au panier
     addItemToCart: (state, action) => {
       return {
         ...state,
         cartItems: [...state.cartItems, action.payload],
       };
+      //ajout supplement au panier
     }, addSuppToCart: (state, action) => {
       return {
         ...state,
         cartSupps: [...state.cartSupps, action.payload],
       };
     },
-    
+    //supprimer item du panier
     removeItemFromCart: (state, action) => {
       const itemIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
@@ -32,11 +35,12 @@ export const cartSlice = createSlice({
         state.total -= removedItem.prix * removedItem.quantity;
       }
     },
-    
+    //vider item du panier
     clearCart: (state) => {
       state.cartItems = [];
       state.total = 0;
     },
+    //calcul total du commande
     calculateTotal: (state) => {
       state.total = state.cartItems.reduce(
         (acc, item) => acc + item.prix * item.quantity,

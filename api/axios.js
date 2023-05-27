@@ -1,11 +1,15 @@
+
+//appels au base de données et connection serveur
+
+
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 import { setRole } from "../redux/userSlice";
-//http://10.0.2.2:8081
-//http://192.168.1.15:8081
 
-const baseUrl = "http://192.168.31.172:8081";
+
+
+const baseUrl = "http://192.168.1.17:8081";
 export const ApiManager = axios.create({
   baseURL: `${baseUrl}`,
   responseType: "json",
@@ -64,7 +68,7 @@ export const registerUser = async (userData) => {
     throw new Error("Registration failed");
   }
 };
-// appel au elements par catégories
+// appel au elements par catégories id de l'etablissement venu de qrcode scanner 
 export const getCategorie = async (etabId) => {
   try {
     const response = await ApiManager.get(
@@ -235,3 +239,12 @@ export const getStatusforSwitch = async (tableID) => {
     return null; // Return null or handle the error as needed
   }
 };
+
+ export const getUserById = async (userID)=>{
+  try{
+    const response = await ApiManager.get(`/api/auth/${userID}`)
+    return response.data
+  }catch(error){
+    console.error(error)
+  }
+ }

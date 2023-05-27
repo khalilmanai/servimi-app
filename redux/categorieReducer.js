@@ -1,3 +1,4 @@
+//categorie state
 import { createSlice } from "@reduxjs/toolkit";
 
 
